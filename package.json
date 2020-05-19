@@ -16,6 +16,9 @@
     "Utilities",
     "CSS"
   ],
+  "files": [
+    "**/*"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
