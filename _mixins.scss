@@ -1,0 +1,98 @@
+// Add new font files
+@mixin fonter($name, $file, $weight, $style, $extension) {
+    @font-face {
+        font-family: "#{$name}";
+        font-weight: $weight;
+        font-style: $style;
+
+        src: url("../assets/fonts/#{$file}.#{$extension}");
+    }
+}
+
+@mixin breakpoint($breakpoint) {
+    &--tablet {
+        @media (max-width: $mobile) {
+            @content;
+        }
+    }
+
+    &--tablet {
+        @media (max-width: $tablet) {
+            @content;
+        }
+    }
+
+    &--desktop {
+        @media (max-width: $desktop) {
+            @content;
+        }
+    }
+}
+
+// Create breakpoints for tablet and desktop
+@mixin breakpoint-dynamic($utilityLabel, $property, $value) {
+    .ut-#{$utilityLabel}--mobile {
+        @media (max-width: $mobile) {
+            #{$property}: $value;
+        }
+    }
+
+    .ut-#{$utilityLabel}--tablet {
+        @media (max-width: $tablet) {
+            #{$property}: $value;
+        }
+    }
+
+    .ut-#{$utilityLabel}--desktop {
+        @media (max-width: $desktop) {
+            #{$property}: $value;
+        }
+    }
+}
+
+// Add multiplication modifiers in increments from 0.5 to 5
+@mixin leveler($utilityLabel, $property, $value, $breakpoints: false) {
+    @for $i from 1 through 5 {
+        @if $i == 1 {
+            .ut-#{$utilityLabel}-0\.5 {
+                #{$property}: $value - 0.5;
+            }
+
+            @if $breakpoints != false {
+                @include breakpoint-dynamic(#{$utilityLabel}-0\.5, $property, $value);
+            }
+        } @else {
+            .ut-#{$utilityLabel}-#{$i} {
+                #{$property}: $value * $i;
+            }
+
+            .ut-#{$utilityLabel}-#{str-slice(quote($i - .5), 1, 1)}\.5 {
+                #{$property}: ($value * $i) - 0.5;
+            }
+
+            @if $breakpoints != false {
+                @include breakpoint-dynamic(#{$utilityLabel}-#{$i}, $property, $value * $i);
+                @include breakpoint-dynamic(#{$utilityLabel}-#{str-slice(quote($i - .5), 1, 1)}\.5, $property, ($value * $i) - 0.5);
+            }
+        }
+    }
+}
+
+// Add direction modifiers
+@mixin directioner($utilityLabel, $property, $value, $levels: false, $breakpoints: false) {
+    $directions: top, right, bottom, left;
+
+    @each $direction in $directions {
+        .ut-#{$utilityLabel + str-capitalize($direction)} {
+            #{$property}-#{$direction}: $value;
+        }
+
+        @if $levels != false {
+            @include leveler($utilityLabel + str-capitalize($direction), #{$property}-#{$direction}, $value, $breakpoints);
+        }
+
+        @if $breakpoints != false {
+            @include breakpoint-dynamic(#{$utilityLabel + str-capitalize($direction)}, #{$property}-#{$direction}, $value);
+        }
+    }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "sass-utilizer",
+  "version": "1.0.0",
+  "description": "A lightweight dynamic utility generator for SASS",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Epiksha/sass-utilizer.git"
+  },
+  "keywords": [
+    "SASS",
+    "SCSS",
+    "Library",
+    "Utilities",
+    "CSS"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Epiksha/sass-utilizer/issues"
+  },
+  "homepage": "https://github.com/Epiksha/sass-utilizer#readme",
+  "devDependencies": {
+    "node-sass": "^4.14.1",
+    "sass": "^1.26.5"
+  }
+}
