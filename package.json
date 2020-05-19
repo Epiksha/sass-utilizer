@@ -17,7 +17,7 @@
     "CSS"
   ],
   "files": [
-    "**/*"
+    "src"
   ],
   "author": "",
   "license": "ISC",
