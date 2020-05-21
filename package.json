@@ -2,14 +2,8 @@
   "name": "sass-utilizer",
   "version": "1.0.5",
   "description": "A lightweight dynamic utility generator for SASS",
-  "main": "sass-utilizer.scss",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Epiksha/sass-utilizer.git"
-  },
+  "author": "Calvin Tiley",
+  "license": "ISC",
   "keywords": [
     "SASS",
     "SCSS",
@@ -17,11 +11,14 @@
     "Utilities",
     "CSS"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Epiksha/sass-utilizer.git"
+  },
+  "main": "sass-utilizer.scss",
   "files": [
     "/src"
   ],
-  "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/Epiksha/sass-utilizer/issues"
   },
