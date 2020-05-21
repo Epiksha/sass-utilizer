@@ -1,7 +1,7 @@
 {
   "name": "sass-utilizer",
   "version": "1.0.7",
-  "description": "A lightweight dynamic utility generator for SASS",
+  "description": "A lightweight, desktop-first, dynamic utility library for SASS",
   "author": "Calvin Tiley",
   "license": "ISC",
   "keywords": [
@@ -16,9 +16,6 @@
     "url": "git+https://github.com/Epiksha/sass-utilizer.git"
   },
   "main": "sass-utilizer.scss",
-  "files": [
-    "/src"
-  ],
   "bugs": {
     "url": "https://github.com/Epiksha/sass-utilizer/issues"
   },

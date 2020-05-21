@@ -1,98 +1,177 @@
+/* ----------------------
+CSS MIXINS
+---------------------- */
 // Add new font files
-@mixin fonter($name, $file, $weight, $style, $extension) {
+@mixin fonter($name, $file, $path, $weight, $style, $extension, $path: '', $resolve: false) {
     @font-face {
         font-family: "#{$name}";
         font-weight: $weight;
         font-style: $style;
 
-        src: url("../assets/fonts/#{$file}.#{$extension}");
+        @if $resolve {
+
+        } @else {
+            src: url("#{$path}#{$file}.#{$extension}");
+        }
     }
 }
 
 @mixin breakpoint($breakpoint) {
-    &--tablet {
-        @media (max-width: $mobile) {
-            @content;
-        }
-    }
-
-    &--tablet {
-        @media (max-width: $tablet) {
-            @content;
-        }
-    }
-
-    &--desktop {
-        @media (max-width: $desktop) {
-            @content;
-        }
+    @media (max-width: $breakpoint) {
+        @content;
     }
 }
 
-// Create breakpoints for tablet and desktop
-@mixin breakpoint-dynamic($utilityLabel, $property, $value) {
-    .ut-#{$utilityLabel}--mobile {
-        @media (max-width: $mobile) {
-            #{$property}: $value;
-        }
-    }
-
-    .ut-#{$utilityLabel}--tablet {
-        @media (max-width: $tablet) {
-            #{$property}: $value;
-        }
-    }
-
-    .ut-#{$utilityLabel}--desktop {
-        @media (max-width: $desktop) {
-            #{$property}: $value;
-        }
-    }
-}
-
-// Add multiplication modifiers in increments from 0.5 to 5
-@mixin leveler($utilityLabel, $property, $value, $breakpoints: false) {
-    @for $i from 1 through 5 {
-        @if $i == 1 {
-            .ut-#{$utilityLabel}-0\.5 {
-                #{$property}: $value - 0.5;
-            }
-
-            @if $breakpoints != false {
-                @include breakpoint-dynamic(#{$utilityLabel}-0\.5, $property, $value);
-            }
-        } @else {
-            .ut-#{$utilityLabel}-#{$i} {
-                #{$property}: $value * $i;
-            }
-
-            .ut-#{$utilityLabel}-#{str-slice(quote($i - .5), 1, 1)}\.5 {
-                #{$property}: ($value * $i) - 0.5;
-            }
-
-            @if $breakpoints != false {
-                @include breakpoint-dynamic(#{$utilityLabel}-#{$i}, $property, $value * $i);
-                @include breakpoint-dynamic(#{$utilityLabel}-#{str-slice(quote($i - .5), 1, 1)}\.5, $property, ($value * $i) - 0.5);
-            }
-        }
-    }
-}
-
+/* ----------------------
+UTILITY MIXINS
+---------------------- */
 // Add direction modifiers
-@mixin directioner($utilityLabel, $property, $value, $levels: false, $breakpoints: false) {
+@mixin directioner($label, $property, $value, $increments: false, $breakpoints: false, $divers: false) {
     $directions: top, right, bottom, left;
 
     @each $direction in $directions {
-        .ut-#{$utilityLabel + str-capitalize($direction)} {
+        .#{$label + str-first($direction)} {
             #{$property}-#{$direction}: $value;
         }
 
-        @if $levels != false {
-            @include leveler($utilityLabel + str-capitalize($direction), #{$property}-#{$direction}, $value, $breakpoints);
+        @if $increments != false {
+            @include incrementer($increments, #{$label + str-first($direction)}, #{$property}-#{$direction}, $value, $breakpoints, $divers);
         }
 
         @if $breakpoints != false {
-            @include breakpoint-dynamic(#{$utilityLabel + str-capitalize($direction)}, #{$property}-#{$direction}, $value);
+            @include breakpointer(#{$label + str-first($direction)}, #{$property}-#{$direction}, $value, $divers);
         }
+        
+        @if $divers != false {
+            @include diver(#{$label + str-first($direction)}, #{$property}-#{$direction}, $value);
+        }
+    }
+}
+
+// Add multiplication modifiers in increments
+@mixin incrementer($increments, $label, $property, $value, $breakpoints: false, $divers: false) {
+    @if type-of($increments) == map {
+        $factor: false;
+        $max: false;
+
+        @each $incrementProperty, $incrementValue in $increments {
+            @if $incrementProperty == factor {
+                $factor: $incrementValue;
+            } @else if $incrementProperty == max {
+                $max: $incrementValue;
+            }
+        }
+
+        $iterableFactor: $factor;
+
+        @while $iterableFactor <= $max {
+            @if $iterableFactor == 1 {
+                $iterableFactor: $iterableFactor + $factor;
+            } @else if round($iterableFactor) != $iterableFactor {
+                .#{$label}-#{str-slice(quote($iterableFactor), 1, 1)}\.5 {
+                    #{$property}: $value * $iterableFactor;
+                }
+
+                @if $breakpoints != false {
+                    @include breakpointer(#{$label}-#{str-slice(quote($iterableFactor), 1, 1)}\.5, $property, $value * $iterableFactor, $divers);
+                }
+
+                @if $divers != false {
+                    @include diver(#{$label}-#{str-slice(quote($iterableFactor), 1, 1)}\.5, $property, $value * $iterableFactor);
+                }
+
+                $iterableFactor: $iterableFactor + $factor;
+            } @else {
+                .#{$label}-#{$iterableFactor} {
+                    #{$property}: $value * $iterableFactor;
+                }
+
+                @if $breakpoints != false {
+                    @include breakpointer(#{$label}-#{$iterableFactor}, $property, $value * $iterableFactor, $divers);
+                }
+
+                @if $divers != false {
+                    @include diver(#{$label}-#{$iterableFactor}, $property, $value * $iterableFactor);
+                }
+
+                $iterableFactor: $iterableFactor + $factor;
+            }
+        }
+    } @else if type-of($increments) == list {
+        @each $increment in $increments {
+            .#{$label}-#{$increment} {
+                #{$property}: $value * $increment;
+            }
+        }
+    } @else {
+        @for $i from 1 through 6 {
+            @if $i == 1 {
+                .#{$label}-0\.5 {
+                    #{$property}: $value - 0.5;
+                }
+    
+                @if $breakpoints != false {
+                    @include breakpointer(#{$label}-0\.5, $property, $value, $divers);
+                }
+                
+                @if $divers != false {
+                    @include diver(#{$label}-0\.5, $property, $value);
+                }
+            } @else {
+                .#{$label}-#{$i} {
+                    #{$property}: $value * $i;
+                }
+    
+                .#{$label}-#{str-slice(quote($i - .5), 1, 1)}\.5 {
+                    #{$property}: ($value * $i) - 0.5;
+                }
+    
+                @if $breakpoints != false {
+                    @include breakpointer(#{$label}-#{$i}, $property, $value * $i, $divers);
+                    @include breakpointer(#{$label}-#{str-slice(quote($i - .5), 1, 1)}\.5, $property, ($value * $i) - 0.5, $divers);
+                }
+
+                @if $divers != false {
+                    @include diver(#{$label}-#{$i}, $property, $value * $i);
+                    @include diver(#{$label}-#{str-slice(quote($i - .5), 1, 1)}\.5, $property, ($value * $i) - 0.5);
+                }
+            }
+        }
+    }
+}
+
+// Dynamically create breakpoints
+@mixin breakpointer($label, $property, $value, $divers: false) {
+    $breakpoints: (
+        sm: 575px,
+        md: 767px,
+        lg: 1199px
+    ) !default;
+
+    @if variable-exists(extraBreakpoints) {
+        $breakpoints: join($breakpoints, $extraBreakpoints);
+    }
+
+    @each $breakpointLabel, $breakpointValue in $breakpoints {
+        .#{$breakpointLabel}\:#{$label} {
+            @media (max-width: $breakpointValue) {
+                #{$property}: $value;
+            }
+        }
+
+        @if $divers != false {
+            .#{$breakpointLabel}\:#{$label}--dive > * {
+                @media (max-width: $breakpointValue) {
+                    #{$property}: $value;
+                }
+            }
+        }
+    }
+}
+
+// Add class styling to children
+@mixin diver($label, $property, $value) {
+    .#{$label}--dive > * {
+        #{$property}: $value;
     }
 }

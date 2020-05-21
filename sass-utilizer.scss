@@ -1,0 +1,52 @@
+@import './src/_helpers.scss';
+@import './src/_mixins.scss';
+
+// Builds out utilities
+@if variable-exists(utilities) {
+    @each $label, $utilityObject in $utilities {
+        @each $property, $value in $utilityObject {
+            // Set Config
+            $directions: false;
+            $breakpoints: false;
+            $increments: false;
+            $diver: false;
+    
+            @each $configLabel, $configObject in $utilityConfig {
+                @if $configLabel == $label {
+                    @each $configProperty, $configValue in $configObject { 
+                        @if $configProperty == directions {
+                            $directions: $configValue;
+                        } @else if $configProperty == breakpoints {
+                            $breakpoints: $configValue;
+                        } @else if $configProperty == increments {
+                            $increments: $configValue;
+                        } @else if $configProperty == diver {
+                            $diver: $configValue;
+                        }
+                    }
+                }
+            }
+    
+            // Utility Generation
+            .ut-#{$label} {
+                #{$property}: $value;
+            }
+    
+            @if $increments != false {
+                @include incrementer($increments, $label, $property, $value, $breakpoints, $diver);
+            }
+    
+            @if $directions != false {
+                @include directioner($label, $property, $value, $increments, $breakpoints, $diver);
+            }
+            
+            @if $breakpoints != false {
+                @include breakpointer($label, $property, $value, $diver);
+            }
+            
+            @if $diver != false {
+                @include diver($label, $property, $value);
+            }
+        }
+    }
+}
