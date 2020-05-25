@@ -154,7 +154,7 @@ By setting `increments` to a map with `min`, `max` and `factor` properties, you 
 }
 ```
 
-### 2: List
+#### 2: List
 As opposed to setting a factor and a maximum value within a map, if you were to assign a list to the `increments` property e.g. `increments: 0.5, 1.5, 2`, then only those specific numbers would be multipled with the original value. Example output:
 
 ```scss
@@ -171,7 +171,7 @@ As opposed to setting a factor and a maximum value within a map, if you were to 
 }
 ```
 
-### 3: Boolean set to true
+#### 3: Boolean set to true
 Finally, the third option you have is to provide a boolean, e.g. `increments: true`. This would apply the default behavior of generating multiplication modifier classes in increments of 0.5 from -6 through 6.
 
 ### Negatives
