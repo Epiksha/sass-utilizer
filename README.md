@@ -1,7 +1,7 @@
 # Sass-Utilizer
 
 ## About
-Sass-Utilizer is a dynamic utility builder for SASS (SCSS) aimed at generating utilities with little to no config.
+Sass-Utilizer is a dynamic utility builder for SASS (SCSS) aimed at generating utilities with little to no configuration.
 
 ## Config
 
@@ -9,7 +9,7 @@ To begin with, you will need a map assigned to a `$utilities` variable. This map
 
 Optionally, you can have another map saved to a variable with the name `$utilityConfig`. This map is responsible for providing various modifier utilities.
 
-While looping through the `$utilities` variable, checks will be made to determine if there is a matching key for an object in the `$utilityConfig` map; if it does exist, the rules within will be applied *all* properties within that specific utility object. 
+While looping through the `$utilities` variable, checks will be made to determine if there is a matching key for an object in the `$utilityConfig` map; if it does exist, the rules within will be applied to *all* properties within that specific utility object. 
 
 An example of the two maps are as follows:
 
@@ -119,7 +119,7 @@ With the `directions` property set to true in `$utilityConfig`, additional utili
 ### Increments
 Increments enable you to generate multiplier modifiers for the values provided within the utility object. For a positive increment, that class name will look something like `.mt-2.5` while a negative increment would produce `.-mt-3.25`, for example.
 
-If increments is set to true, a removal class will be created e.g. `.mt-0` to remove unneeded styling (particularly useful in conjunction with breakpoints).
+Additionally, a removal class will be created e.g. `.mt-0` to remove unneeded styling (particularly useful in conjunction with breakpoints).
 
 **Note: the maximum and minimum can only be single digit numbers.**
 
@@ -159,20 +159,20 @@ As opposed to setting a factor and a maximum value within a map, if you were to 
 
 ```scss
 .m-0.5 {
-    margin: 1rem * 0.5;
+    margin: 0.5rem;
 }
 
 .m-1.5 {
-    margin: 1rem * 1.5;
+    margin: 1.5rem;
 }
 
 .m-2 {
-    margin: 1rem * 2;
+    margin: 2rem;
 }
 ```
 
 ### 3: Boolean set to true
-Finally, the third option you have is to provide a boolean, e.g. `increments: true`. This would apply the default behavior of generating multiplication modifier classes in increments of 0.5 from 0 through 6.
+Finally, the third option you have is to provide a boolean, e.g. `increments: true`. This would apply the default behavior of generating multiplication modifier classes in increments of 0.5 from -6 through 6.
 
 ### Negatives
 The `negatives` property needs to be set to a boolean. It is the only property that is set to true by default, which will output negative modifiers for your utilities e.g. `.mt` would have a negative counterpart, `.-mt` which would apply the styling `margin-top: -1rem`.
@@ -225,13 +225,13 @@ A small sample of the possible output could be as follows:
 ```scss
 .md:mb-3 {
     @media (max-width: 767px) {
-        margin-bottom: 1rem * 3;
+        margin-bottom: 3rem;
     }
 }
 
 .xxl:mr-1.5 {
     @media (max-width: 1700px) {
-        margin-right: 1rem * 1.5;
+        margin-right: 1.5rem;
     }
 }
 ```
@@ -242,7 +242,7 @@ The final configuration property is `dives`. If set to true, modifier classes wi
 ```scss
 .xxl:mt-2 {
     @media (max-width: 1700px) {
-        margin-right: 1rem * 2;
+        margin-right: 2rem;
     }
 }
 ```
@@ -252,7 +252,7 @@ would have a counterpart utility, output as the following:
 ```scss
 .xxl:mt-2-dive > * {
     @media (max-width: 1700px) {
-        margin-right: 1rem * 2;
+        margin-right: 2rem;
     }
 }
 ```
@@ -270,10 +270,10 @@ $utilities: (
 $utilityConfig: (
     m: (
         directions: false,
-        breakpoints: false,
         increments: false,
         negatives: false,
         states: false,
+        breakpoints: false,
         dives: false
     )
 );
@@ -465,7 +465,7 @@ $utilityConfig: (
     margin: 1.5rem;
 }
 
-.lg\:-ml-2.5-div > *:hover {
+.lg\:-ml-2.5-dive > *:hover {
     margin-left: 2.5rem;
 }
 ```
