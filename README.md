@@ -375,11 +375,11 @@ $utilityConfig: (
 
 // Output (small example, including the above output)
 .-m-1.5 {
-    margin: 1.5rem;
+    margin: -1.5rem;
 }
 
 .-ml-2.5 {
-    margin-left: 2.5rem;
+    margin-left: -2.5rem;
 }
 ```
 
@@ -404,11 +404,11 @@ $utilityConfig: (
 
 // Output (small example, including the above output)
 .-m-1.5:hover {
-    margin: 1.5rem;
+    margin: -1.5rem;
 }
 
 .-ml-2.5:hover {
-    margin-left: 2.5rem;
+    margin-left: -2.5rem;
 }
 ```
 
@@ -433,11 +433,11 @@ $utilityConfig: (
 
 // Output (small example, including the above output)
 .md\:-m-1.5:hover {
-    margin: 1.5rem;
+    margin: -1.5rem;
 }
 
 .lg\:-ml-2.5:hover {
-    margin-left: 2.5rem;
+    margin-left: -2.5rem;
 }
 ```
 
@@ -462,10 +462,10 @@ $utilityConfig: (
 
 // Output (small example, including the above output)
 .md\:-m-1.5-dive > *:hover {
-    margin: 1.5rem;
+    margin: -1.5rem;
 }
 
 .lg\:-ml-2.5-dive > *:hover {
-    margin-left: 2.5rem;
+    margin-left: -2.5rem;
 }
 ```
