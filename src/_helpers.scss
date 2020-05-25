@@ -1,17 +1,17 @@
 // STRINGS
-@function str-remove-whitespace($str) {
-    @while (str-index($str, ' ') != null) {
-        $index: str-index($str, ' ');
-        $str: "#{str-slice($str, 0, $index - 1)}#{str-slice($str, $index + 1)}";
-    }
-
-    @return $str;
+@function firstChar($str) {
+    @return str-slice(quote($str), 1, 1);
 }
 
-@function str-capitalize($str) {
-    @return to-upper-case(str-slice($str, 1, 1)) + str-slice($str, 2);
+@function secondChar($str) {
+    @return str-slice(quote($str), 2, 2);
 }
 
-@function str-first($str) {
-    @return str-slice($str, 1, 1);
+@function sliceEnd($str, $startIndex) {
+    @return str-slice(quote($str), $startIndex, str-length(quote($str)));
+}
+
+// NUMBERS
+@function isDecimal($num) {
+    @return round($num) != $num;
 }

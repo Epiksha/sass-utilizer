@@ -1,15 +1,17 @@
 # Sass-Utilizer
 
 ## About
-Sass-Utilizer is a desktop-first utility library built for SASS (SCSS) to help dynamically generate utilities with minimal configuration.
+Sass-Utilizer is a dynamic utility builder for SASS (SCSS) aimed at generating utilities with little to no config.
 
-## How it works
+## Config
 
-To begin with, you will need a SCSS map assigned to a `$utilities` variable. This will house all of your required utilities and Sass-Utilizer will loop through them to generate classes dynamically. For each SCSS object, the styling within will be used to generate the class.
+To begin with, you will need a map assigned to a `$utilities` variable. This map will be looped through through to generate classes dynamically. Within the map you will need to create objects, where the key is the name of the class and the content is the styling.
 
-Optionally, you can have another map saved to a variable with the name `$utilityConfig`. While looping through the `$utilities` variable, checks will be made to determine if there is a matching key for a SCSS object in the `$utilityConfig` map to provide additional classes for more specific styling.
+Optionally, you can have another map saved to a variable with the name `$utilityConfig`. This map is responsible for providing various modifier utilities.
 
-An example of the two variables are as follows:
+While looping through the `$utilities` variable, checks will be made to determine if there is a matching key for an object in the `$utilityConfig` map; if it does exist, the rules within will be applied *all* properties within that specific utility object. 
+
+An example of the two maps are as follows:
 
 ```scss
 $utilities: (
@@ -22,32 +24,79 @@ $utilityConfig: (
     m: (
         directions: true,
         breakpoints: true,
-        increments: (
-            factor: 0.5,
-            max: 6
-        ),
-        divers: true
+        increments: true,
+        states: (hover, focus, visited, active),
+        dives: true
     )
 );
 ```
 
-Without the $utilityConfig, the above code would output:
+*Note: The config you set for your utility will be specific to the utility and will not apply to any other utilities within the `$utilityConfig` map.*
+
+You can also define `$utilityBreakpoints`, which you can use to define your breakpoints. By default, this variable will be set to:
 
 ```scss
-.m {
-    margin: 1rem;
-}
+$utilityBreakpoints: (
+    sm: 576px,
+    md: 768px,
+    lg: 1200px
+);
 ```
 
-The configurable properties that will be interpreted by Sass-Utilizer are as follows:
+This variable is looped through to generate your breakpoint modifiers so you can include as many breakpoints as you wish.
 
-* Directions
-* Breakpoints
-* Increments
-* Divers
+Additionally, if you wish to keep the default breakpoints while adding additional breakpoints to the list, you can define an `$extraBreakpoints` variable, which will be joined to the `$utilityBreakpoints` variable before the latter is looped through.
+
+Finally, the breakpoint mixin's configuration is set to be mobile-first by default; however, if you define a `$utilityBreakpointParadigm` variable, setting it to `max-width`,  you can create desktop-first utilities e.g.
+
+```scss
+$utilityBreakpointParadigm: max-width;
+```
+
+**Example `_utilities.scss` file:**
+
+```scss
+$utilities: (
+    m: (
+        margin: 1rem
+    )
+);
+
+$utilityConfig: (
+    m: (
+        directions: true,
+        breakpoints: true,
+        increments: true,
+        negatives: false,
+        states: (hover, focus, visited, active),
+        dives: true
+    )
+);
+
+$utilityBreakpointParadigm: max-width;
+
+$utilityBreakpoints: (
+    sm: 575px,
+    md: 767px,
+    lg: 1199px
+);
+```
+
+The config properties you can add to objects within $utilityConfig are as follows:
+
+* directions
+* breakpoints
+* increments
+* negatives
+* states
+* dives
+
+Further information regarding each of these properties can be found below.
+
+If you are using a multi-level directory structure, you will need to import `sass-utilizer` after all other variable imports to ensure the required variables are set.
 
 ### Directions Property
-With the `directions` property set to true in `$utilityConfig`, the following code would be output in addition to the above:
+With the `directions` property set to true in `$utilityConfig`, additional utilities for the direction top, right, bottom and left will be created, the following being the output:
 
 ```scss
 .mt {
@@ -68,35 +117,40 @@ With the `directions` property set to true in `$utilityConfig`, the following co
 ```
 
 ### Increments
-Increments enable you to multiple the values provided within the utility object.
+Increments enable you to generate multiplier modifiers for the values provided within the utility object. For a positive increment, that class name will look something like `.mt-2.5` while a negative increment would produce `.-mt-3.25`, for example.
+
+If increments is set to true, a removal class will be created e.g. `.mt-0` to remove unneeded styling (particularly useful in conjunction with breakpoints).
+
+**Note: the maximum and minimum can only be single digit numbers.**
 
 There are 3 different ways you can use the `increments` property:
 
 #### 1: Map
 ```scss
 increments: (
-    factor: 0.5,
-    max: 10
+    min: -3.5,
+    max: 4,
+    factor: 0.5
 )
 ```
 
-By creating a map with the `factor` and `max` properties, you can generate classes from the factor's original value to the maximum value provided, in increments of the factor. For example, the above could generate the following code as well as all other values in between (in increments of 0.5):
+By setting `increments` to a map with `min`, `max` and `factor` properties, you can generate multipler utilities, starting from the minimum and ending at the maximum, in increments of whatever you set the factor to. For example, the above would produce (as well as others):
 
 ```scss
-.m-0.5 {
-    margin: 1rem * 0.5;
+.-mb-3.5 {
+    margin: -3.5rem;
 }
 
-.mb-2 {
-    margin: 1rem * 2;
+.-m-3 {
+    margin: -3rem;
 }
 
 .m-3.5 {
-    margin: 1rem * 6.5;
+    margin: 3.5rem;
 }
 
-.mb-6 {
-    margin: 1rem * 10;
+.mb-4 {
+    margin: 4rem;
 }
 ```
 
@@ -117,38 +171,54 @@ As opposed to setting a factor and a maximum value within a map, if you were to 
 }
 ```
 
-### 3: Anything Else (preferably a boolean set to true for clarity)
+### 3: Boolean set to true
 Finally, the third option you have is to provide a boolean, e.g. `increments: true`. This would apply the default behavior of generating multiplication modifier classes in increments of 0.5 from 0 through 6.
 
+### Negatives
+The `negatives` property needs to be set to a boolean. It is the only property that is set to true by default, which will output negative modifiers for your utilities e.g. `.mt` would have a negative counterpart, `.-mt` which would apply the styling `margin-top: -1rem`.
+
+This property is particularly useful in avoiding the generation of unwanted negative classes by the `increments` variable. Though the main use case is when `increments` is set to true and it generates modifiers from -6 through 6, the property can be defined for any of the above 3 increment types.
+
+### States
+The `states` property is responsible for defining pseudo selectors. If you wanted to target the hover and visited states of the element, you can simply write `states: (hover, visited)`. The output could be as follows:
+
+```scss
+.hover\:m:hover {
+    margin: 1rem;
+}
+
+.hover\:m:visited {
+    margin: 1rem;
+}
+```
+
+*Note: Escaping backslashes do not need to be included when adding class to markup.*
+
 ### Breakpoints
-With breakpoints set to true, all of the classes above could have counterparts for various screen sizes. By default, the following three breakpoints are defined:
+With breakpoints set to true, your utilities will have breakpoint modifiers for different screen sizes, determined by whatever `$utilityBreakpoints` is defined as.
 
-**sm**: 575px,
-**md**: 767px,
-**lg**: 1199px
-
-These breakpoints are saved to the `$breakpoints` variable, which can be overwritten for custom breakpoints. Alternatively, by creating a list variable called `$extraBreakpoints`, you can add additional breakpoints to the already-existing default breakpoints e.g.
+An example of adding additional breakpoints to `$utilityBreakpoints` would be as follows:
 
 ```scss
-$breakpoints: (
-    xl: 1300px,
+$extraBreakpoints: (
+    xl: 1500px,
     xxl: 1700px
 );
 ```
 
-would be combined with the original list to generate:
+This would then produce:
 
 ```scss
-$breakpoints: (
-    sm: 575px,
-    md: 767px,
-    lg: 1199px
-    xl: 1300px,
+$utilityBreakpoints: (
+    sm: 576px,
+    md: 768px,
+    lg: 1200px
+    xl: 1500px,
     xxl: 1700px
 );
 ```
 
-Sass-Utilizer would then loop through all of the breakpoints, including the new additions, to generate classes for the various screen sizes.
+Sass-Utilizer then loops through these breakpoints to generate classes for the various screen sizes.
 
 A small sample of the possible output could be as follows:
 
@@ -166,8 +236,8 @@ A small sample of the possible output could be as follows:
 }
 ```
 
-### Divers
-The final configuration property is `divers`. If set to true, modifier classes would be created to target children of the element that the utility is assigned to, 'diving' down one level. The suffix `--dive` is added onto the class name so that
+### Dives
+The final configuration property is `dives`. If set to true, modifier classes will be created to target children of the element that the utility is assigned to, 'diving' down one level. The suffix `-dive` is added onto the class name so that this output
 
 ```scss
 .xxl:mt-2 {
@@ -180,9 +250,222 @@ The final configuration property is `divers`. If set to true, modifier classes w
 would have a counterpart utility, output as the following:
 
 ```scss
-.xxl:mt-2--dive > * {
+.xxl:mt-2-dive > * {
     @media (max-width: 1700px) {
         margin-right: 1rem * 2;
     }
+}
+```
+
+## Examples
+
+### No Additional Modifiers
+```scss
+$utilities: (
+    m: (
+        margin: 1rem
+    )
+);
+
+$utilityConfig: (
+    m: (
+        directions: false,
+        breakpoints: false,
+        increments: false,
+        negatives: false,
+        states: false,
+        dives: false
+    )
+);
+
+// Output
+.m {
+    margin: 1rem;
+}
+
+.m-0 {
+    margin: 0;
+}
+```
+
+### Directional Modifiers
+```scss
+$utilities: (
+    m: (
+        margin: 1rem
+    )
+);
+
+$utilityConfig: (
+    m: (
+        directions: true,
+        increments: false,
+        negatives: false,
+        states: false,
+        breakpoints: false,
+        dives: false
+    )
+);
+
+// Output (including the above)
+.mt {
+    margin-top: 1rem;
+}
+
+.mr {
+    margin-right: 1rem;
+}
+
+.mb {
+    margin-bottom: 1rem;
+}
+
+.ml {
+    margin-left: 1rem;
+}
+```
+
+### Incremental Modifiers
+```scss
+$utilities: (
+    m: (
+        margin: 1rem
+    )
+);
+
+$utilityConfig: (
+    m: (
+        directions: true,
+        increments: true,
+        negatives: false,
+        states: false,
+        breakpoints: false,
+        dives: false
+    )
+);
+
+// Output (small example, including the above output)
+.m-1.5 {
+    margin: 1.5rem;
+}
+
+.ml-2.5 {
+    margin-left: 2.5rem;
+}
+```
+
+### Negative Modifiers
+```scss
+$utilities: (
+    m: (
+        margin: 1rem
+    )
+);
+
+$utilityConfig: (
+    m: (
+        directions: true,
+        increments: true,
+        negatives: true,
+        states: false,
+        breakpoints: false,
+        dives: false
+    )
+);
+
+// Output (small example, including the above output)
+.-m-1.5 {
+    margin: 1.5rem;
+}
+
+.-ml-2.5 {
+    margin-left: 2.5rem;
+}
+```
+
+### State Modifiers
+```scss
+$utilities: (
+    m: (
+        margin: 1rem
+    )
+);
+
+$utilityConfig: (
+    m: (
+        directions: true,
+        increments: true,
+        negatives: true,
+        states: (hover),
+        breakpoints: false,
+        dives: false
+    )
+);
+
+// Output (small example, including the above output)
+.-m-1.5:hover {
+    margin: 1.5rem;
+}
+
+.-ml-2.5:hover {
+    margin-left: 2.5rem;
+}
+```
+
+### Breakpoint Modifiers
+```scss
+$utilities: (
+    m: (
+        margin: 1rem
+    )
+);
+
+$utilityConfig: (
+    m: (
+        directions: true,
+        increments: true,
+        negatives: true,
+        states: (hover),
+        breakpoints: true,
+        dives: false
+    )
+);
+
+// Output (small example, including the above output)
+.md\:-m-1.5:hover {
+    margin: 1.5rem;
+}
+
+.lg\:-ml-2.5:hover {
+    margin-left: 2.5rem;
+}
+```
+
+### Dive Modifiers
+```scss
+$utilities: (
+    m: (
+        margin: 1rem
+    )
+);
+
+$utilityConfig: (
+    m: (
+        directions: true,
+        increments: true,
+        negatives: true,
+        states: (hover),
+        breakpoints: true,
+        dives: true
+    )
+);
+
+// Output (small example, including the above output)
+.md\:-m-1.5-dive > *:hover {
+    margin: 1.5rem;
+}
+
+.lg\:-ml-2.5-div > *:hover {
+    margin-left: 2.5rem;
 }
 ```

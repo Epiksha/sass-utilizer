@@ -9,8 +9,10 @@
             $directions: false;
             $breakpoints: false;
             $increments: false;
-            $diver: false;
-    
+            $negatives: true;
+            $states: false;
+            $dives: false;
+
             @each $configLabel, $configObject in $utilityConfig {
                 @if $configLabel == $label {
                     @each $configProperty, $configValue in $configObject { 
@@ -20,31 +22,48 @@
                             $breakpoints: $configValue;
                         } @else if $configProperty == increments {
                             $increments: $configValue;
-                        } @else if $configProperty == diver {
-                            $diver: $configValue;
+                        } @else if $configProperty == negatives {
+                            $negatives: $configValue;
+                        } @else if $configProperty == states {
+                            $states: $configValue;
+                        } @else if $configProperty == dives {
+                            $dives: $configValue;
                         }
                     }
                 }
             }
-    
-            // Utility Generation
-            .ut-#{$label} {
+
+            .#{$label} {
                 #{$property}: $value;
             }
-    
-            @if $increments != false {
-                @include incrementer($increments, $label, $property, $value, $breakpoints, $diver);
+
+            @if $negatives {
+                .-#{$label} {
+                    #{$property}: -#{$value};
+                }
             }
     
             @if $directions != false {
-                @include directioner($label, $property, $value, $increments, $breakpoints, $diver);
+                @include directioner($label, $property, $value, $increments, $negatives, $breakpoints, $dives, $states);
+            }
+    
+            @if $increments != false {
+                @include incrementer($increments, $negatives, $label, $property, $value, $breakpoints, $dives, $states);
+            }
+            
+            @if $states != false {
+                @include stater($states, $label, $property, $value);
+
+                @if $negatives {
+                    @include stater($states, -$label, $property, -$value);
+                }
             }
             
             @if $breakpoints != false {
-                @include breakpointer($label, $property, $value, $diver);
+                @include breakpointer($label, $property, $value, $dives, $states);
             }
             
-            @if $diver != false {
+            @if $dives != false {
                 @include diver($label, $property, $value);
             }
         }
