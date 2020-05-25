@@ -1,6 +1,6 @@
 {
   "name": "sass-utilizer",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "A dynamic utility builder for SASS (SCSS) aimed at generating utilities with little to no config.",
   "author": "Calvin Tiley",
   "license": "ISC",
