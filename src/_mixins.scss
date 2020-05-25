@@ -253,7 +253,7 @@
 
             @if $states != false {
                 @each $state in $states {
-                    @media (#{$breakpointParadigm}: $breakpointValue) {
+                    @media (#{$utilityBreakpointParadigm}: $breakpointValue) {
                         .#{$breakpointLabel}\:#{$state}\:#{$label}-dive > *:#{$state} {
                             #{$property}: $value;
                         }
@@ -264,7 +264,7 @@
 
         @if $states != false {
             @each $state in $states {
-                @media (#{$breakpointParadigm}: $breakpointValue) {
+                @media (#{$utilityBreakpointParadigm}: $breakpointValue) {
                     .#{$breakpointLabel}\:#{$state}\:#{$label}:#{$state} {
                         #{$property}: $value;
                     }
