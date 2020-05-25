@@ -187,7 +187,7 @@ The `states` property is responsible for defining pseudo selectors. If you wante
     margin: 1rem;
 }
 
-.hover\:m:visited {
+.visited\:m:visited {
     margin: 1rem;
 }
 ```
