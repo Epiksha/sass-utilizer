@@ -11,6 +11,9 @@
     "Utilities",
     "CSS"
   ],
+  "scripts": {
+      "test": "node-sass sass-utilizer.scss sass-utilizer.css --output-style=expanded"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Epiksha/sass-utilizer.git"
