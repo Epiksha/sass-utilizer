@@ -3,12 +3,11 @@
     "version": "2.2.3",
     "description": "A dynamic utility builder for SASS (SCSS) aimed at generating utilities with little to no config.",
     "author": "Calvin Tiley",
-    "main": "src/sass-utilizer.scss",
+    "main": "sass/sass-utilizer.scss",
     "eyeglass": {
-        "name": "sass-utilizer",
-        "sassDir": "src",
-        "needs": ">=0.8.0",
-        "exports": false
+        "needs": "^1.0.0",
+        "exports": "eyeglass-exports.js",
+        "name": "sass-utilizer"
     },
     "license": "ISC",
     "keywords": [
@@ -22,7 +21,7 @@
         "eyeglass-module"
     ],
     "scripts": {
-        "test": "node-sass src/sass-utilizer.scss sass-utilizer.css --output-style=expanded",
+        "test": "node-sass sass/sass-utilizer.scss sass-utilizer.css --output-style=expanded",
         "preversion": "npm test",
         "postversion": "git push && git push --tags && npm publish",
         "postpublish": "git checkout development && git merge master && git push"
