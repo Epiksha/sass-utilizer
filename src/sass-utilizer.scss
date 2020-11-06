@@ -1,5 +1,5 @@
-@import './src/_helpers.scss';
-@import './src/_mixins.scss';
+@import './utilizer/helpers';
+@import './utilizer/mixins';
 
 // Builds out utilities
 $utilities: (

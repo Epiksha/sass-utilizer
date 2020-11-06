@@ -1,0 +1,17 @@
+// STRINGS
+@function firstChar($str) {
+    @return str-slice(quote($str), 1, 1);
+}
+
+@function secondChar($str) {
+    @return str-slice(quote($str), 2, 2);
+}
+
+@function sliceEnd($str, $startIndex) {
+    @return str-slice(quote($str), $startIndex, str-length(quote($str)));
+}
+
+// NUMBERS
+@function isDecimal($num) {
+    @return round($num) != $num;
+}

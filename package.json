@@ -3,7 +3,13 @@
     "version": "2.2.1",
     "description": "A dynamic utility builder for SASS (SCSS) aimed at generating utilities with little to no config.",
     "author": "Calvin Tiley",
-    "main": "src/index.scss",
+    "main": "src/sass-utilizer.scss",
+    "eyeglass": {
+        "name": "sass-utilizer",
+        "sassDir": "scss",
+        "needs": ">=0.8.0",
+        "exports": false
+    },
     "license": "ISC",
     "keywords": [
         "sass",
@@ -16,7 +22,7 @@
         "eyeglass-module"
     ],
     "scripts": {
-        "test": "node-sass src/index.scss sass-utilizer.css --output-style=expanded",
+        "test": "node-sass src/sass-utilizer.scss sass-utilizer.css --output-style=expanded",
         "preversion": "npm test",
         "postversion": "git push && git push --tags && npm publish",
         "postpublish": "git checkout development && git merge master && git push"
@@ -24,11 +30,6 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Epiksha/sass-utilizer.git"
-    },
-    "eyeglass": {
-        "needs": "^1.2.1",
-        "exports": "eyeglass-exports.js",
-        "name": "sass-utilizer"
     },
     "bugs": {
         "url": "https://github.com/Epiksha/sass-utilizer/issues"
