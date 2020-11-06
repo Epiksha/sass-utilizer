@@ -1,19 +1,7 @@
 var path = require('path');
-var sass = require("node-sass");
-var eyeglass = require("eyeglass");
 
-var options = {
-    eyeglass: {
-        modules: [
-            {
-                path: path.join(__dirname, 'sass-utilizer.scss')
-            }
-        ],
-
-        engines: {
-            sass: sass
-        }
-    }
+module.exports = function(eyeglass, sass) {
+    return {
+        sassDir: path.join(__dirname, 'src')
+    };
 };
-
-sass.render(eyeglass(options));
