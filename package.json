@@ -6,7 +6,7 @@
     "main": "src/sass-utilizer.scss",
     "eyeglass": {
         "name": "sass-utilizer",
-        "sassDir": "scss",
+        "sassDir": "src",
         "needs": ">=0.8.0",
         "exports": false
     },
