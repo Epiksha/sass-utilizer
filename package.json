@@ -1,33 +1,41 @@
 {
-  "name": "sass-utilizer",
-  "version": "2.0.9",
-  "description": "A dynamic utility builder for SASS (SCSS) aimed at generating utilities with little to no config.",
-  "author": "Calvin Tiley",
-  "license": "ISC",
-  "keywords": [
-    "SASS",
-    "SCSS",
-    "Library",
-    "Utilities",
-    "CSS"
-  ],
-  "scripts": {
-    "test": "node-sass sass-utilizer.scss sass-utilizer.css --output-style=expanded",
-    "preversion": "npm test",
-    "postversion": "git push && git push --tags && npm publish",
-    "postpublish": "git checkout development && git merge master && git push"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Epiksha/sass-utilizer.git"
-  },
-  "main": "sass-utilizer.scss",
-  "bugs": {
-    "url": "https://github.com/Epiksha/sass-utilizer/issues"
-  },
-  "homepage": "https://github.com/Epiksha/sass-utilizer#readme",
-  "devDependencies": {
-    "node-sass": "^4.14.1",
-    "sass": "^1.26.5"
-  }
+    "name": "sass-utilizer",
+    "version": "2.0.0",
+    "description": "A dynamic utility builder for SASS (SCSS) aimed at generating utilities with little to no config.",
+    "author": "Calvin Tiley",
+    "main": "sass-utilizer.scss",
+    "license": "ISC",
+    "keywords": [
+        "sass",
+        "scss",
+        "library",
+        "utility",
+        "utilities",
+        "css",
+        "dynamic",
+        "eyeglass-module"
+    ],
+    "scripts": {
+        "test": "node-sass sass-utilizer.scss sass-utilizer.css --output-style=expanded",
+        "preversion": "npm test",
+        "postversion": "git push && git push --tags && npm publish",
+        "postpublish": "git checkout development && git merge master && git push"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Epiksha/sass-utilizer.git"
+    },
+    "eyeglass": {
+        "exports": "eyeglass-exports.js",
+        "name": "sass-utilizer"
+    },
+    "bugs": {
+        "url": "https://github.com/Epiksha/sass-utilizer/issues"
+    },
+    "homepage": "https://github.com/Epiksha/sass-utilizer#readme",
+    "devDependencies": {
+        "eyeglass": "^3.0.2",
+        "node-sass": "^4.14.1",
+        "sass": "^1.26.5"
+    }
 }
