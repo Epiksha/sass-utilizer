@@ -2,14 +2,27 @@
 @import './src/_mixins.scss';
 
 // Builds out utilities
+$utilities: (
+    m: (
+        margin: 10px
+    )
+);
+
+$utilityConfig: (
+    m: (
+        increments: true,
+        negatives: true
+    )
+);
+
 @if variable-exists(utilities) {
     @each $label, $utilityObject in $utilities {
         @each $property, $value in $utilityObject {
-            // Set Config
+            // Create configuration for utility
             $directions: false;
             $breakpoints: false;
             $increments: false;
-            $negatives: true;
+            $negatives: false;
             $states: false;
             $dives: false;
 
@@ -37,20 +50,24 @@
                 #{$property}: $value;
             }
 
+            // Negatives
             @if $negatives {
                 .-#{$label} {
                     #{$property}: -#{$value};
                 }
             }
     
+            // Directions
             @if $directions != false {
                 @include directioner($label, $property, $value, $increments, $negatives, $breakpoints, $dives, $states);
             }
     
+            // Increments
             @if $increments != false {
                 @include incrementer($increments, $negatives, $label, $property, $value, $breakpoints, $dives, $states);
             }
             
+            // States
             @if $states != false {
                 @include stater($states, $label, $property, $value);
 
@@ -59,10 +76,12 @@
                 }
             }
             
+            // Breakpoints
             @if $breakpoints != false {
                 @include breakpointer($label, $property, $value, $dives, $states);
             }
             
+            // Dives
             @if $dives != false {
                 @include diver($label, $property, $value);
             }

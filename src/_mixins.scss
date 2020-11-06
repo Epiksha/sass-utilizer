@@ -1,5 +1,5 @@
 // Add direction modifiers
-@mixin directioner($label, $property, $value, $increments: false, $negatives: true, $breakpoints: false, $dives: false, $states: false) {
+@mixin directioner($label, $property, $value, $increments, $negatives, $breakpoints, $dives, $states) {
     $directions: top, right, bottom, left;
 
     @each $direction in $directions {
@@ -47,7 +47,7 @@
 }
 
 // Add multiplication modifiers in increments
-@mixin incrementer($increments, $negatives, $label, $property, $value, $breakpoints: false, $dives: false, $states: false) {
+@mixin incrementer($increments, $negatives, $label, $property, $value, $breakpoints, $dives, $states) {
     // -0 modifier
     $zeroLabel: #{$label}-0;
 
@@ -153,18 +153,18 @@
                 @include stater($states, $newLabel, $property, $newVal);
             }
 
-            @if $breakpoints == true {
+            @if $breakpoints {
                 @include breakpointer($newLabel, $property, $newVal, $dives, $states);
             }
 
-            @if $dives == true {
+            @if $dives {
                 @include diver($newLabel, $property, $newVal);
             }
         }
-    } @else if $increments == true {
+    } @else if $increments {
         $iterator: '';
 
-        @if $negatives == true {
+        @if $negatives {
             $iterator: -6;
         } @else {
             $iterator: 0.5;
@@ -221,7 +221,7 @@
 }
 
 // Create breakpoints
-@mixin breakpointer($label, $property, $value, $dives: false, $states: false) {
+@mixin breakpointer($label, $property, $value, $dives, $states) {
     $utilityBreakpoints: (
         sm: 576px,
         md: 768px,

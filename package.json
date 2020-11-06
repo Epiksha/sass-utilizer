@@ -11,6 +11,12 @@
     "Utilities",
     "CSS"
   ],
+  "scripts": {
+      "test": "node-sass sass-utilizer.scss sass-utilizer.css --output-style=expanded",
+      "preversion": "npm test",
+      "postversion": "git push && git push --tags && npm publish",
+      "postpublish": "git checkout development && git merge master && git push"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Epiksha/sass-utilizer.git"
