@@ -1,17 +1,19 @@
 @import './sass/helpers';
 @import './sass/mixins';
 
-// Builds out utilities
 $utilities: (
     m: (
-        margin: 10px
+        margin: 1rem
     )
 );
 
 $utilityConfig: (
     m: (
+        breakpoints: true,
         increments: true,
-        negatives: true
+        directions: true,
+        dives: true,
+        states: (hover, focus)
     )
 );
 
@@ -47,13 +49,13 @@ $utilityConfig: (
             }
 
             .#{$label} {
-                #{$property}: $value;
+                #{$property}: $value !important;
             }
 
             // Negatives
             @if $negatives {
                 .-#{$label} {
-                    #{$property}: -#{$value};
+                    #{$property}: -#{$value} !important;
                 }
             }
     

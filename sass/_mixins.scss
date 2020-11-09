@@ -7,12 +7,12 @@
         $newProp: #{$property}-#{$direction};
 
         .#{$newLabel} {
-            #{$newProp}: $value;
+            #{$newProp}: $value !important;
         }
         
         @if $negatives {
             .-#{$newLabel} {
-                #{$newProp}: -$value;
+                #{$newProp}: -$value !important;
             }
         }
 
@@ -52,7 +52,7 @@
     $zeroLabel: #{$label}-0;
 
     .#{$zeroLabel} {
-        #{$property}: 0;
+        #{$property}: 0 !important;
     }
 
     @if $breakpoints != false {
@@ -106,7 +106,7 @@
                 }
     
                 .#{$newLabel} {
-                    #{$property}: $newVal;
+                    #{$property}: $newVal !important;
                 }
 
                 @if $states != false {
@@ -132,21 +132,21 @@
             @if $increment != 1 and $increment != 0 and $increment != -1 {
                 @if $negatives and $increment < 0 {
                     @if isDecimal($increment) {
-                        $newLabel: -#{$label}-#{secondChar($increment)}\.#{sliceEnd($increment, 4)};
+                        $newLabel: -#{$label}-#{secondChar($increment)}\.#{sliceEnd($increment, 4)} !important;
                     } @else {
-                        $newLabel: -#{$label + $increment};
+                        $newLabel: -#{$label + $increment} !important;
                     }
                 } @else {
                     @if isDecimal($increment) {
-                        $newLabel: #{$label}-#{firstChar($increment)}\.#{sliceEnd($increment, 3)};
+                        $newLabel: #{$label}-#{firstChar($increment)}\.#{sliceEnd($increment, 3)} !important;
                     } @else {
-                        $newLabel: #{$label}-#{$increment};
+                        $newLabel: #{$label}-#{$increment} !important;
                     }
                 }
             }
 
             .#{$newLabel} {
-                #{$property}: $newVal;
+                #{$property}: $newVal !important;
             }
 
             @if $states != false {
@@ -176,21 +176,21 @@
 
             @if $negatives and $iterator < 0 and $iterator != -1 {
                 @if isDecimal($iterator) {
-                    $newLabel: -#{$label}-#{secondChar($iterator)}\.5;
+                    $newLabel: -#{$label}-#{secondChar($iterator)}\.5 !important;
                 } @else {
-                    $newLabel: -#{$label + $iterator};
+                    $newLabel: -#{$label + $iterator} !important;
                 }
             } @else if $iterator > 0 and $iterator != 1 {
                 @if isDecimal($iterator) {
-                    $newLabel: #{$label}-#{firstChar($iterator)}\.5;
+                    $newLabel: #{$label}-#{firstChar($iterator)}\.5 !important;
                 } @else {
-                    $newLabel: #{$label}-#{$iterator};
+                    $newLabel: #{$label}-#{$iterator} !important;
                 }
             }
 
             @if $iterator != 0 and $iterator != -1 and $iterator != 1 {
                 .#{$newLabel} {
-                    #{$property}: $newVal;
+                    #{$property}: $newVal !important;
                 }
 
                 @if $states != false {
@@ -215,7 +215,7 @@
 @mixin stater($states, $label, $property, $value) {
     @each $state in $states {
         .#{$state}\:#{$label}:#{$state} {
-            #{$property}: $value;
+            #{$property}: $value !important;
         }
     }
 }
@@ -239,7 +239,7 @@
 
         .#{$newLabel} {
             @media (#{$utilityBreakpointParadigm}: $breakpointValue) {
-                #{$property}: $value;
+                #{$property}: $value !important;
             }
         }
 
@@ -247,7 +247,7 @@
         @if $dives == true {
             .#{$newLabel}-dive > * {
                 @media (#{$utilityBreakpointParadigm}: $breakpointValue) {
-                    #{$property}: $value;
+                    #{$property}: $value !important;
                 }
             }
 
@@ -255,7 +255,7 @@
                 @each $state in $states {
                     @media (#{$utilityBreakpointParadigm}: $breakpointValue) {
                         .#{$breakpointLabel}\:#{$state}\:#{$label}-dive > *:#{$state} {
-                            #{$property}: $value;
+                            #{$property}: $value !important;
                         }
                     }
                 }
@@ -266,7 +266,7 @@
             @each $state in $states {
                 @media (#{$utilityBreakpointParadigm}: $breakpointValue) {
                     .#{$breakpointLabel}\:#{$state}\:#{$label}:#{$state} {
-                        #{$property}: $value;
+                        #{$property}: $value !important;
                     }
                 }
             }
@@ -277,6 +277,6 @@
 // Add class styling to children
 @mixin diver($label, $property, $value) {
     .#{$label}-dive > * {
-        #{$property}: $value;
+        #{$property}: $value !important;
     }
 }
