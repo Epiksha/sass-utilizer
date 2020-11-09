@@ -47,13 +47,13 @@ $utilityConfig: (
             }
 
             .#{$label} {
-                #{$property}: $value;
+                #{$property}: $value !important;
             }
 
             // Negatives
             @if $negatives {
                 .-#{$label} {
-                    #{$property}: -#{$value};
+                    #{$property}: -#{$value} !important;
                 }
             }
     
