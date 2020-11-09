@@ -1,22 +1,6 @@
 @import './sass/helpers';
 @import './sass/mixins';
 
-$utilities: (
-    m: (
-        margin: 1rem
-    )
-);
-
-$utilityConfig: (
-    m: (
-        breakpoints: true,
-        increments: true,
-        directions: true,
-        dives: true,
-        states: (hover, focus)
-    )
-);
-
 @if variable-exists(utilities) {
     @each $label, $utilityObject in $utilities {
         @each $property, $value in $utilityObject {
