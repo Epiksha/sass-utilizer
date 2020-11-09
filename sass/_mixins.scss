@@ -90,7 +90,6 @@
             $newLabel: '';
 
             @if $iterableFactor != 1 and $iterableFactor != 0 and $iterableFactor != -1 {
-
                 @if $negatives and $iterableFactor < 0 {
                     @if isDecimal($iterableFactor) {
                         $newLabel: -#{$label}-#{secondChar($iterableFactor)}\.#{sliceEnd($iterableFactor, 4)};
@@ -104,9 +103,11 @@
                         $newLabel: #{$label}-#{$iterableFactor};
                     }
                 }
-    
-                .#{$newLabel} {
-                    #{$property}: $newVal !important;
+                
+                @if $newLabel != "" {
+                    .#{$newLabel} {
+                        #{$property}: $newVal !important;
+                    }
                 }
 
                 @if $states != false {
