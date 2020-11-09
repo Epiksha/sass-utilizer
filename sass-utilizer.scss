@@ -1,5 +1,5 @@
-@import './utilizer/helpers';
-@import './utilizer/mixins';
+@import './sass/helpers';
+@import './sass/mixins';
 
 // Builds out utilities
 $utilities: (
@@ -47,13 +47,13 @@ $utilityConfig: (
             }
 
             .#{$label} {
-                #{$property}: $value !important;
+                #{$property}: $value;
             }
 
             // Negatives
             @if $negatives {
                 .-#{$label} {
-                    #{$property}: -#{$value} !important;
+                    #{$property}: -#{$value};
                 }
             }
     

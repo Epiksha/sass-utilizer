@@ -7,12 +7,12 @@
         $newProp: #{$property}-#{$direction};
 
         .#{$newLabel} {
-            #{$newProp}: $value !important;
+            #{$newProp}: $value;
         }
         
         @if $negatives {
             .-#{$newLabel} {
-                #{$newProp}: -$value !important;
+                #{$newProp}: -$value;
             }
         }
 
@@ -52,7 +52,7 @@
     $zeroLabel: #{$label}-0;
 
     .#{$zeroLabel} {
-        #{$property}: 0 !important;
+        #{$property}: 0;
     }
 
     @if $breakpoints != false {
@@ -106,7 +106,7 @@
                 }
     
                 .#{$newLabel} {
-                    #{$property}: $newVal !important;
+                    #{$property}: $newVal;
                 }
 
                 @if $states != false {
@@ -146,7 +146,7 @@
             }
 
             .#{$newLabel} {
-                #{$property}: $newVal !important;
+                #{$property}: $newVal;
             }
 
             @if $states != false {
@@ -190,7 +190,7 @@
 
             @if $iterator != 0 and $iterator != -1 and $iterator != 1 {
                 .#{$newLabel} {
-                    #{$property}: $newVal !important;
+                    #{$property}: $newVal;
                 }
 
                 @if $states != false {
@@ -215,7 +215,7 @@
 @mixin stater($states, $label, $property, $value) {
     @each $state in $states {
         .#{$state}\:#{$label}:#{$state} {
-            #{$property}: $value !important;
+            #{$property}: $value;
         }
     }
 }
@@ -239,7 +239,7 @@
 
         .#{$newLabel} {
             @media (#{$utilityBreakpointParadigm}: $breakpointValue) {
-                #{$property}: $value !important;
+                #{$property}: $value;
             }
         }
 
@@ -247,7 +247,7 @@
         @if $dives == true {
             .#{$newLabel}-dive > * {
                 @media (#{$utilityBreakpointParadigm}: $breakpointValue) {
-                    #{$property}: $value !important;
+                    #{$property}: $value;
                 }
             }
 
@@ -255,7 +255,7 @@
                 @each $state in $states {
                     @media (#{$utilityBreakpointParadigm}: $breakpointValue) {
                         .#{$breakpointLabel}\:#{$state}\:#{$label}-dive > *:#{$state} {
-                            #{$property}: $value !important;
+                            #{$property}: $value;
                         }
                     }
                 }
@@ -266,7 +266,7 @@
             @each $state in $states {
                 @media (#{$utilityBreakpointParadigm}: $breakpointValue) {
                     .#{$breakpointLabel}\:#{$state}\:#{$label}:#{$state} {
-                        #{$property}: $value !important;
+                        #{$property}: $value;
                     }
                 }
             }
@@ -277,6 +277,6 @@
 // Add class styling to children
 @mixin diver($label, $property, $value) {
     .#{$label}-dive > * {
-        #{$property}: $value !important;
+        #{$property}: $value;
     }
 }
