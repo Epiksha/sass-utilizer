@@ -17,7 +17,9 @@
     "scripts": {
         "compile": "sass test-entry.scss:test-entry.css --no-source-map",
         "watch": "sass test-entry.scss:test-entry.css --watch --no-source-map",
-        "build:docs": "sassdoc sass/sass-utilizer.scss",
+        "build:docs": "sassdoc sass/_sass-utilizer.scss -d documentation",
+        "test": "sass spec/utilizer-spec.scss",
+        "test:watch": "sass spec/utilizer-spec.scss:spec/utilizer-spec.css --watch --no-source-map",
         "preversion": "npm test",
         "postversion": "git push && git push --tags && npm publish",
         "postpublish": "git checkout development && git merge master && git push"
@@ -42,6 +44,8 @@
         "@commitlint/cli": "^11.0.0",
         "@commitlint/config-conventional": "^11.0.0",
         "husky": "^4.3.0",
-        "sassdoc": "^2.7.3"
+        "sass-true": "^6.0.1",
+        "sassdoc": "^2.7.3",
+        "stylelint": "^13.7.2"
     }
 }

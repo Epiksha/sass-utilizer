@@ -1,0 +1,28 @@
+@use '../../../node_modules/sass-true/index' as *;
+@use '../../../sass/helpers/strings';
+
+@include describe('Returns a substring by splicing a string from a given index') {
+    @include it('will return the end of a string') {
+        $value: 'Jump over the moon';
+
+        $test: strings.sliceEnd($value, 11);
+
+        @include assert-equal($test, 'the moon', "'the moom' is returned if #{$value} is passed in with a given index of 11");
+    }
+    
+    @include it('casts a number to a string, returning a substring from a given index to the end of the string') {
+        $value: 123456789;
+
+        $test: strings.sliceEnd($value, 4);
+
+        @include assert-equal($test, "456789", "123456789 returns '456789' as a string when the given index is 4");
+    }
+
+    @include it('casts a boolean to a string, returning the characters from a given index until the end of the string') {
+        $value: false;
+
+        $test: strings.sliceEnd($value, 3);
+
+        @include assert-equal($test, "lse", "false returns 'lse' as a string when the given index is 3");
+    }
+}

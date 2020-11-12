@@ -1,0 +1,28 @@
+@use '../../../node_modules/sass-true/index' as *;
+@use '../../../sass/helpers/strings';
+
+@include describe('Returns the first character of what is passed in') {
+    @include it('will return the first character of a string') {
+        $value: 'Jump over the moon';
+
+        $test: strings.firstChar($value);
+
+        @include assert-equal($test, 'J', "'J' is returned if #{$value} is passed in");
+    }
+    
+    @include it('will return the first character of a number as a string') {
+        $value: 12;
+
+        $test: strings.firstChar($value);
+
+        @include assert-equal($test, "1", "12 returns '1' as a string");
+    }
+
+    @include it('will return the first character of a boolean as a string') {
+        $value: false;
+
+        $test: strings.firstChar($value);
+
+        @include assert-equal($test, "f", "#{$value} returns 'f' as a string");
+    }
+}
