@@ -1,7 +1,7 @@
-@use 'breakpoint-directionify';
-@use 'breakpoint-diver';
-@use 'breakpoint-incrementify';
-@use 'breakpoint-pseudify';
+@use 'breakpoint-direction' as *;
+@use 'breakpoint-dive' as *;
+@use 'breakpoint-increment' as *;
+@use 'breakpoint-pseudo' as *;
 
 // Create breakpoints
 @mixin breakpointify(
@@ -9,6 +9,7 @@
     $property,
     $value,
     $negatives,
+    $directions,
     $increments,
     $pseudos,
     $dives
@@ -21,30 +22,27 @@
 
     $utilityBreakpointParadigm: min-width !default;
 
-    // Add extra breakpoints in addition to existing $utilityBreakpoints list
-    @if variable-exists(extraBreakpoints) {
-        $utilityBreakpoints: join($utilityBreakpoints, $extraBreakpoints);
-    }
-
     @each $breakpointLabel, $breakpointValue in $utilityBreakpoints {
-        @include breakpoint-directionify(
-            $label,
-            $property,
-            $value,
-            $negatives,
-            $increments,
-            $pseudos,
-            $dives,
-            $breakpoint,
-            $utilityBreakpointParadigm
-        );
-
-        $newLabel: #{$breakpointLabel}\:#{$label};
-
-        .#{$newLabel} {
+        .#{$breakpointLabel}\:#{$label} {
             @media (#{$utilityBreakpointParadigm}: $breakpointValue) {
                 #{$property}: $value !important;
             }
+        }
+
+        @if $increments {
+            @include breakpoint-incrementify($label, $property, $value, $negatives, $increments, $pseudos, $dives, $breakpointLabel, $breakpointValue, $utilityBreakpointParadigm);
+        }
+
+        @if $directions {
+            @include breakpoint-directionify($label, $property, $value, $negatives, $increments, $pseudos, $dives, $breakpointLabel, $breakpointValue, $utilityBreakpointParadigm);
+        }
+
+        @if $pseudos {
+            @include breakpoint-pseudify($label, $property, $value, $pseudos, $dives, $breakpointLabel, $breakpointValue, $utilityBreakpointParadigm);
+        }
+
+        @if $dives {
+            @include breakpoint-diver($label, $property, $value, $breakpointLabel, $breakpointValue, $utilityBreakpointParadigm);
         }
     }
 };

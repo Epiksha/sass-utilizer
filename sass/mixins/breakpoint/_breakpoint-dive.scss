@@ -1,0 +1,7 @@
+@mixin breakpoint-diver($label, $property, $value, $bpLabel, $bpValue, $paradigm) {
+    .#{$bpLabel}\:#{$label}-dive > * {
+        @media (#{$paradigm}: $bpValue) {
+            #{$property}: $value !important;
+        }
+    }
+}

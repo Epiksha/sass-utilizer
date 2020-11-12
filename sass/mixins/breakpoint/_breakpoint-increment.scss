@@ -1,0 +1,26 @@
+@use 'bp-partials/bp-increment-bool' as *;
+@use 'bp-partials/bp-increment-list' as *;
+@use 'bp-partials/bp-increment-map' as *;
+
+@mixin breakpoint-incrementify(
+    $label,
+    $property,
+    $value,
+    $negatives,
+    $increments,
+    $pseudos,
+    $dives,
+    $bpLabel,
+    $bpValue,
+    $paradigm
+) {
+    @if type-of($increments) == map {
+        @include bp-increment-map($increments, $label, $property, $value, $negatives, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
+    } @else if type-of($increments) == list {
+        @include bp-increment-list($increments, $label, $property, $value, $negatives, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
+    } @else if $increments {
+        @include bp-increment-bool($label, $property, $value, $negatives, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
+    } @else if $increments != false {
+        @error 'Increments property for '#{$label}' breakpoint utility is invalid';
+    }
+}

@@ -1,0 +1,52 @@
+@use '../breakpoint-pseudo' as *;
+@use '../breakpoint-dive' as *;
+
+@use '../../../helpers/strings' as *;
+@use '../../../helpers/numbers' as *;
+
+@mixin bp-increment-bool($label, $property, $value, $negatives, $pseudos, $dives, $bpLabel, $bpValue, $paradigm) {
+    $iterator: '';
+
+    @if $negatives {
+        $iterator: -6;
+    } @else {
+        $iterator: 0.5;
+    }
+
+    @while $iterator <= 6 {
+        $newLabel: $label;
+        $newValue: $value * $iterator;
+
+        @if $negatives and $iterator < 0 and $iterator != -1 {
+            @if isDecimal($iterator) {
+                $newLabel: -#{$label}-#{secondChar($iterator)}\.5;
+            } @else {
+                $newLabel: -#{$label + $iterator};
+            }
+        } @else if $iterator > 0 and $iterator != 1 {
+            @if isDecimal($iterator) {
+                $newLabel: #{$label}-#{firstChar($iterator)}\.5;
+            } @else {
+                $newLabel: #{$label}-#{$iterator};
+            }
+        }
+
+        @if $iterator != 0 and $iterator != -1 and $iterator != 1 {
+            .#{$bpLabel}\:#{$newLabel} {
+                @media (#{$paradigm}: $bpValue) {
+                    #{$property}: $newValue !important;
+                }
+            }
+        }
+
+        @if $pseudos {
+            @include breakpoint-pseudify($newLabel, $property, $newValue, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
+        }
+
+        @if $dives {
+            @include breakpoint-diver($newLabel, $property, $newValue, $bpLabel, $bpValue, $paradigm);
+        }
+
+        $iterator: $iterator + 0.5;
+    }
+}

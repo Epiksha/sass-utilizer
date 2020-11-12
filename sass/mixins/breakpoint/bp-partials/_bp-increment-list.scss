@@ -1,18 +1,10 @@
-@use '../pseudo/index' as *;
-@use '../dive/index' as *;
+@use '../breakpoint-pseudo' as *;
+@use '../breakpoint-dive' as *;
 
-@use '../../helpers/strings' as *;
-@use '../../helpers/numbers' as *;
+@use '../../../helpers/strings' as *;
+@use '../../../helpers/numbers' as *;
 
-@mixin increment-list(
-    $increments,
-    $label,
-    $property,
-    $value,
-    $negatives,
-    $pseudos,
-    $dives
-) {
+@mixin bp-increment-list($increments, $label, $property, $value, $negatives, $pseudos, $dives, $bpLabel, $bpValue, $paradigm) {
     @each $increment in $increments {
         $newLabel: '';
         $newValue: $value * $increment;
@@ -33,16 +25,18 @@
             }
         }
 
-        .#{$newLabel} {
-            #{$property}: $newValue !important;
+        .#{$bpLabel}\:#{$newLabel} {
+            @media (#{$paradigm}: $bpValue) {
+                #{$property}: $newValue !important;
+            }
         }
 
-        @if $pseudos != false {
-            @include pseudify($newLabel, $property, $newValue, $negatives, $pseudos, $dives);
+        @if $pseudos {
+            @include breakpoint-pseudify($newLabel, $property, $newValue, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
         }
 
         @if $dives {
-            @include diver($newLabel, $property, $newValue);
+            @include breakpoint-diver($newLabel, $property, $newValue, $bpLabel, $bpValue, $paradigm);
         }
     }
 }

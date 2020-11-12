@@ -2,6 +2,7 @@
 @use 'mixins/direction/index' as *;
 @use 'mixins/dive/index' as *;
 @use 'mixins/pseudo/index' as *;
+@use 'mixins/breakpoint/index' as *;
 
 @mixin generator(
     $label,
@@ -44,5 +45,9 @@
 
     @if $pseudos {
         @include pseudify($label, $property, $value, $negatives, $pseudos, $dives);
+    }
+
+    @if $breakpoints {
+        @include breakpointify($label, $property, $value, $negatives, $directions, $increments, $pseudos, $dives);
     }
 };

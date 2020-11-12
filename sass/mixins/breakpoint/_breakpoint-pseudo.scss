@@ -1,0 +1,9 @@
+@mixin breakpoint-pseudify($label, $property, $value, $pseudos, $dives, $bpLabel, $bpValue, $paradigm) {
+    @each $pseudo in $pseudos {
+        @media (#{$paradigm}: $bpValue) {
+            .#{$bpLabel}\:#{$pseudo}\:#{$label}:#{$pseudo} {
+                #{$property}: $value !important;
+            }
+        }
+    }
+}

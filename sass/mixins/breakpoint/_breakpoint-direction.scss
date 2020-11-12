@@ -1,0 +1,59 @@
+@use 'breakpoint-increment' as *;
+@use 'breakpoint-pseudo' as *;
+@use 'breakpoint-dive' as *;
+
+@use '../../helpers/strings' as *;
+
+@mixin breakpoint-directionify(
+    $label,
+    $property,
+    $value,
+    $negatives,
+    $increments,
+    $pseudos,
+    $dives,
+    $bpLabel,
+    $bpValue,
+    $paradigm
+) {
+    $directions: top, right, bottom, left;
+    $newLabel: '';
+    $newProp: '';
+
+    @each $direction in $directions {
+        $newLabel: #{$label + firstChar($direction)};
+        $newProp: #{$property}-#{$direction};
+
+        .#{$bpLabel}\:#{$newLabel} {
+            @media (#{$paradigm}: $bpValue) {
+                #{$newProp}: $value !important;
+            }
+        }
+        
+        @if $negatives {
+            .#{$bpLabel}\:-#{$newLabel} {
+                @media (#{$paradigm}: $bpValue) {
+                    #{$newProp}: -$value !important;
+                }
+            }
+        }
+
+        .#{$bpLabel}\:#{$newLabel}-0 {
+            @media (#{$paradigm}: $bpValue) {
+                #{$newProp}: 0 !important;
+            }
+        }
+
+        @if $increments {
+            @include breakpoint-incrementify($newLabel, $property, $value, $negatives, $increments, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
+        }
+
+        @if $pseudos {
+            @include breakpoint-pseudify($newLabel, $property, $value, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
+        }
+
+        @if $dives {
+            @include breakpoint-diver($newLabel, $property, $value, $bpLabel, $bpValue, $paradigm);
+        }
+    }
+}

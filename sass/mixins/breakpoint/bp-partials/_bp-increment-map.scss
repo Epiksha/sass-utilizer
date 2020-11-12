@@ -1,0 +1,62 @@
+@use '../breakpoint-pseudo' as *;
+@use '../breakpoint-dive' as *;
+
+@use '../../../helpers/strings' as *;
+@use '../../../helpers/numbers' as *;
+
+@mixin bp-increment-map($increments, $label, $property, $value, $negatives, $pseudos, $dives, $bpLabel, $bpValue, $paradigm) {
+    $factor: false;
+    $max: false;
+    $min: false;
+
+    @each $incrementProperty, $incrementValue in $increments {
+        @if $incrementProperty == factor {
+            $factor: $incrementValue;
+        } @else if $incrementProperty == max {
+            $max: $incrementValue;
+        } @else if $incrementProperty == min {
+            $min: $incrementValue;
+        }
+    }
+
+    $iterableFactor: $min;
+
+    @while $iterableFactor <= $max {
+        $newValue: $value * $iterableFactor;
+        $newLabel: '';
+
+        @if $iterableFactor != 1 and $iterableFactor != 0 and $iterableFactor != -1 {
+            @if $iterableFactor < 0 {
+                @if isDecimal($iterableFactor) {
+                    $newLabel: -#{$label}-#{secondChar($iterableFactor)}\.#{sliceEnd($iterableFactor, 4)};
+                } @else {
+                    $newLabel: -#{$label + $iterableFactor};
+                }
+            } @else if $iterableFactor > 0 {
+                @if isDecimal($iterableFactor) {
+                    $newLabel: #{$label}-#{firstChar($iterableFactor)}\.#{sliceEnd($iterableFactor, 3)};
+                } @else {
+                    $newLabel: #{$label}-#{$iterableFactor};
+                }
+            }
+
+            @if $newLabel != "" {
+                .#{$bpLabel}\:#{$newLabel} {
+                    @media (#{$paradigm}: $bpValue) {
+                        #{$property}: $newValue !important;
+                    }
+                }
+                
+                @if $pseudos {
+                    @include breakpoint-pseudify($newLabel, $property, $newValue, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
+                }
+        
+                @if $dives {
+                    @include breakpoint-diver($newLabel, $property, $newValue, $bpLabel, $bpValue, $paradigm);
+                }
+            }
+        }
+
+        $iterableFactor: $iterableFactor + $factor;
+    }
+}

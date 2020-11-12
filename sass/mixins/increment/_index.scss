@@ -16,9 +16,9 @@
         @include increment-map($increments, $label, $property, $value, $negatives, $pseudos, $dives);
     } @else if type-of($increments) == list {
         @include increment-list($increments, $label, $property, $value, $negatives, $pseudos, $dives);
-    } @else if $increments {
+    } @else if $increments == true {
         @include increment-bool($label, $property, $value, $negatives, $pseudos, $dives);
     } @else if $increments != false {
-        @error 'Increments property for #{$label} utility is invalid';
+        @error 'Increments property for \'#{$label}\' utility is invalid';
     }
 }

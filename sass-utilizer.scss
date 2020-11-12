@@ -6,15 +6,12 @@ $utilities: (
             margin: 1rem
         ),
         directions: true,
-        increments: (
-            min: -2,
-            max: 6,
-            factor: 0.5
-        ),
+        increments: true,
         negatives: true,
-        dives: true,
-        states: (hover)
-    ),
+        breakpoints: true,
+        pseudos: (hover, focus),
+        dives: true
+    )
 );
 
 @if variable-exists(utilities) {
@@ -23,7 +20,7 @@ $utilities: (
         $directions: false;
         $increments: false;
         $negatives: false;
-        $states: false;
+        $pseudos: false;
         $dives: false;
         $breakpoints: true;
 
@@ -39,8 +36,8 @@ $utilities: (
                         $increments: $utilityValue;
                     } @else if $utilityProperty == negatives {
                         $negatives: $utilityValue;
-                    } @else if $utilityProperty == states {
-                        $states: $utilityValue;
+                    } @else if $utilityProperty == pseudos {
+                        $pseudos: $utilityValue;
                     } @else if $utilityProperty == dives {
                         $dives: $utilityValue;
                     } @else if $utilityProperty == directions {
@@ -60,7 +57,7 @@ $utilities: (
                 $increments,
                 $breakpoints,
                 $dives,
-                $states
+                $pseudos
             );
         }
     }
