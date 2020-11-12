@@ -1,4 +1,4 @@
-@use 'sass/generator' as *;
+@use 'generator' as *;
 
 @mixin render($utilities: false, $breakpointConfig: false) {
     @if $utilities != false {

@@ -3,7 +3,7 @@
     "version": "2.3.3",
     "description": "A dynamic utility builder for SASS (SCSS) aimed at generating utilities with little to no config.",
     "author": "Calvin Tiley",
-    "main": "sass-utilizer.scss",
+    "main": "sass/sass-utilizer.scss",
     "license": "ISC",
     "keywords": [
         "sass",
@@ -15,9 +15,9 @@
         "dynamic"
     ],
     "scripts": {
-        "start": "sass sass-utilizer.scss:sass-utilizer.css --no-source-map",
-        "watch": "sass sass-utilizer.scss:sass-utilizer.css --watch --no-source-map",
-        "test": "sass sass-utilizer.scss:sass-utilizer.css --no-source-map",
+        "compile": "sass test-entry.scss:test-entry.css --no-source-map",
+        "watch": "sass test-entry.scss:test-entry.css --watch --no-source-map",
+        "build:docs": "sassdoc sass/sass-utilizer.scss",
         "preversion": "npm test",
         "postversion": "git push && git push --tags && npm publish",
         "postpublish": "git checkout development && git merge master && git push"
@@ -36,13 +36,12 @@
         }
     },
     "dependencies": {
-        "eyeglass": "^3.0.2",
-        "sass": "^1.26.5",
-        "sass-true": "^6.0.1"
+        "sass": "^1.26.5"
     },
     "devDependencies": {
         "@commitlint/cli": "^11.0.0",
         "@commitlint/config-conventional": "^11.0.0",
-        "husky": "^4.3.0"
+        "husky": "^4.3.0",
+        "sassdoc": "^2.7.3"
     }
 }

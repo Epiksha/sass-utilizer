@@ -1,0 +1,25 @@
+@use 'utilizer' as *;
+
+$utilities: (
+    m: (
+        styles: (
+            margin: 1rem
+        ),
+        directions: true,
+        increments: true,
+        negatives: true,
+        breakpoints: true,
+        pseudos: (hover, focus)
+    )
+);
+
+$bpConfig: (
+    breakpoints: (
+        sm: 568px,
+        md: 780px,
+        lg: 1200px,
+    ),
+    paradigm: max-width
+);
+
+@include render($utilities, $bpConfig);
