@@ -1,0 +1,68 @@
+@use '../pseudo/index' as *;
+@use '../dive/index' as *;
+
+@use '../../helpers/strings' as *;
+@use '../../helpers/numbers' as *;
+
+@mixin increment-map(
+    $increments,
+    $label,
+    $property,
+    $value,
+    $negatives,
+    $pseudos,
+    $dives
+) {
+    $factor: false;
+    $max: false;
+    $min: false;
+
+    @each $incrementProperty, $incrementValue in $increments {
+        @if $incrementProperty == factor {
+            $factor: $incrementValue;
+        } @else if $incrementProperty == max {
+            $max: $incrementValue;
+        } @else if $incrementProperty == min {
+            $min: $incrementValue;
+        }
+    }
+
+    $iterableFactor: $min;
+
+    @while $iterableFactor <= $max {
+        $newValue: $value * $iterableFactor;
+        $newLabel: '';
+
+        @if $iterableFactor != 1 and $iterableFactor != 0 and $iterableFactor != -1 {
+            @if $iterableFactor < 0 {
+                @if isDecimal($iterableFactor) {
+                    $newLabel: -#{$label}-#{secondChar($iterableFactor)}\.#{sliceEnd($iterableFactor, 4)};
+                } @else {
+                    $newLabel: -#{$label + $iterableFactor};
+                }
+            } @else if $iterableFactor > 0 {
+                @if isDecimal($iterableFactor) {
+                    $newLabel: #{$label}-#{firstChar($iterableFactor)}\.#{sliceEnd($iterableFactor, 3)};
+                } @else {
+                    $newLabel: #{$label}-#{$iterableFactor};
+                }
+            }
+            
+            @if $newLabel != "" {
+                .#{$newLabel} {
+                    #{$property}: $newValue !important;
+                }
+            }
+
+            @if $pseudos != false {
+                @include pseudify($newLabel, $property, $newValue, $negatives, $pseudos, $dives);
+            }
+
+            @if $dives != false {
+                @include diver($newLabel, $property, $newValue);
+            }
+        }
+
+        $iterableFactor: $iterableFactor + $factor;
+    }
+};

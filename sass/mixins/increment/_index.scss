@@ -1,0 +1,24 @@
+@use 'increment-bool' as *;
+@use 'increment-map' as *;
+@use 'increment-list' as *;
+
+// Add multiplication modifiers in increments
+@mixin incrementify(
+    $label,
+    $property,
+    $value,
+    $negatives,
+    $increments,
+    $pseudos,
+    $dives
+) {
+    @if type-of($increments) == map {
+        @include increment-map($increments, $label, $property, $value, $negatives, $pseudos, $dives);
+    } @else if type-of($increments) == list {
+        @include increment-list($increments, $label, $property, $value, $negatives, $pseudos, $dives);
+    } @else if $increments {
+        @include increment-bool($label, $property, $value, $negatives, $pseudos, $dives);
+    } @else if $increments != false {
+        @error 'Increments property for #{$label} utility is invalid';
+    }
+}

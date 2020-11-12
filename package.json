@@ -15,7 +15,9 @@
         "dynamic"
     ],
     "scripts": {
-        "test": "node-sass sass-utilizer.scss sass-utilizer.css --output-style=expanded",
+        "start": "sass sass-utilizer.scss:sass-utilizer.css --no-source-map",
+        "watch": "sass sass-utilizer.scss:sass-utilizer.css --watch --no-source-map",
+        "test": "sass sass-utilizer.scss:sass-utilizer.css --no-source-map",
         "preversion": "npm test",
         "postversion": "git push && git push --tags && npm publish",
         "postpublish": "git checkout development && git merge master && git push"
@@ -29,7 +31,7 @@
     },
     "homepage": "https://github.com/Epiksha/sass-utilizer#readme",
     "dependencies": {
-        "node-sass": "^4.14.1",
-        "sass": "^1.26.5"
+        "sass": "^1.26.5",
+        "sass-true": "^6.0.1"
     }
 }

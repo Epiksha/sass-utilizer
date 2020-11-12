@@ -1,0 +1,48 @@
+@use 'mixins/increment/index' as *;
+@use 'mixins/direction/index' as *;
+@use 'mixins/dive/index' as *;
+@use 'mixins/pseudo/index' as *;
+
+@mixin generator(
+    $label,
+    $property,
+    $value,
+    $negatives,
+    $directions,
+    $increments,
+    $breakpoints,
+    $dives,
+    $pseudos
+) {
+    // Basic Utilities
+    .#{$label} {
+        #{$property}: $value !important;
+    }
+
+    .#{$label}-0 {
+        #{$property}: 0 !important;
+    }
+
+    @if $negatives {
+        .-#{$label} {
+            #{$property}: -#{$value} !important;
+        }
+    }
+
+    // Modifier Utilities
+    @if $increments {
+        @include incrementify($label, $property, $value, $negatives, $increments, $pseudos, $dives);
+    }
+
+    @if $directions {
+        @include directionify($label, $property, $value, $negatives, $increments, $pseudos, $dives);
+    }
+
+    @if $dives {
+        @include diver($label, $property, $value);
+    }
+
+    @if $pseudos {
+        @include pseudify($label, $property, $value, $negatives, $pseudos, $dives);
+    }
+};

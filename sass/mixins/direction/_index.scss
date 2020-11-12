@@ -1,0 +1,53 @@
+@use '../increment/index' as *;
+@use '../pseudo/index' as *;
+@use '../dive/index' as *;
+
+@use '../../helpers/strings' as *;
+
+// Add direction modifiers (top, left, bottom, right)
+@mixin directionify(
+    $label,
+    $property,
+    $value,
+    $negatives,
+    $increments,
+    $pseudos,
+    $dives
+) {
+    $directions: top, right, bottom, left;
+    $newLabel: '';
+    $newProp: '';
+
+    @each $direction in $directions {
+        $newLabel: #{$label + firstChar($direction)};
+        $newProp: #{$property}-#{$direction};
+
+        .#{$newLabel} {
+            #{$newProp}: $value !important;
+        }
+        
+        @if $negatives {
+            .-#{$newLabel} {
+                #{$newProp}: -$value !important;
+            }
+        }
+
+        $zeroLabel: #{$newLabel}-0;
+
+        .#{$zeroLabel} {
+            #{$newProp}: 0 !important;
+        }
+
+        @if $increments {
+            @include incrementify($newLabel, $newProp, $value, $negatives, $increments, $pseudos, $dives);
+        }
+    
+        @if $pseudos {
+            @include pseudify($newLabel, $newProp, $value, $negatives, $pseudos, $dives);
+        }
+    
+        @if $dives {
+            @include diver($newLabel, $newProp, $value);
+        }
+    }
+}

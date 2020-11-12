@@ -1,0 +1,3 @@
+@function isDecimal($num) {
+    @return round($num) != $num;
+}

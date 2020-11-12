@@ -1,76 +1,67 @@
-@import './sass/helpers';
-@import './sass/mixins';
+@use 'sass/generator' as *;
+
+$utilities: (
+    m: (
+        styles: (
+            margin: 1rem
+        ),
+        directions: true,
+        increments: (
+            min: -2,
+            max: 6,
+            factor: 0.5
+        ),
+        negatives: true,
+        dives: true,
+        states: (hover)
+    ),
+);
 
 @if variable-exists(utilities) {
-    @each $label, $utilityObject in $utilities {
-        @each $property, $value in $utilityObject {
-            // Create configuration for utility
-            $directions: false;
-            $breakpoints: false;
-            $increments: false;
-            $negatives: false;
-            $states: false;
-            $dives: false;
+    @each $label, $class in $utilities {
+        $styles: ();
+        $directions: false;
+        $increments: false;
+        $negatives: false;
+        $states: false;
+        $dives: false;
+        $breakpoints: true;
 
-            @each $configLabel, $configObject in $utilityConfig {
-                @if $configLabel == $label {
-                    @each $configProperty, $configValue in $configObject { 
-                        @if $configProperty == directions {
-                            $directions: $configValue;
-                        } @else if $configProperty == breakpoints {
-                            $breakpoints: $configValue;
-                        } @else if $configProperty == increments {
-                            $increments: $configValue;
-                        } @else if $configProperty == negatives {
-                            $negatives: $configValue;
-                        } @else if $configProperty == states {
-                            $states: $configValue;
-                        } @else if $configProperty == dives {
-                            $dives: $configValue;
-                        }
+        // Assign config values
+        @each $property, $value in $class {
+            @each $utilityName, $utilityObject in $utilities {
+                @each $utilityProperty, $utilityValue in $utilityObject { 
+                    @if $utilityProperty == styles {
+                        $styles: $utilityValue;
+                    } @else if $utilityProperty == breakpoints {
+                        $breakpoints: $utilityValue;
+                    } @else if $utilityProperty == increments {
+                        $increments: $utilityValue;
+                    } @else if $utilityProperty == negatives {
+                        $negatives: $utilityValue;
+                    } @else if $utilityProperty == states {
+                        $states: $utilityValue;
+                    } @else if $utilityProperty == dives {
+                        $dives: $utilityValue;
+                    } @else if $utilityProperty == directions {
+                        $directions: $utilityValue;
                     }
                 }
             }
+        }
 
-            .#{$label} {
-                #{$property}: $value !important;
-            }
-
-            // Negatives
-            @if $negatives {
-                .-#{$label} {
-                    #{$property}: -#{$value} !important;
-                }
-            }
-    
-            // Directions
-            @if $directions != false {
-                @include directioner($label, $property, $value, $increments, $negatives, $breakpoints, $dives, $states);
-            }
-    
-            // Increments
-            @if $increments != false {
-                @include incrementer($increments, $negatives, $label, $property, $value, $breakpoints, $dives, $states);
-            }
-            
-            // States
-            @if $states != false {
-                @include stater($states, $label, $property, $value);
-
-                @if $negatives {
-                    @include stater($states, -$label, $property, -$value);
-                }
-            }
-            
-            // Breakpoints
-            @if $breakpoints != false {
-                @include breakpointer($label, $property, $value, $dives, $states);
-            }
-            
-            // Dives
-            @if $dives != false {
-                @include diver($label, $property, $value);
-            }
+        @each $property, $value in $styles {
+            @include generator(
+                $label,
+                $property,
+                $value,
+                $negatives,
+                $directions,
+                $increments,
+                $breakpoints,
+                $dives,
+                $states
+            );
         }
     }
 }

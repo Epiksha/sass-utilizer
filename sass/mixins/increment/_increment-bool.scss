@@ -1,0 +1,57 @@
+@use '../pseudo/index' as *;
+@use '../dive/index' as *;
+
+@use '../../helpers/strings' as *;
+@use '../../helpers/numbers' as *;
+
+@mixin increment-bool(
+    $label,
+    $property,
+    $value,
+    $negatives,
+    $pseudos,
+    $dives
+) {
+    $iterator: '';
+
+    @if $negatives {
+        $iterator: -6;
+    } @else {
+        $iterator: 0.5;
+    }
+
+    @while $iterator <= 6 {
+        $newLabel: $label;
+        $newValue: $value * $iterator;
+
+        @if $negatives and $iterator < 0 and $iterator != -1 {
+            @if isDecimal($iterator) {
+                $newLabel: -#{$label}-#{secondChar($iterator)}\.5;
+            } @else {
+                $newLabel: -#{$label + $iterator};
+            }
+        } @else if $iterator > 0 and $iterator != 1 {
+            @if isDecimal($iterator) {
+                $newLabel: #{$label}-#{firstChar($iterator)}\.5;
+            } @else {
+                $newLabel: #{$label}-#{$iterator};
+            }
+        }
+
+        @if $iterator != 0 and $iterator != -1 and $iterator != 1 {
+            .#{$newLabel} {
+                #{$property}: $newValue !important;
+            }
+            
+            @if $pseudos {
+                @include pseudify($newLabel, $property, $newValue, $negatives, $pseudos, $dives);
+            }
+            
+            @if $dives {
+                @include diver($newLabel, $property, $newValue);
+            }
+        }
+
+        $iterator: $iterator + 0.5;
+    }
+}

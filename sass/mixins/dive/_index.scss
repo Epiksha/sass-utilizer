@@ -1,0 +1,6 @@
+// Add class styling to children
+@mixin diver($label, $property, $value) {
+    .#{$label}-dive > * {
+        #{$property}: $value !important;
+    }
+}
