@@ -45,15 +45,15 @@
         }
 
         @if $increments {
-            @include breakpoint-incrementify($newLabel, $property, $value, $negatives, $increments, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
+            @include breakpoint-incrementify($newLabel, $newProp, $value, $negatives, $increments, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
         }
 
         @if $pseudos {
-            @include breakpoint-pseudify($newLabel, $property, $value, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
+            @include breakpoint-pseudify($newLabel, $newProp, $value, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
         }
 
         @if $dives {
-            @include breakpoint-diver($newLabel, $property, $value, $bpLabel, $bpValue, $paradigm);
+            @include breakpoint-diver($newLabel, $newProp, $value, $bpLabel, $bpValue, $paradigm);
         }
     }
 }

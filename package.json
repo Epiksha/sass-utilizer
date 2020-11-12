@@ -30,14 +30,15 @@
         "url": "https://github.com/Epiksha/sass-utilizer/issues"
     },
     "homepage": "https://github.com/Epiksha/sass-utilizer#readme",
-    "dependencies": {
-        "sass": "^1.26.5",
-        "sass-true": "^6.0.1"
-    },
     "husky": {
         "hooks": {
             "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
         }
+    },
+    "dependencies": {
+        "eyeglass": "^3.0.2",
+        "sass": "^1.26.5",
+        "sass-true": "^6.0.1"
     },
     "devDependencies": {
         "@commitlint/cli": "^11.0.0",

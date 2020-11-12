@@ -37,14 +37,14 @@
                     #{$property}: $newValue !important;
                 }
             }
-        }
-
-        @if $pseudos {
-            @include breakpoint-pseudify($newLabel, $property, $newValue, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
-        }
-
-        @if $dives {
-            @include breakpoint-diver($newLabel, $property, $newValue, $bpLabel, $bpValue, $paradigm);
+            
+            @if $pseudos {
+                @include breakpoint-pseudify($newLabel, $property, $newValue, $pseudos, $dives, $bpLabel, $bpValue, $paradigm);
+            }
+    
+            @if $dives {
+                @include breakpoint-diver($newLabel, $property, $newValue, $bpLabel, $bpValue, $paradigm);
+            }
         }
 
         $iterator: $iterator + 0.5;

@@ -12,6 +12,7 @@
     $directions,
     $increments,
     $breakpoints,
+    $bpConfig,
     $dives,
     $pseudos
 ) {
@@ -48,6 +49,6 @@
     }
 
     @if $breakpoints {
-        @include breakpointify($label, $property, $value, $negatives, $directions, $increments, $pseudos, $dives);
+        @include breakpointify($label, $property, $value, $negatives, $directions, $increments, $pseudos, $dives, $bpConfig);
     }
 };

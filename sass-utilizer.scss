@@ -1,64 +1,55 @@
 @use 'sass/generator' as *;
 
-$utilities: (
-    m: (
-        styles: (
-            margin: 1rem
-        ),
-        directions: true,
-        increments: true,
-        negatives: true,
-        breakpoints: true,
-        pseudos: (hover, focus),
-        dives: true
-    )
-);
-
-@if variable-exists(utilities) {
-    @each $label, $class in $utilities {
-        $styles: ();
-        $directions: false;
-        $increments: false;
-        $negatives: false;
-        $pseudos: false;
-        $dives: false;
-        $breakpoints: true;
-
-        // Assign config values
-        @each $property, $value in $class {
-            @each $utilityName, $utilityObject in $utilities {
-                @each $utilityProperty, $utilityValue in $utilityObject { 
-                    @if $utilityProperty == styles {
-                        $styles: $utilityValue;
-                    } @else if $utilityProperty == breakpoints {
-                        $breakpoints: $utilityValue;
-                    } @else if $utilityProperty == increments {
-                        $increments: $utilityValue;
-                    } @else if $utilityProperty == negatives {
-                        $negatives: $utilityValue;
-                    } @else if $utilityProperty == pseudos {
-                        $pseudos: $utilityValue;
-                    } @else if $utilityProperty == dives {
-                        $dives: $utilityValue;
-                    } @else if $utilityProperty == directions {
-                        $directions: $utilityValue;
+@mixin render($utilities: false, $breakpointConfig: false) {
+    @if $utilities != false {
+        @each $label, $class in $utilities {
+            $styles: ();
+            $directions: false;
+            $increments: false;
+            $negatives: false;
+            $pseudos: false;
+            $dives: false;
+            $breakpoints: false;
+    
+            // Assign config values
+            @each $property, $value in $class {
+                @each $utilityName, $utilityObject in $utilities {
+                    @each $utilityProperty, $utilityValue in $utilityObject { 
+                        @if $utilityProperty == styles {
+                            $styles: $utilityValue;
+                        } @else if $utilityProperty == breakpoints and $breakpointConfig {
+                            $breakpoints: $utilityValue;
+                        } @else if $utilityProperty == increments {
+                            $increments: $utilityValue;
+                        } @else if $utilityProperty == negatives {
+                            $negatives: $utilityValue;
+                        } @else if $utilityProperty == pseudos {
+                            $pseudos: $utilityValue;
+                        } @else if $utilityProperty == dives {
+                            $dives: $utilityValue;
+                        } @else if $utilityProperty == directions {
+                            $directions: $utilityValue;
+                        }
                     }
                 }
             }
+    
+            @each $property, $value in $styles {
+                @include generator(
+                    $label,
+                    $property,
+                    $value,
+                    $negatives,
+                    $directions,
+                    $increments,
+                    $breakpoints,
+                    $breakpointConfig,
+                    $dives,
+                    $pseudos
+                );
+            }
         }
-
-        @each $property, $value in $styles {
-            @include generator(
-                $label,
-                $property,
-                $value,
-                $negatives,
-                $directions,
-                $increments,
-                $breakpoints,
-                $dives,
-                $pseudos
-            );
-        }
+    } @else {
+        @error 'No utilities passed into sass-utilizer render mixin'
     }
 }
