@@ -33,16 +33,19 @@
             }
         }
 
-        .#{$newLabel} {
-            #{$property}: $newValue !important;
+        @if $newLabel != "" {
+            .#{$newLabel} {
+                #{$property}: $newValue !important;
+            }
+            
+            @if $pseudos {
+                @include pseudify($newLabel, $property, $newValue, $negatives, $pseudos, $dives);
+            }
+    
+            @if $dives {
+                @include diver($newLabel, $property, $newValue);
+            }
         }
 
-        @if $pseudos != false {
-            @include pseudify($newLabel, $property, $newValue, $negatives, $pseudos, $dives);
-        }
-
-        @if $dives {
-            @include diver($newLabel, $property, $newValue);
-        }
     }
 }

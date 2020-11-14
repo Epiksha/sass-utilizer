@@ -18,8 +18,8 @@
         "compile": "sass test-entry.scss:test-entry.css --no-source-map",
         "watch": "sass test-entry.scss:test-entry.css --watch --no-source-map",
         "build:docs": "sassdoc sass/_sass-utilizer.scss -d documentation",
-        "test": "sass spec/utilizer-spec.scss",
-        "test:watch": "sass spec/utilizer-spec.scss:spec/utilizer-spec.css --watch --no-source-map",
+        "test": "jest",
+        "test:watch": "jest --watch",
         "preversion": "npm test",
         "postversion": "git push && git push --tags && npm publish",
         "postpublish": "git checkout development && git merge master && git push"
@@ -37,15 +37,19 @@
             "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
         }
     },
+    "jest": {
+        "testEnvironment": "node"
+    },
     "dependencies": {
         "sass": "^1.26.5"
     },
     "devDependencies": {
         "@commitlint/cli": "^11.0.0",
         "@commitlint/config-conventional": "^11.0.0",
+        "glob": "^7.1.6",
         "husky": "^4.3.0",
+        "jest": "^26.6.3",
         "sass-true": "^6.0.1",
-        "sassdoc": "^2.7.3",
         "stylelint": "^13.7.2"
     }
 }

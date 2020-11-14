@@ -1,8 +1,8 @@
 @use '../../../node_modules/sass-true/index' as *;
 @use '../../../sass/helpers/strings';
 
-@include describe('Returns the second character of what is passed in') {
-    @include it('will return the second character of a string') {
+@include describe('Get second character') {
+    @include it('returns the second character of a string') {
         $value: 'Jump over the moon';
 
         $test: strings.secondChar($value);
@@ -10,7 +10,7 @@
         @include assert-equal($test, 'u', "'u' is returned if #{$value} is passed in");
     }
     
-    @include it('will return the second character of a number as a string') {
+    @include it('returns the second character of a number cast as a string') {
         $value: 12;
 
         $test: strings.secondChar($value);
@@ -18,7 +18,7 @@
         @include assert-equal($test, "2", "12 returns '2' as a string");
     }
 
-    @include it('will return the second character of a boolean as a string') {
+    @include it('returns the second character of a boolean cast as a string') {
         $value: false;
 
         $test: strings.secondChar($value);

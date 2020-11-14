@@ -1,0 +1,112 @@
+@use '../../../node_modules/sass-true/index' as *;
+@use '../../../sass/mixins/direction/index' as *;
+
+@use 'expector';
+
+@include describe('Generate direction utilities (top, right, bottom, left') {
+    @include it('outputs basic direction utilities') {
+        @include assert {
+            @include output {
+                @include directionify(m, margin, 1rem, false, false, false, false);
+            }
+    
+            @include expect {
+                @include expector.basic;
+            }
+        }
+    }
+    
+    // Negatives
+    @include it('outputs basic and negative direction utilities') {
+        @include assert {
+            @include output {
+                @include directionify(m, margin, 1rem, true, false, false, false);
+            }
+    
+            @include expect {
+                @include expector.includeNegatives;
+            }
+        }
+    }
+    
+    // Increments - True
+    @include it('outputs basic, negative and incremental direction utilities (increments as true)') {
+        @include assert {
+            @include output {
+                $increments: true;
+
+                @include directionify(m, margin, 1rem, true, $increments, false, false);
+            }
+    
+            @include expect {
+                @include expector.includeIncrementsAsTrue;
+            }
+        }
+    }
+
+    // Increments - List
+    @include it('outputs basic, negative and incremental direction utilities (increments as a list)') {
+        @include assert {
+            @include output {
+                $increments: (-1.5, 2, 5);
+
+                @include directionify(m, margin, 1rem, true, $increments, false, false);
+            }
+    
+            @include expect {
+                @include expector.includeIncrementsAsList;
+            }
+        }
+    }
+    
+    // Increments - Map
+    @include it('outputs basic, negative and incremental direction utilities (increments as a map)') {
+        @include assert {
+            @include output {
+                $increments: (
+                    min: -2,
+                    max: 2,
+                    factor: 0.5
+                );
+                
+                @include directionify(m, margin, 1rem, true, $increments, false, false);
+            }
+    
+            @include expect {
+                @include expector.includeIncrementsAsMap;
+            }
+        }
+    }
+    
+    // Pseudos
+    @include it('outputs basic, negative, incremental and pseudo direction utilities') {
+        @include assert {
+            @include output {
+                $increments: (1, 2, 3);
+                $pseudos: (hover, focus);
+
+                @include directionify(m, margin, 1rem, true, $increments, $pseudos, false);
+            }
+    
+            @include expect {
+                @include expector.includePseudos;
+            }
+        }
+    }
+
+    // Dives
+    @include it('outputs basic, negative, incremental, pseudo and dive direction utilities') {
+        @include assert {
+            @include output {
+                $increments: (1, 2, 3);
+                $pseudos: (hover, focus);
+
+                @include directionify(m, margin, 1rem, true, $increments, $pseudos, true);
+            }
+    
+            @include expect {
+                @include expector.includeDives;
+            }
+        }
+    }
+}
