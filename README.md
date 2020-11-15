@@ -139,7 +139,7 @@ By setting `increments` to a map with `min`, `max` and `factor` properties, you 
 
 ```scss
 .-mb-3.5 {
-    margin: -3.5rem !important;
+    margin-bottom: -3.5rem !important;
 }
 
 .-m-1.5 {
@@ -154,8 +154,8 @@ By setting `increments` to a map with `min`, `max` and `factor` properties, you 
     margin: 3.5rem !important;
 }
 
-.mb-4 {
-    margin: 4rem !important;
+.ml-4 {
+    margin-left: 4rem !important;
 }
 ```
 
@@ -226,7 +226,7 @@ The final configuration property is `dives`. If set to true, modifier classes wi
 ```scss
 .xxl:mt-2 {
     @media (max-width: 1700px) {
-        margin-right: 2rem !important;
+        margin-top: 2rem !important;
     }
 }
 ```
@@ -236,7 +236,7 @@ would have a counterpart utility, output as the following:
 ```scss
 .xxl:mt-2-dive > * {
     @media (max-width: 1700px) {
-        margin-right: 2rem !important;
+        margin-top: 2rem !important;
     }
 }
 ```
