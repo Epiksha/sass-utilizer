@@ -39,7 +39,7 @@ At its core, Sass Utilizer is essentially a mixin that will consume basic utilit
 Here's an example of setting up Utilizer with a basic margin utility:
 
 ```scss
-@use 'sass-utilizer' as *;
+@use 'sass-utilizer';
 
 $utilities: (
     m: (
@@ -63,7 +63,7 @@ $bpConfig: (
     paradigm: min-width
 );
 
-@include utilizer.render($utilities, $bpConfig);
+@include sass-utilizer.render($utilities, $bpConfig);
 ```
 
 To outline the above:
