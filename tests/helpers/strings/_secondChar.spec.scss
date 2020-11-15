@@ -1,7 +1,7 @@
 @use '../../../node_modules/sass-true/index' as *;
 @use '../../../sass/helpers/strings';
 
-@include describe('Get second character') {
+@include describe('secondChar() - Get second character') {
     @include it('returns the second character of a string') {
         $value: 'Jump over the moon';
 

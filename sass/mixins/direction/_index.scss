@@ -43,7 +43,7 @@
         }
     
         @if $pseudos {
-            @include pseudify($newLabel, $newProp, $value, $negatives, $pseudos, $dives);
+            @include pseudify($newLabel, $newProp, $value, $pseudos);
         }
     
         @if $dives {

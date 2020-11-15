@@ -44,7 +44,7 @@
         }
 
         @if $pseudos {
-            @include breakpoint-pseudify($label, $property, $value, $pseudos, $dives, $breakpointLabel, $breakpointValue, $paradigm);
+            @include breakpoint-pseudify($label, $property, $value, $pseudos, $breakpointLabel, $breakpointValue, $paradigm);
         }
 
         @if $dives {

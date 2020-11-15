@@ -1,4 +1,4 @@
-@use 'utilizer' as *;
+@use 'utilizer';
 
 $utilities: (
     m: (
@@ -22,4 +22,4 @@ $bpConfig: (
     paradigm: max-width
 );
 
-@include render($utilities, $bpConfig);
+@include utilizer.render($utilities, $bpConfig);

@@ -1,0 +1,755 @@
+@mixin basic() {
+    .m-0\.5 {
+        margin: 0.5rem !important;
+    }
+  
+    .m-1\.5 {
+        margin: 1.5rem !important;
+    }
+  
+    .m-2 {
+        margin: 2rem !important;
+    }
+  
+    .m-2\.5 {
+        margin: 2.5rem !important;
+    }
+  
+    .m-3 {
+        margin: 3rem !important;
+    }
+  
+    .m-3\.5 {
+        margin: 3.5rem !important;
+    }
+  
+    .m-4 {
+        margin: 4rem !important;
+    }
+  
+    .m-4\.5 {
+        margin: 4.5rem !important;
+    }
+  
+    .m-5 {
+        margin: 5rem !important;
+    }
+  
+    .m-5\.5 {
+        margin: 5.5rem !important;
+    }
+  
+    .m-6 {
+        margin: 6rem !important;
+    }
+}
+
+@mixin includeNegatives() {
+    .-m-6 {
+        margin: -6rem !important;
+    }
+  
+    .-m-5\.5 {
+        margin: -5.5rem !important;
+    }
+  
+    .-m-5 {
+        margin: -5rem !important;
+    }
+  
+    .-m-4\.5 {
+        margin: -4.5rem !important;
+    }
+  
+    .-m-4 {
+        margin: -4rem !important;
+    }
+  
+    .-m-3\.5 {
+        margin: -3.5rem !important;
+    }
+  
+    .-m-3 {
+        margin: -3rem !important;
+    }
+  
+    .-m-2\.5 {
+        margin: -2.5rem !important;
+    }
+  
+    .-m-2 {
+        margin: -2rem !important;
+    }
+  
+    .-m-1\.5 {
+        margin: -1.5rem !important;
+    }
+  
+    .-m-0\.5 {
+        margin: -0.5rem !important;
+    }
+  
+    .m-0\.5 {
+        margin: 0.5rem !important;
+    }
+  
+    .m-1\.5 {
+        margin: 1.5rem !important;
+    }
+  
+    .m-2 {
+        margin: 2rem !important;
+    }
+  
+    .m-2\.5 {
+        margin: 2.5rem !important;
+    }
+  
+    .m-3 {
+        margin: 3rem !important;
+    }
+  
+    .m-3\.5 {
+        margin: 3.5rem !important;
+    }
+  
+    .m-4 {
+        margin: 4rem !important;
+    }
+  
+    .m-4\.5 {
+        margin: 4.5rem !important;
+    }
+  
+    .m-5 {
+        margin: 5rem !important;
+    }
+  
+    .m-5\.5 {
+        margin: 5.5rem !important;
+    }
+  
+    .m-6 {
+        margin: 6rem !important;
+    }
+}
+
+@mixin includePseudos() {
+    .-m-6 {
+        margin: -6rem !important;
+    }
+  
+    .hover\:-m-6:hover {
+        margin: -6rem !important;
+    }
+  
+    .false\:-m-6:false {
+        margin: -6rem !important;
+    }
+  
+    .-m-5\.5 {
+        margin: -5.5rem !important;
+    }
+  
+    .hover\:-m-5\.5:hover {
+        margin: -5.5rem !important;
+    }
+  
+    .false\:-m-5\.5:false {
+        margin: -5.5rem !important;
+    }
+  
+    .-m-5 {
+        margin: -5rem !important;
+    }
+  
+    .hover\:-m-5:hover {
+        margin: -5rem !important;
+    }
+  
+    .false\:-m-5:false {
+        margin: -5rem !important;
+    }
+  
+    .-m-4\.5 {
+        margin: -4.5rem !important;
+    }
+  
+    .hover\:-m-4\.5:hover {
+        margin: -4.5rem !important;
+    }
+  
+    .false\:-m-4\.5:false {
+        margin: -4.5rem !important;
+    }
+  
+    .-m-4 {
+        margin: -4rem !important;
+    }
+  
+    .hover\:-m-4:hover {
+        margin: -4rem !important;
+    }
+  
+    .false\:-m-4:false {
+        margin: -4rem !important;
+    }
+  
+    .-m-3\.5 {
+        margin: -3.5rem !important;
+    }
+  
+    .hover\:-m-3\.5:hover {
+        margin: -3.5rem !important;
+    }
+  
+    .false\:-m-3\.5:false {
+        margin: -3.5rem !important;
+    }
+  
+    .-m-3 {
+        margin: -3rem !important;
+    }
+  
+    .hover\:-m-3:hover {
+        margin: -3rem !important;
+    }
+  
+    .false\:-m-3:false {
+        margin: -3rem !important;
+    }
+  
+    .-m-2\.5 {
+        margin: -2.5rem !important;
+    }
+  
+    .hover\:-m-2\.5:hover {
+        margin: -2.5rem !important;
+    }
+  
+    .false\:-m-2\.5:false {
+        margin: -2.5rem !important;
+    }
+  
+    .-m-2 {
+        margin: -2rem !important;
+    }
+  
+    .hover\:-m-2:hover {
+        margin: -2rem !important;
+    }
+  
+    .false\:-m-2:false {
+        margin: -2rem !important;
+    }
+  
+    .-m-1\.5 {
+        margin: -1.5rem !important;
+    }
+  
+    .hover\:-m-1\.5:hover {
+        margin: -1.5rem !important;
+    }
+  
+    .false\:-m-1\.5:false {
+        margin: -1.5rem !important;
+    }
+  
+    .-m-0\.5 {
+        margin: -0.5rem !important;
+    }
+  
+    .hover\:-m-0\.5:hover {
+        margin: -0.5rem !important;
+    }
+  
+    .false\:-m-0\.5:false {
+        margin: -0.5rem !important;
+    }
+  
+    .m-0\.5 {
+        margin: 0.5rem !important;
+    }
+  
+    .hover\:m-0\.5:hover {
+        margin: 0.5rem !important;
+    }
+  
+    .false\:m-0\.5:false {
+        margin: 0.5rem !important;
+    }
+  
+    .m-1\.5 {
+        margin: 1.5rem !important;
+    }
+  
+    .hover\:m-1\.5:hover {
+        margin: 1.5rem !important;
+    }
+  
+    .false\:m-1\.5:false {
+        margin: 1.5rem !important;
+    }
+  
+    .m-2 {
+        margin: 2rem !important;
+    }
+  
+    .hover\:m-2:hover {
+        margin: 2rem !important;
+    }
+  
+    .false\:m-2:false {
+        margin: 2rem !important;
+    }
+  
+    .m-2\.5 {
+        margin: 2.5rem !important;
+    }
+  
+    .hover\:m-2\.5:hover {
+        margin: 2.5rem !important;
+    }
+  
+    .false\:m-2\.5:false {
+        margin: 2.5rem !important;
+    }
+  
+    .m-3 {
+        margin: 3rem !important;
+    }
+  
+    .hover\:m-3:hover {
+        margin: 3rem !important;
+    }
+  
+    .false\:m-3:false {
+        margin: 3rem !important;
+    }
+  
+    .m-3\.5 {
+        margin: 3.5rem !important;
+    }
+  
+    .hover\:m-3\.5:hover {
+        margin: 3.5rem !important;
+    }
+  
+    .false\:m-3\.5:false {
+        margin: 3.5rem !important;
+    }
+  
+    .m-4 {
+        margin: 4rem !important;
+    }
+  
+    .hover\:m-4:hover {
+        margin: 4rem !important;
+    }
+  
+    .false\:m-4:false {
+        margin: 4rem !important;
+    }
+  
+    .m-4\.5 {
+        margin: 4.5rem !important;
+    }
+  
+    .hover\:m-4\.5:hover {
+        margin: 4.5rem !important;
+    }
+  
+    .false\:m-4\.5:false {
+        margin: 4.5rem !important;
+    }
+  
+    .m-5 {
+        margin: 5rem !important;
+    }
+  
+    .hover\:m-5:hover {
+        margin: 5rem !important;
+    }
+  
+    .false\:m-5:false {
+        margin: 5rem !important;
+    }
+  
+    .m-5\.5 {
+        margin: 5.5rem !important;
+    }
+  
+    .hover\:m-5\.5:hover {
+        margin: 5.5rem !important;
+    }
+  
+    .false\:m-5\.5:false {
+        margin: 5.5rem !important;
+    }
+  
+    .m-6 {
+        margin: 6rem !important;
+    }
+  
+    .hover\:m-6:hover {
+        margin: 6rem !important;
+    }
+  
+    .false\:m-6:false {
+        margin: 6rem !important;
+    }
+}
+
+@mixin includeDives() {
+    .-m-6 {
+        margin: -6rem !important;
+    }
+  
+    .hover\:-m-6:hover {
+        margin: -6rem !important;
+    }
+  
+    .false\:-m-6:false {
+        margin: -6rem !important;
+    }
+  
+    .-m-6-dive > * {
+        margin: -6rem !important;
+    }
+  
+    .-m-5\.5 {
+        margin: -5.5rem !important;
+    }
+  
+    .hover\:-m-5\.5:hover {
+        margin: -5.5rem !important;
+    }
+  
+    .false\:-m-5\.5:false {
+        margin: -5.5rem !important;
+    }
+  
+    .-m-5\.5-dive > * {
+        margin: -5.5rem !important;
+    }
+  
+    .-m-5 {
+        margin: -5rem !important;
+    }
+  
+    .hover\:-m-5:hover {
+        margin: -5rem !important;
+    }
+  
+    .false\:-m-5:false {
+        margin: -5rem !important;
+    }
+  
+    .-m-5-dive > * {
+        margin: -5rem !important;
+    }
+  
+    .-m-4\.5 {
+        margin: -4.5rem !important;
+    }
+  
+    .hover\:-m-4\.5:hover {
+        margin: -4.5rem !important;
+    }
+  
+    .false\:-m-4\.5:false {
+        margin: -4.5rem !important;
+    }
+  
+    .-m-4\.5-dive > * {
+        margin: -4.5rem !important;
+    }
+  
+    .-m-4 {
+        margin: -4rem !important;
+    }
+  
+    .hover\:-m-4:hover {
+        margin: -4rem !important;
+    }
+  
+    .false\:-m-4:false {
+        margin: -4rem !important;
+    }
+  
+    .-m-4-dive > * {
+        margin: -4rem !important;
+    }
+  
+    .-m-3\.5 {
+        margin: -3.5rem !important;
+    }
+  
+    .hover\:-m-3\.5:hover {
+        margin: -3.5rem !important;
+    }
+  
+    .false\:-m-3\.5:false {
+        margin: -3.5rem !important;
+    }
+  
+    .-m-3\.5-dive > * {
+        margin: -3.5rem !important;
+    }
+  
+    .-m-3 {
+        margin: -3rem !important;
+    }
+  
+    .hover\:-m-3:hover {
+        margin: -3rem !important;
+    }
+  
+    .false\:-m-3:false {
+        margin: -3rem !important;
+    }
+  
+    .-m-3-dive > * {
+        margin: -3rem !important;
+    }
+  
+    .-m-2\.5 {
+        margin: -2.5rem !important;
+    }
+  
+    .hover\:-m-2\.5:hover {
+        margin: -2.5rem !important;
+    }
+  
+    .false\:-m-2\.5:false {
+        margin: -2.5rem !important;
+    }
+  
+    .-m-2\.5-dive > * {
+        margin: -2.5rem !important;
+    }
+  
+    .-m-2 {
+        margin: -2rem !important;
+    }
+  
+    .hover\:-m-2:hover {
+        margin: -2rem !important;
+    }
+  
+    .false\:-m-2:false {
+        margin: -2rem !important;
+    }
+  
+    .-m-2-dive > * {
+        margin: -2rem !important;
+    }
+  
+    .-m-1\.5 {
+        margin: -1.5rem !important;
+    }
+  
+    .hover\:-m-1\.5:hover {
+        margin: -1.5rem !important;
+    }
+  
+    .false\:-m-1\.5:false {
+        margin: -1.5rem !important;
+    }
+  
+    .-m-1\.5-dive > * {
+        margin: -1.5rem !important;
+    }
+  
+    .-m-0\.5 {
+        margin: -0.5rem !important;
+    }
+  
+    .hover\:-m-0\.5:hover {
+        margin: -0.5rem !important;
+    }
+  
+    .false\:-m-0\.5:false {
+        margin: -0.5rem !important;
+    }
+  
+    .-m-0\.5-dive > * {
+        margin: -0.5rem !important;
+    }
+  
+    .m-0\.5 {
+        margin: 0.5rem !important;
+    }
+  
+    .hover\:m-0\.5:hover {
+        margin: 0.5rem !important;
+    }
+  
+    .false\:m-0\.5:false {
+        margin: 0.5rem !important;
+    }
+  
+    .m-0\.5-dive > * {
+        margin: 0.5rem !important;
+    }
+  
+    .m-1\.5 {
+        margin: 1.5rem !important;
+    }
+  
+    .hover\:m-1\.5:hover {
+        margin: 1.5rem !important;
+    }
+  
+    .false\:m-1\.5:false {
+        margin: 1.5rem !important;
+    }
+  
+    .m-1\.5-dive > * {
+        margin: 1.5rem !important;
+    }
+  
+    .m-2 {
+        margin: 2rem !important;
+    }
+  
+    .hover\:m-2:hover {
+        margin: 2rem !important;
+    }
+  
+    .false\:m-2:false {
+        margin: 2rem !important;
+    }
+  
+    .m-2-dive > * {
+        margin: 2rem !important;
+    }
+  
+    .m-2\.5 {
+        margin: 2.5rem !important;
+    }
+  
+    .hover\:m-2\.5:hover {
+        margin: 2.5rem !important;
+    }
+  
+    .false\:m-2\.5:false {
+        margin: 2.5rem !important;
+    }
+  
+    .m-2\.5-dive > * {
+        margin: 2.5rem !important;
+    }
+  
+    .m-3 {
+        margin: 3rem !important;
+    }
+  
+    .hover\:m-3:hover {
+        margin: 3rem !important;
+    }
+  
+    .false\:m-3:false {
+        margin: 3rem !important;
+    }
+  
+    .m-3-dive > * {
+        margin: 3rem !important;
+    }
+  
+    .m-3\.5 {
+        margin: 3.5rem !important;
+    }
+  
+    .hover\:m-3\.5:hover {
+        margin: 3.5rem !important;
+    }
+  
+    .false\:m-3\.5:false {
+        margin: 3.5rem !important;
+    }
+  
+    .m-3\.5-dive > * {
+        margin: 3.5rem !important;
+    }
+  
+    .m-4 {
+        margin: 4rem !important;
+    }
+  
+    .hover\:m-4:hover {
+        margin: 4rem !important;
+    }
+  
+    .false\:m-4:false {
+        margin: 4rem !important;
+    }
+  
+    .m-4-dive > * {
+        margin: 4rem !important;
+    }
+  
+    .m-4\.5 {
+        margin: 4.5rem !important;
+    }
+  
+    .hover\:m-4\.5:hover {
+        margin: 4.5rem !important;
+    }
+  
+    .false\:m-4\.5:false {
+        margin: 4.5rem !important;
+    }
+  
+    .m-4\.5-dive > * {
+        margin: 4.5rem !important;
+    }
+  
+    .m-5 {
+        margin: 5rem !important;
+    }
+  
+    .hover\:m-5:hover {
+        margin: 5rem !important;
+    }
+  
+    .false\:m-5:false {
+        margin: 5rem !important;
+    }
+  
+    .m-5-dive > * {
+        margin: 5rem !important;
+    }
+  
+    .m-5\.5 {
+        margin: 5.5rem !important;
+    }
+  
+    .hover\:m-5\.5:hover {
+        margin: 5.5rem !important;
+    }
+  
+    .false\:m-5\.5:false {
+        margin: 5.5rem !important;
+    }
+  
+    .m-5\.5-dive > * {
+        margin: 5.5rem !important;
+    }
+  
+    .m-6 {
+        margin: 6rem !important;
+    }
+  
+    .hover\:m-6:hover {
+        margin: 6rem !important;
+    }
+  
+    .false\:m-6:false {
+        margin: 6rem !important;
+    }
+  
+    .m-6-dive > * {
+        margin: 6rem !important;
+    }
+}

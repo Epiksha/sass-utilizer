@@ -1,0 +1,113 @@
+@use '../../../node_modules/sass-true/index' as *;
+@use '../../../sass/mixins/breakpoint/index' as *;
+
+@use 'expector';
+
+$bpConfig: (
+    breakpoints: (
+        sm: 560px,
+        md: 720px,
+        lg: 1200px
+    ),
+    paradigm: min-width
+);
+
+@include describe('breakpointify() - Generate breakpoint utilities') {
+    @include it('outputs basic breakpoint utilities') {
+        @include assert {
+            @include output {
+                @include breakpointify(m, margin, 1rem, false, false, false, false, false, $bpConfig);
+            }
+
+            @include expect {
+                @include expector.basic;
+            }
+        }
+    }
+
+    @include it('outputs basic and direction breakpoint utilities') {
+        @include assert {
+            @include output {
+                @include breakpointify(m, margin, 1rem, true, true, false, false, false, $bpConfig);
+            }
+
+            @include expect {
+                @include expector.includeDirections;
+            }
+        }
+    }
+
+    @include it('outputs basic, negative, direction and increment (boolean) breakpoint utilities') {
+        @include assert {
+            @include output {
+                @include breakpointify(m, margin, 1rem, true, true, true, false, false, $bpConfig);
+            }
+
+            @include expect {
+                @include expector.includeIncrementsAsTrue;
+            }
+        }
+    }
+
+    @include it('outputs basic, negative, direction and increment (list) breakpoint utilities') {
+        @include assert {
+            @include output {
+                $increments: (3, 4, 7);
+
+                @include breakpointify(m, margin, 1rem, true, true, $increments, false, false, $bpConfig);
+            }
+
+            @include expect {
+                @include expector.includeIncrementsAsList;
+            }
+        }
+    }
+
+    @include it('outputs basic, negative and increment (map) breakpoint utilities') {
+        @include assert {
+            @include output {
+                $increments: (
+                    min: 2,
+                    max: 4,
+                    factor: 1
+                );
+
+                @include breakpointify(m, margin, 1rem, true, true, $increments, false, false, $bpConfig);
+            }
+
+            @include expect {
+                @include expector.includeIncrementsAsMap;
+            }
+        }
+    }
+
+    @include it('outputs basic, negative and increment (map) breakpoint utilities') {
+        @include assert {
+            @include output {
+                $increments: (2, 3);
+                $pseudos: (hover);
+
+                @include breakpointify(m, margin, 1rem, true, true, $increments, $pseudos, false, $bpConfig);
+            }
+
+            @include expect {
+                @include expector.includePseudos;
+            }
+        }
+    }
+
+    @include it('outputs basic, negative and increment (map) breakpoint utilities') {
+        @include assert {
+            @include output {
+                $increments: (2, 3);
+                $pseudos: (hover);
+
+                @include breakpointify(m, margin, 1rem, true, true, $increments, $pseudos, true, $bpConfig);
+            }
+
+            @include expect {
+                @include expector.includeDives;
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+@use '../../../node_modules/sass-true/index' as *;
+@use '../../../sass/mixins/dive/index' as *;
+
+@include describe('diver() - Generate dive utilities') {
+    @include it('outputs dive utilities') {
+        @include assert {
+            @include output {
+                @include diver(m, margin, 1rem);
+            }
+
+            @include expect {
+                .m-dive > * {
+                    margin: 1rem !important;
+                }
+            }
+        }
+    }
+}

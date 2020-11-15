@@ -1,0 +1,64 @@
+@use '../../../node_modules/sass-true/index' as *;
+@use '../../../sass/mixins/increment/index' as *;
+
+@use 'expector';
+
+@include describe('incrementify() - Generate increment utilities') {
+    @include it('outputs basic increment utilities') {
+        @include assert {
+            @include output {
+                $increments: true;
+                
+                @include incrementify(m, margin, 1rem, false, $increments, false, false);
+            }
+
+            @include expect {
+                @include expector.basic;
+            }
+        }
+    }
+    
+    @include it('outputs basic and negative increment utilities') {
+        @include assert {
+            @include output {
+                $increments: true;
+
+                @include incrementify(m, margin, 1rem, true, $increments, false, false);
+            }
+
+            @include expect {
+                @include expector.includeNegatives;
+            }
+        }
+    }
+    
+    @include it('outputs basic, negative and pseudo increment utilities') {
+        @include assert {
+            @include output {
+                $increments: true;
+                $pseudos: (hover, false);
+
+                @include incrementify(m, margin, 1rem, true, $increments, $pseudos, false);
+            }
+
+            @include expect {
+                @include expector.includePseudos;
+            }
+        }
+    }
+    
+    @include it('outputs basic, negative, pseudo and dive increment utilities') {
+        @include assert {
+            @include output {
+                $increments: true;
+                $pseudos: (hover, false);
+
+                @include incrementify(m, margin, 1rem, true, $increments, $pseudos, true);
+            }
+
+            @include expect {
+                @include expector.includeDives;
+            }
+        }
+    }
+}

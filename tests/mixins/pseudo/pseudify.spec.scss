@@ -1,0 +1,24 @@
+@use '../../../node_modules/sass-true/index' as *;
+@use '../../../sass/mixins/pseudo/index' as *;
+
+@include describe('pseudify() - Generate pseudo utilities') {
+    @include it('outputs pseudo utilities') {
+        @include assert {
+            @include output {
+                $pseudos: (hover, focus);
+
+                @include pseudify(m, margin, 1rem, $pseudos);
+            }
+
+            @include expect {
+                .hover\:m:hover {
+                    margin: 1rem !important;
+                }
+                
+                .focus\:m:focus {
+                    margin: 1rem !important;
+                }
+            }
+        }
+    }
+}

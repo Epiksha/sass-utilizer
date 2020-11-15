@@ -45,7 +45,7 @@
     }
 
     @if $pseudos {
-        @include pseudify($label, $property, $value, $negatives, $pseudos, $dives);
+        @include pseudify($label, $property, $value, $pseudos);
     }
 
     @if $breakpoints {

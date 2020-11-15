@@ -1,5 +1,5 @@
 // Generate pseudo classes
-@mixin pseudify($label, $property, $value, $negatives, $pseudos, $dives) {
+@mixin pseudify($label, $property, $value, $pseudos) {
     @each $pseudo in $pseudos {
         .#{$pseudo}\:#{$label}:#{$pseudo} {
             #{$property}: $value !important;

@@ -17,7 +17,6 @@
     "scripts": {
         "compile": "sass test-entry.scss:test-entry.css --no-source-map",
         "watch": "sass test-entry.scss:test-entry.css --watch --no-source-map",
-        "build:docs": "sassdoc sass/_sass-utilizer.scss -d documentation",
         "test": "jest",
         "test:watch": "jest --watch",
         "preversion": "npm test",
