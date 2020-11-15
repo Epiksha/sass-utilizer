@@ -50,6 +50,6 @@
             }
         }
     } @else {
-        @error 'No utilities passed into sass-utilizer render mixin'
+        @error 'No utilities passed into sass-utilizer render mixin';
     }
 }

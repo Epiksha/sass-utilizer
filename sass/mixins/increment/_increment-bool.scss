@@ -25,14 +25,14 @@
         $newValue: $value * $iterator;
 
         @if $negatives and $iterator < 0 and $iterator != -1 {
-            @if isDecimal($iterator) {
-                $newLabel: -#{$label}-#{secondChar($iterator)}\.5;
+            @if is-decimal($iterator) {
+                $newLabel: -#{$label}-#{second-char($iterator)}\.5;
             } @else {
                 $newLabel: -#{$label + $iterator};
             }
         } @else if $iterator > 0 and $iterator != 1 {
-            @if isDecimal($iterator) {
-                $newLabel: #{$label}-#{firstChar($iterator)}\.5;
+            @if is-decimal($iterator) {
+                $newLabel: #{$label}-#{first-char($iterator)}\.5;
             } @else {
                 $newLabel: #{$label}-#{$iterator};
             }

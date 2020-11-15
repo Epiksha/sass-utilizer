@@ -17,9 +17,10 @@
     $directions: top, right, bottom, left;
     $newLabel: '';
     $newProp: '';
+    $zeroLabel: '';
 
     @each $direction in $directions {
-        $newLabel: #{$label + firstChar($direction)};
+        $newLabel: #{$label + first-char($direction)};
         $newProp: #{$property}-#{$direction};
 
         .#{$newLabel} {

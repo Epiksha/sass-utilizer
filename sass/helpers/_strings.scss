@@ -1,11 +1,11 @@
-@function firstChar($str) {
+@function first-char($str) {
     @return str-slice('#{$str}', 1, 1);
 }
 
-@function secondChar($str) {
+@function second-char($str) {
     @return str-slice('#{$str}', 2, 2);
 }
 
-@function sliceEnd($str, $startIndex) {
+@function slice-end($str, $startIndex) {
     @return str-slice('#{$str}', $startIndex, str-length('#{$str}'));
 }

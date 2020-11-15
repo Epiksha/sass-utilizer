@@ -1,28 +1,28 @@
 @use '../../../node_modules/sass-true/index' as *;
 @use '../../../sass/helpers/strings';
 
-@include describe('firstChar() - Get the first character') {
+@include describe('first-char() - Get the first character') {
     @include it('returns the first character of a string') {
         $value: 'Jump over the moon';
 
-        $test: strings.firstChar($value);
+        $test: strings.first-char($value);
 
-        @include assert-equal($test, 'J', "'J' is returned if #{$value} is passed in");
+        @include assert-equal($test, 'J', ''J' is returned if #{$value} is passed in');
     }
     
     @include it('returns the first character of a number cast as a string') {
         $value: 12;
 
-        $test: strings.firstChar($value);
+        $test: strings.first-char($value);
 
-        @include assert-equal($test, "1", "12 returns '1' as a string");
+        @include assert-equal($test, '1', '12 returns '1' as a string');
     }
 
     @include it('returns the first character of a boolean cast as a string') {
         $value: false;
 
-        $test: strings.firstChar($value);
+        $test: strings.first-char($value);
 
-        @include assert-equal($test, "f", "#{$value} returns 'f' as a string");
+        @include assert-equal($test, 'f', '#{$value} returns 'f' as a string');
     }
 }

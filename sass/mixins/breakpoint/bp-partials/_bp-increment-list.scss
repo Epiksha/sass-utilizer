@@ -11,14 +11,14 @@
 
         @if $increment != 1 and $increment != 0 and $increment != -1 {
             @if $negatives and $increment < 0 {
-                @if isDecimal($increment) {
-                    $newLabel: -#{$label}-#{secondChar($increment)}\.#{sliceEnd($increment, 4)};
+                @if is-decimal($increment) {
+                    $newLabel: -#{$label}-#{second-char($increment)}\.#{slice-end($increment, 4)};
                 } @else {
                     $newLabel: -#{$label + $increment};
                 }
             } @else {
-                @if isDecimal($increment) {
-                    $newLabel: #{$label}-#{firstChar($increment)}\.#{sliceEnd($increment, 3)};
+                @if is-decimal($increment) {
+                    $newLabel: #{$label}-#{first-char($increment)}\.#{slice-end($increment, 3)};
                 } @else {
                     $newLabel: #{$label}-#{$increment};
                 }

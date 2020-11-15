@@ -27,20 +27,20 @@
 
         @if $iterableFactor != 1 and $iterableFactor != 0 and $iterableFactor != -1 {
             @if $iterableFactor < 0 {
-                @if isDecimal($iterableFactor) {
-                    $newLabel: -#{$label}-#{secondChar($iterableFactor)}\.#{sliceEnd($iterableFactor, 4)};
+                @if is-decimal($iterableFactor) {
+                    $newLabel: -#{$label}-#{second-char($iterableFactor)}\.#{slice-end($iterableFactor, 4)};
                 } @else {
                     $newLabel: -#{$label + $iterableFactor};
                 }
             } @else if $iterableFactor > 0 {
-                @if isDecimal($iterableFactor) {
-                    $newLabel: #{$label}-#{firstChar($iterableFactor)}\.#{sliceEnd($iterableFactor, 3)};
+                @if is-decimal($iterableFactor) {
+                    $newLabel: #{$label}-#{first-char($iterableFactor)}\.#{slice-end($iterableFactor, 3)};
                 } @else {
                     $newLabel: #{$label}-#{$iterableFactor};
                 }
             }
 
-            @if $newLabel != "" {
+            @if $newLabel != '' {
                 .#{$bpLabel}\:#{$newLabel} {
                     @media (#{$paradigm}: $bpValue) {
                         #{$property}: $newValue !important;

@@ -21,7 +21,7 @@
     $newProp: '';
 
     @each $direction in $directions {
-        $newLabel: #{$label + firstChar($direction)};
+        $newLabel: #{$label + first-char($direction)};
         $newProp: #{$property}-#{$direction};
 
         .#{$bpLabel}\:#{$newLabel} {

@@ -1,7 +1,7 @@
-@function isDecimal($num) {
+@function is-decimal($num) {
     @if type-of($num) == number {
         @return round($num) != $num;
     } @else {
-        @error 'Non-number passed into isDecimal';
+        @error 'Non-number passed into is-decimal';
     }
 }

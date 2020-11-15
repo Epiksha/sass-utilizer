@@ -1,28 +1,28 @@
 @use '../../../node_modules/sass-true/index' as *;
 @use '../../../sass/helpers/numbers';
 
-@include describe('isDecimal() - Check number is decimal') {
+@include describe('is-decimal() - Check number is decimal') {
     @include it('returns true if number is a decimal') {
         $value: 3.14;
 
-        $test: numbers.isDecimal($value);
+        $test: numbers.is-decimal($value);
 
-        @include assert-equal($test, true, "#{$value} is a decimal");
+        @include assert-equal($test, true, '#{$value} is a decimal');
     }
 
     @include it('returns false if number is an integer') {
         $value: 3;
 
-        $test: numbers.isDecimal($value);
+        $test: numbers.is-decimal($value);
 
-        @include assert-equal($test, false, "#{$value} is not a decimal");
+        @include assert-equal($test, false, '#{$value} is not a decimal');
     }
     
     @include it('returns false if number is 0') {
         $value: 0;
 
-        $test: numbers.isDecimal($value);
+        $test: numbers.is-decimal($value);
 
-        @include assert-equal($test, false, "#{$value} is not a decimal");
+        @include assert-equal($test, false, '#{$value} is not a decimal');
     }
 }

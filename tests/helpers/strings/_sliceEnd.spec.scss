@@ -1,28 +1,28 @@
 @use '../../../node_modules/sass-true/index' as *;
 @use '../../../sass/helpers/strings';
 
-@include describe('sliceEnd() - Get ending substring') {
+@include describe('slice-end() - Get ending substring') {
     @include it('returns the end of a string') {
         $value: 'Jump over the moon';
 
-        $test: strings.sliceEnd($value, 11);
+        $test: strings.slice-end($value, 11);
 
-        @include assert-equal($test, 'the moon', "'the moom' is returned if #{$value} is passed in with a given index of 11");
+        @include assert-equal($test, 'the moon', ''the moom' is returned if #{$value} is passed in with a given index of 11');
     }
     
     @include it('casts a number to a string, returns a substring') {
         $value: 123456789;
 
-        $test: strings.sliceEnd($value, 4);
+        $test: strings.slice-end($value, 4);
 
-        @include assert-equal($test, "456789", "123456789 returns '456789' as a string when the given index is 4");
+        @include assert-equal($test, '456789', '123456789 returns '456789' as a string when the given index is 4');
     }
 
     @include it('casts a boolean to a string, returns substring') {
         $value: false;
 
-        $test: strings.sliceEnd($value, 3);
+        $test: strings.slice-end($value, 3);
 
-        @include assert-equal($test, "lse", "false returns 'lse' as a string when the given index is 3");
+        @include assert-equal($test, 'lse', 'false returns 'lse' as a string when the given index is 3');
     }
 }
