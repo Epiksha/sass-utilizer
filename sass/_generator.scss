@@ -14,20 +14,23 @@
     $breakpoints,
     $bpConfig,
     $dives,
-    $pseudos
+    $pseudos,
+    $multiples
 ) {
     // Basic Utilities
     .#{$label} {
         #{$property}: $value !important;
     }
 
-    .#{$label}-0 {
-        #{$property}: 0 !important;
-    }
-
-    @if $negatives {
-        .-#{$label} {
-            #{$property}: -#{$value} !important;
+    @if $multiples {
+        .#{$label}-0 {
+            #{$property}: 0 !important;
+        }
+    
+        @if $negatives {
+            .-#{$label} {
+                #{$property}: -#{$value} !important;
+            }
         }
     }
 

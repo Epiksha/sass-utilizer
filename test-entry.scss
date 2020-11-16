@@ -4,22 +4,17 @@ $utilities: (
     m: (
         styles: (
             margin: 1rem
-        ),
-        directions: true,
-        increments: true,
-        negatives: true,
-        breakpoints: true,
-        pseudos: (hover, focus)
+        )
     )
 );
 
 $bpConfig: (
     breakpoints: (
         sm: 568px,
-        md: 780px,
-        lg: 1200px,
+        md: 720px,
+        lg: 1020px
     ),
-    paradigm: max-width
+    paradigm: min-width
 );
 
 @include utilizer.render($utilities, $bpConfig);

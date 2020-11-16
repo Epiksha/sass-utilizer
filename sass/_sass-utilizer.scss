@@ -6,6 +6,7 @@
             $styles: ();
             $directions: false;
             $increments: false;
+            $multiples: false;
             $negatives: false;
             $pseudos: false;
             $dives: false;
@@ -13,25 +14,31 @@
     
             // Assign config values
             @each $property, $value in $class {
-                @each $utilityName, $utilityObject in $utilities {
-                    @each $utilityProperty, $utilityValue in $utilityObject { 
-                        @if $utilityProperty == styles {
-                            $styles: $utilityValue;
-                        } @else if $utilityProperty == breakpoints and $breakpointConfig {
-                            $breakpoints: $utilityValue;
-                        } @else if $utilityProperty == increments {
-                            $increments: $utilityValue;
-                        } @else if $utilityProperty == negatives {
-                            $negatives: $utilityValue;
-                        } @else if $utilityProperty == pseudos {
-                            $pseudos: $utilityValue;
-                        } @else if $utilityProperty == dives {
-                            $dives: $utilityValue;
-                        } @else if $utilityProperty == directions {
-                            $directions: $utilityValue;
-                        }
+                @each $configProperty, $configValue in $class { 
+                    @if $configProperty == styles {
+                        $styles: $configValue;
+                    } @else if $configProperty == breakpoints and $breakpointConfig {
+                        $breakpoints: $configValue;
+                    } @else if $configProperty == multiples {
+                        $multiples: $configValue;
+                    } @else if $configProperty == increments {
+                        $increments: $configValue;
+                    } @else if $configProperty == negatives {
+                        $negatives: $configValue;
+                    } @else if $configProperty == pseudos {
+                        $pseudos: $configValue;
+                    } @else if $configProperty == dives {
+                        $dives: $configValue;
+                    } @else if $configProperty == directions {
+                        $directions: $configValue;
+                    } @else {
+                        @error 'Incorrect property in config for \'#{$label}\' utility';
                     }
                 }
+            }
+
+            @if $increments {
+                $multiples: true;
             }
     
             @each $property, $value in $styles {
@@ -45,7 +52,8 @@
                     $breakpoints,
                     $breakpointConfig,
                     $dives,
-                    $pseudos
+                    $pseudos,
+                    $multiples
                 );
             }
         }
