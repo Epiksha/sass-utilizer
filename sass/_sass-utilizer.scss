@@ -1,60 +1,14 @@
-@use 'generator' as *;
+@use './mixins/config/setup' as *;
 
 @mixin render($utilities: false, $breakpointConfig: false) {
     @if $utilities != false {
         @each $label, $class in $utilities {
-            $styles: ();
-            $directions: false;
-            $increments: false;
-            $multiples: false;
-            $negatives: false;
-            $pseudos: false;
-            $dives: false;
-            $breakpoints: false;
-    
-            // Assign config values
-            @each $property, $value in $class {
-                @each $configProperty, $configValue in $class { 
-                    @if $configProperty == styles {
-                        $styles: $configValue;
-                    } @else if $configProperty == breakpoints and $breakpointConfig {
-                        $breakpoints: $configValue;
-                    } @else if $configProperty == multiples {
-                        $multiples: $configValue;
-                    } @else if $configProperty == increments {
-                        $increments: $configValue;
-                    } @else if $configProperty == negatives {
-                        $negatives: $configValue;
-                    } @else if $configProperty == pseudos {
-                        $pseudos: $configValue;
-                    } @else if $configProperty == dives {
-                        $dives: $configValue;
-                    } @else if $configProperty == directions {
-                        $directions: $configValue;
-                    } @else {
-                        @error 'Incorrect property in config for \'#{$label}\' utility';
-                    }
-                }
-            }
-
-            @if $increments {
-                $multiples: true;
-            }
-    
-            @each $property, $value in $styles {
-                @include generator(
-                    $label,
-                    $property,
-                    $value,
-                    $negatives,
-                    $directions,
-                    $increments,
-                    $breakpoints,
-                    $breakpointConfig,
-                    $dives,
-                    $pseudos,
-                    $multiples
-                );
+            @include setup($label, $class, false);
+        }
+        
+        @if $breakpointConfig {
+            @each $label, $class in $utilities {
+                @include setup($label, $class, $breakpointConfig);
             }
         }
     } @else {

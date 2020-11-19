@@ -4,8 +4,23 @@ $utilities: (
     m: (
         styles: (
             margin: 1rem
-        )
-    )
+        ),
+        breakpoints: true,
+        increments: true,
+        dives: true,
+        directions: true,
+        pseudos: (hover)
+    ),
+    p: (
+        styles: (
+            padding: 1rem
+        ),
+        breakpoints: true,
+        increments: true,
+        dives: true,
+        directions: true,
+        pseudos: (hover)
+    ),
 );
 
 $bpConfig: (
