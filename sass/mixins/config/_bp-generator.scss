@@ -18,16 +18,16 @@
     }
 
     @each $breakpointLabel, $breakpointValue in $breakpointValues {
-        $styles: ();
-        $directions: false;
-        $increments: false;
-        $multiples: false;
-        $negatives: false;
-        $pseudos: false;
-        $dives: false;
-        $breakpoints: false;
-
         @each $utilityName, $utilityConfig in $utilities {
+            $styles: ();
+            $directions: false;
+            $increments: false;
+            $multiples: false;
+            $negatives: false;
+            $pseudos: false;
+            $dives: false;
+            $breakpoints: false;
+
             @each $configProperty, $configValue in $utilityConfig {
                 @if $configProperty == styles {
                     $styles: $configValue;
