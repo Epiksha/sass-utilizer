@@ -1,15 +1,14 @@
 @use './mixins/config/setup' as *;
+@use './mixins/config/bp-generator' as *;
 
 @mixin render($utilities: false, $breakpointConfig: false) {
-    @if $utilities != false {
+    @if $utilities {
         @each $label, $class in $utilities {
             @include setup($label, $class, false);
         }
-        
+
         @if $breakpointConfig {
-            @each $label, $class in $utilities {
-                @include setup($label, $class, $breakpointConfig);
-            }
+            @include breakpoint-setup($utilities, $breakpointConfig);
         }
     } @else {
         @error 'No utilities passed into sass-utilizer render mixin';

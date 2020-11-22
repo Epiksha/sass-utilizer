@@ -1,0 +1,87 @@
+@use '../breakpoint/breakpoint-direction' as *;
+@use '../breakpoint/breakpoint-dive' as *;
+@use '../breakpoint/breakpoint-increment' as *;
+@use '../breakpoint/breakpoint-pseudo' as *;
+
+@mixin breakpoint-setup($utilities, $bpConfig) {
+    $breakpointValues: () !default;
+    $paradigm: min-width !default;
+
+    @each $bpConfigLabel, $bpConfigValue in $bpConfig {
+        @if $bpConfigLabel == breakpoints {
+            $breakpointValues: $bpConfigValue;
+        } @else if ($bpConfigLabel == paradigm) {
+            $paradigm: $bpConfigValue;
+        } @else {
+            @error 'Wrong property key \'#{$bpConfigLabel}\' in $bpConfig';
+        }
+    }
+
+    @each $breakpointLabel, $breakpointValue in $breakpointValues {
+        $styles: ();
+        $directions: false;
+        $increments: false;
+        $multiples: false;
+        $negatives: false;
+        $pseudos: false;
+        $dives: false;
+        $breakpoints: false;
+
+        @each $utilityName, $utilityConfig in $utilities {
+            @each $configProperty, $configValue in $utilityConfig {
+                @if $configProperty == styles {
+                    $styles: $configValue;
+                } @else if $configProperty == breakpoints and $bpConfig {
+                    $breakpoints: $configValue;
+                } @else if $configProperty == multiples {
+                    $multiples: $configValue;
+                } @else if $configProperty == increments {
+                    $increments: $configValue;
+                } @else if $configProperty == negatives {
+                    $negatives: $configValue;
+                } @else if $configProperty == pseudos {
+                    $pseudos: $configValue;
+                } @else if $configProperty == dives {
+                    $dives: $configValue;
+                } @else if $configProperty == directions {
+                    $directions: $configValue;
+                } @else if $configProperty != styles and $configProperty != breakpoints
+                    and $configProperty != multiples and $configProperty != increments
+                    and $configProperty != negatives and $configProperty != pseudos
+                    and $configProperty != dives and $configProperty != directions {
+                    @error 'Incorrect property #{$configProperty} in config for \'#{$utilityName}\' utility';
+                }
+            }
+
+            @each $property, $value in $styles {
+                .#{$breakpointLabel}\:#{$utilityName} {
+                    @media (#{$paradigm}: $breakpointValue) {
+                        #{$property}: $value !important;
+                    }
+                }
+    
+                @if $increments {
+                    @include breakpoint-incrementify($utilityName, $property, $value, $negatives, $increments, $pseudos, $dives, $breakpointLabel, $breakpointValue, $paradigm);
+    
+                    .#{$breakpointLabel}\:#{$utilityName}-0 {
+                        @media (#{$paradigm}: $breakpointValue) {
+                            #{$property}: 0 !important;
+                        }
+                    }
+                }
+    
+                @if $directions {
+                    @include breakpoint-directionify($utilityName, $property, $value, $negatives, $increments, $pseudos, $dives, $breakpointLabel, $breakpointValue, $paradigm);
+                }
+    
+                @if $pseudos {
+                    @include breakpoint-pseudify($utilityName, $property, $value, $pseudos, $breakpointLabel, $breakpointValue, $paradigm);
+                }
+    
+                @if $dives {
+                    @include breakpoint-diver($utilityName, $property, $value, $breakpointLabel, $breakpointValue, $paradigm);
+                }
+            }
+        }
+    }
+}

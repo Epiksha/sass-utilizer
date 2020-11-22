@@ -24,6 +24,12 @@
         $newLabel: #{$label + first-char($direction)};
         $newProp: #{$property}-#{$direction};
 
+        .#{$bpLabel}\:#{$newLabel}-0 {
+            @media (#{$paradigm}: $bpValue) {
+                #{$newProp}: 0 !important;
+            }
+        }
+        
         .#{$bpLabel}\:#{$newLabel} {
             @media (#{$paradigm}: $bpValue) {
                 #{$newProp}: $value !important;
@@ -35,12 +41,6 @@
                 @media (#{$paradigm}: $bpValue) {
                     #{$newProp}: -$value !important;
                 }
-            }
-        }
-
-        .#{$bpLabel}\:#{$newLabel}-0 {
-            @media (#{$paradigm}: $bpValue) {
-                #{$newProp}: 0 !important;
             }
         }
 

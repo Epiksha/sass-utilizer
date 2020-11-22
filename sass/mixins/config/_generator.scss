@@ -2,7 +2,6 @@
 @use '../direction/index' as *;
 @use '../dive/index' as *;
 @use '../pseudo/index' as *;
-@use '../breakpoint/index' as *;
 
 @mixin generator(
     $label,
@@ -14,46 +13,38 @@
     $dives,
     $pseudos,
     $multiples,
-    $breakpoints: false,
-    $bpConfig: false
 ) {
-    @if $breakpoints == false {
-        // Basic utilities
-        .#{$label} {
-            #{$property}: $value !important;
+    // Basic utilities
+    .#{$label} {
+        #{$property}: $value !important;
+    }
+
+    @if $multiples or $increments {
+        .#{$label}-0 {
+            #{$property}: 0 !important;
         }
     
-        @if $multiples {
-            .#{$label}-0 {
-                #{$property}: 0 !important;
-            }
-        
-            @if $negatives {
-                .-#{$label} {
-                    #{$property}: -#{$value} !important;
-                }
+        @if $negatives {
+            .-#{$label} {
+                #{$property}: -#{$value} !important;
             }
         }
-    
-        // Modifier Utilities
-        @if $increments {
-            @include incrementify($label, $property, $value, $negatives, $increments, $pseudos, $dives);
-        }
-    
-        @if $directions {
-            @include directionify($label, $property, $value, $negatives, $increments, $pseudos, $dives);
-        }
-    
-        @if $dives {
-            @include diver($label, $property, $value);
-        }
-    
-        @if $pseudos {
-            @include pseudify($label, $property, $value, $pseudos);
-        }
-    } @else {
-        @if $breakpoints {
-            @include breakpointify($label, $property, $value, $negatives, $directions, $increments, $pseudos, $dives, $bpConfig);
-        }
+    }
+
+    // Modifier Utilities
+    @if $increments {
+        @include incrementify($label, $property, $value, $negatives, $increments, $pseudos, $dives);
+    }
+
+    @if $directions {
+        @include directionify($label, $property, $value, $negatives, $increments, $pseudos, $dives);
+    }
+
+    @if $dives {
+        @include diver($label, $property, $value);
+    }
+
+    @if $pseudos {
+        @include pseudify($label, $property, $value, $pseudos);
     }
 };
