@@ -34,15 +34,13 @@
         "url": "https://github.com/Epiksha/sass-utilizer/issues"
     },
     "homepage": "https://github.com/Epiksha/sass-utilizer#readme",
-    "dependencies": {
-        "sass": "^1.26.5"
-    },
     "devDependencies": {
         "@commitlint/cli": "^11.0.0",
         "@commitlint/config-conventional": "^11.0.0",
         "glob": "^7.1.6",
         "husky": "^4.3.0",
         "jest": "^26.6.3",
+        "sass": "^1.26.5",
         "sass-true": "^6.0.1",
         "stylelint": "^13.7.2",
         "stylelint-config-sass-guidelines": "^7.1.0"
