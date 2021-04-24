@@ -3,7 +3,7 @@
 
 @use 'expector';
 
-@include describe('directionify() - Generate direction utilities (top, right, bottom, left') {
+@include describe('directionify() - Generate direction utilities (top, right, bottom, left)') {
     @include it('outputs basic direction utilities') {
         @include assert {
             @include output {
