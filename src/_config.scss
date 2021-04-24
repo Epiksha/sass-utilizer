@@ -1,0 +1,43 @@
+@use './helpers/_map.scss';
+
+$globalConfig: (
+    breakpoints: null,
+    directions: null,
+    dives: null,
+    increments: null,
+    multiples: null,
+    negatives: null,
+    pseudos: null,
+);
+
+$utilityConfig: (
+    styles: null,
+    alts: null,
+    breakpoints: null,
+    directions: null,
+    dives: null,
+    increments: null,
+    multiples: null,
+    negatives: null,
+    pseudos: null,
+);
+
+@function get() {
+    @return $utilityConfig;
+}
+
+@mixin set($setting, $value, $isGlobal: false) {
+    @if $isGlobal {
+        @if index(map-keys($globalConfig), $setting) {
+            $globalConfig: map.setItem($globalConfig, $setting, $value);
+        } @else {
+            @error 'Invalid setting name in global config SET method: #{$setting}';
+        }
+    } @else {
+        @if index(map-keys($utilityConfig), $setting) {
+             $utilityConfig: map.setItem($utilityConfig, $setting, $value);
+        } @else {
+            @error 'Invalid setting name in utility config SET method: #{$setting}';
+        }
+    }
+}

@@ -1,0 +1,29 @@
+@use './_utilizer' as *;
+
+$utilities: (
+    m: (
+        styles: (
+            margin: 1rem
+        ),
+        increments: (
+            min: -2,
+            max: 4,
+            factor: 0.5
+        ),
+        breakpoints: true,
+        alts: (marg),
+    ),
+);
+
+$config: (
+    breakpoints: (
+        sizes: (
+            sm: 568px,
+            md: 720px,
+            lg: 1020px
+        ),
+        paradigm: min-width,
+    ),
+);
+
+@include utilizer($utilities, $config);

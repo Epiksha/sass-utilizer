@@ -1,0 +1,28 @@
+@use './_config.scss';
+
+$config: null;
+/* $styles: config.get(styles);
+$alts: config.get(alts);
+$breakpoints: config.get(breakpoints);
+$directions: config.get(directions);
+$dives: config.get(dives);
+$increments: config.get(increments);
+$multiples: config.get(multiples);
+$negatives: config.get(negatives);
+$pseudos: config.get(pseudos); */
+
+@mixin builder() {
+    $config: config.get();
+    @debug $config;
+}
+
+
+/* @debug $styles;
+@debug $alts;
+@debug $breakpoints;
+@debug $directions;
+@debug $dives;
+@debug $increments;
+@debug $multiples;
+@debug $negatives;
+@debug $pseudos; */

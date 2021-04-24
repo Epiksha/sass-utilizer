@@ -1,4 +1,4 @@
 node_modules
 *.css
-test-entry.scss
+test-utilities.scss
 tests/

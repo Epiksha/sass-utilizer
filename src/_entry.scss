@@ -1,0 +1,18 @@
+@use './_builder.scss' as *;
+@use './_config.scss';
+
+@mixin utilizer($utilities: null, $config: null) {
+    // Configuration
+    @each $setting, $value in $config {
+        @include config.set($setting, $value, true); // Third argument determines if global config
+    }
+    
+    @each $utilityLabel, $utilityProperties in $utilities {
+        @each $setting, $value in $utilityProperties {
+            @include config.set($setting, $value);
+        }
+    }
+
+    // Generate Utilities
+    @include builder();
+}

@@ -1,0 +1,27 @@
+// Get an item in a map by passing in an identifier
+@function getItem($map, $identifier) {
+    @if type-of($identifier) == number {
+        @return map-get($map, $identifier);
+    } @else if type-of($identifier) == string {
+        @return map-get($map, (index(map-keys($map), $identifier)));
+    } @else {
+        @error 'Invalid data type in identifier for map.getItem function. Should either be a string or a number, instead received #{type-of($identifier)}';
+    }
+}
+
+// Change an item in a map by passing in an identifier
+@function setItem($map, $identifier, $value) {
+    $newMap: $map;
+
+    @if type-of($identifier) == number {
+        $newMap: map-merge($newMap, (index(map-keys($map), $identifier): $value));
+    } @else if type-of($identifier) == string {
+        @each $mapKey, $mapValue in $map {
+            $newMap: map-merge($newMap, ($identifier: $value));
+        }
+    } @else {
+        @error 'Invalid identifier type passed into map.setItem function. Should be a string, instead received #{type-of($identifier)}';
+    }
+
+    @return $newMap;
+}
