@@ -6,13 +6,14 @@
     $bpConfig
 ) {
     $styles: ();
+    $alts: false;
+    $breakpoints: false;
     $directions: false;
+    $dives: false;
     $increments: false;
     $multiples: false;
     $negatives: false;
     $pseudos: false;
-    $dives: false;
-    $breakpoints: false;
 
     @each $property, $value in $class {
         @each $configProperty, $configValue in $class { 
@@ -32,10 +33,13 @@
                 $dives: $configValue;
             } @else if $configProperty == directions {
                 $directions: $configValue;
+            } @else if $configProperty == alts {
+                $alts: $configValue;
             } @else if $configProperty != styles and $configProperty != breakpoints
                 and $configProperty != multiples and $configProperty != increments
                 and $configProperty != negatives and $configProperty != pseudos
-                and $configProperty != dives and $configProperty != directions {
+                and $configProperty != dives and $configProperty != directions
+                and $configProperty != alts {
                 @error 'Incorrect property #{$configProperty} in config for \'#{$label}\' utility';
             }
         }
@@ -52,6 +56,24 @@
             $dives,
             $pseudos,
             $multiples,
+            $alts,
         );
+
+        @if $alts {
+            @each $alt in $alts {
+                @include generator(
+                    $alt,
+                    $property,
+                    $value,
+                    $negatives,
+                    $directions,
+                    $increments,
+                    $dives,
+                    $pseudos,
+                    $multiples,
+                    $alts,
+                );
+            }
+        }
     }
 }

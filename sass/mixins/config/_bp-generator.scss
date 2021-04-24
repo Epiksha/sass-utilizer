@@ -20,6 +20,7 @@
     @each $breakpointLabel, $breakpointValue in $breakpointValues {
         @each $utilityName, $utilityConfig in $utilities {
             $styles: ();
+            $alts: false;
             $directions: false;
             $increments: false;
             $multiples: false;
@@ -45,11 +46,14 @@
                     $dives: $configValue;
                 } @else if $configProperty == directions {
                     $directions: $configValue;
+                } @else if $configProperty == alts {
+                    $alts: $configValue;
                 } @else if $configProperty != styles and $configProperty != breakpoints
                     and $configProperty != multiples and $configProperty != increments
                     and $configProperty != negatives and $configProperty != pseudos
-                    and $configProperty != dives and $configProperty != directions {
-                    @error 'Incorrect property #{$configProperty} in config for \'#{$utilityName}\' utility';
+                    and $configProperty != dives and $configProperty != directions
+                    and $configProperty != alts {
+                    @error 'Incorrect property #{$configProperty} in breakpoint config for \'#{$utilityName}\' utility';
                 }
             }
             
@@ -81,6 +85,38 @@
         
                     @if $dives {
                         @include breakpoint-diver($utilityName, $property, $value, $breakpointLabel, $breakpointValue, $paradigm);
+                    }
+
+                    @if $alts {
+                        @each $alt in $alts {
+                            .#{$breakpointLabel}\:#{$alt} {
+                                @media (#{$paradigm}: $breakpointValue) {
+                                    #{$property}: $value !important;
+                                }
+                            }
+                
+                            @if $increments {
+                                @include breakpoint-incrementify($alt, $property, $value, $negatives, $increments, $pseudos, $dives, $breakpointLabel, $breakpointValue, $paradigm);
+                
+                                .#{$breakpointLabel}\:#{$alt}-0 {
+                                    @media (#{$paradigm}: $breakpointValue) {
+                                        #{$property}: 0 !important;
+                                    }
+                                }
+                            }
+                
+                            @if $directions {
+                                @include breakpoint-directionify($alt, $property, $value, $negatives, $increments, $pseudos, $dives, $breakpointLabel, $breakpointValue, $paradigm);
+                            }
+                
+                            @if $pseudos {
+                                @include breakpoint-pseudify($alt, $property, $value, $pseudos, $breakpointLabel, $breakpointValue, $paradigm);
+                            }
+                
+                            @if $dives {
+                                @include breakpoint-diver($alt, $property, $value, $breakpointLabel, $breakpointValue, $paradigm);
+                            }
+                        }
                     }
                 }
             }
