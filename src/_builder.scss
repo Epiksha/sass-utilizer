@@ -3,16 +3,8 @@
 
 @mixin builder() {
     // Generates basic utilities
-    @include factory.basic();
-
-
-
-
-
-
-
-
-/* 
+    @include factory.basic();/*
+ 
     // Modifier Utilities
     @if $increments {
         @include incrementify($label, $property, $value, $negatives, $increments, $pseudos, $dives);

@@ -1,5 +1,5 @@
-@use "sass:map";
-@use "sass:list";
+@use 'sass:map';
+@use 'sass:list';
 
 @use '../helpers/_helpers.scss';
 
@@ -50,6 +50,4 @@ $globals: (
     } @else {
         @error 'Sass Utilizer: Invalid setting in #{type} config SET method: #{$setting}';
     }
-
-    @debug $globals;
 }
