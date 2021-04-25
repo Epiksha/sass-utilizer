@@ -2,20 +2,33 @@
 
 $utilities: (
     m: (
-        styles: (
-            margin: 1rem
-        ),
+        aliases: (marg),
         increments: (
             min: -2,
             max: 4,
             factor: 0.5
         ),
-        breakpoints: true,
-        alts: (marg),
+        styles: (
+            margin: 1rem
+        ),
+    ),
+    p: (
+        groups: (flex),
+        increments: (
+            min: -2,
+            max: 4,
+            factor: 0.5,
+        ),
+        styles: (
+            padding: 1rem,
+        ),
     ),
 );
 
 $config: (
+    defaults: (
+        breakpoints: true,
+    ),
     breakpoints: (
         sizes: (
             sm: 568px,
@@ -23,6 +36,11 @@ $config: (
             lg: 1020px
         ),
         paradigm: min-width,
+    ),
+    groups: (
+        flex: (
+            styles: (display: flex)
+        ),
     ),
 );
 

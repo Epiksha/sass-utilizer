@@ -1,5 +1,6 @@
-@use './_builder.scss' as *;
-@use './_config.scss';
+@use '_builder.scss' as *;
+@use '_globals.scss';
+@use '_config.scss';
 
 @mixin utilizer($utilities, $config: null) {
     // Configuration
@@ -7,4 +8,6 @@
 
     // Generate Utilities
     @include builder();
+    
+    @debug globals.get(utilities, p,);
 }

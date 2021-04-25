@@ -1,0 +1,49 @@
+@use 'sass:map';
+
+$defaultUtilityConfig: (
+    styles: null,
+    breakpoints: null,
+    directions: null,
+    dives: null,
+    groups: null,
+    increments: null,
+    multiples: null,
+    negatives: null,
+    pseudos: null,
+);
+
+$globals: (
+    config: (
+        global: (
+            breakpoints: null,
+            defaults: (
+                breakpoints: null,
+                directions: null,
+                dives: null,
+                increments: null,
+                multiples: null,
+                negatives: null,
+                pseudos: null,
+            ),
+            groups: null,
+        ),
+        utility: $defaultUtilityConfig,
+    ),
+    utilities: null,
+);
+
+@function get($keys...) {
+    @return map.get($globals, $keys...);
+}
+
+@mixin merge($keys...) {
+    $globals: map.merge($globals, $keys...) !global;
+}
+
+@mixin resetUtilityConfig() {
+    @include set(config, utility, $defaultUtilityConfig);
+}
+
+@mixin set($keys...) {
+    $globals: map.set($globals, $keys...) !global;
+}
