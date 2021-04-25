@@ -1,43 +1,19 @@
-@use './helpers/_map.scss';
+@use './libs/_globals.scss';
 
-$globalConfig: (
-    breakpoints: null,
-    directions: null,
-    dives: null,
-    increments: null,
-    multiples: null,
-    negatives: null,
-    pseudos: null,
-);
-
-$utilityConfig: (
-    styles: null,
-    alts: null,
-    breakpoints: null,
-    directions: null,
-    dives: null,
-    increments: null,
-    multiples: null,
-    negatives: null,
-    pseudos: null,
-);
-
-@function get() {
-    @return $utilityConfig;
-}
-
-@mixin set($setting, $value, $isGlobal: false) {
-    @if $isGlobal {
-        @if index(map-keys($globalConfig), $setting) {
-            $globalConfig: map.set($globalConfig, $setting, $value);
-        } @else {
-            @error 'Invalid setting name in global config SET method: #{$setting}';
+@mixin setup($utilities, $config) {
+    // Setup global config
+    @each $setting, $value in $config {
+        @include globals.set($setting, $value, true);
+    }
+    
+    // Setup utility-specific config
+    @if $utilities {
+        @each $utilityLabel, $utility in $utilities {
+            @each $setting, $value in $utility {
+                @include globals.set($setting, $value);
+            }
         }
     } @else {
-        @if index(map-keys($utilityConfig), $setting) {
-            $utilityConfig: map.set($utilityConfig, $setting, $value);
-        } @else {
-            @error 'Invalid setting name in utility config SET method: #{$setting}';
-        }
+        @error 'Sass Utilizer: No utilities passed into utilizer';
     }
 }

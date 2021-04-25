@@ -1,7 +1,32 @@
-@use './_config.scss';
-
-$config: null;
+@use './libs/_globals.scss';
+@use 'factory/_factory.scss';
 
 @mixin builder() {
-    $config: config.get();
+    // Generates basic utilities
+    @include factory.basic();
+
+
+
+
+
+
+
+
+/* 
+    // Modifier Utilities
+    @if $increments {
+        @include incrementify($label, $property, $value, $negatives, $increments, $pseudos, $dives);
+    }
+
+    @if $directions {
+        @include directionify($label, $property, $value, $negatives, $increments, $pseudos, $dives);
+    }
+
+    @if $dives {
+        @include diver($label, $property, $value);
+    }
+
+    @if $pseudos {
+        @include pseudify($label, $property, $value, $pseudos);
+    } */
 }
