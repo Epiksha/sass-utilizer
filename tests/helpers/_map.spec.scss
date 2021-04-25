@@ -1,0 +1,12 @@
+@use '../../../node_modules/sass-true/index' as *;
+@use '../../../src/helpers/_map.scss' as *;
+
+@include describe('get() - Returns an item from a map') {
+    @include it('returns correct item from the map') {
+        /* $value: (first: 'hi', second: 'bye', third: 'greetings');
+
+        $test: get($value, second);
+
+        @include assert-equal($test, 'bye', 'bye is returned'); */
+    }
+}

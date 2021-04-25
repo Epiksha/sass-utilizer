@@ -1,5 +1,5 @@
 // Get an item in a map by passing in an identifier
-@function getItem($map, $identifier) {
+@function get($map, $identifier) {
     @if type-of($identifier) == number {
         @return map-get($map, $identifier);
     } @else if type-of($identifier) == string {
@@ -10,7 +10,7 @@
 }
 
 // Change an item in a map by passing in an identifier
-@function setItem($map, $identifier, $value) {
+@function set($map, $identifier, $value) {
     $newMap: $map;
 
     @if type-of($identifier) == number {

@@ -29,13 +29,13 @@ $utilityConfig: (
 @mixin set($setting, $value, $isGlobal: false) {
     @if $isGlobal {
         @if index(map-keys($globalConfig), $setting) {
-            $globalConfig: map.setItem($globalConfig, $setting, $value);
+            $globalConfig: map.set($globalConfig, $setting, $value);
         } @else {
             @error 'Invalid setting name in global config SET method: #{$setting}';
         }
     } @else {
         @if index(map-keys($utilityConfig), $setting) {
-             $utilityConfig: map.setItem($utilityConfig, $setting, $value);
+            $utilityConfig: map.set($utilityConfig, $setting, $value);
         } @else {
             @error 'Invalid setting name in utility config SET method: #{$setting}';
         }
