@@ -1,15 +1,17 @@
 @use 'sass:map';
 
 $defaultUtilityConfig: (
-    styles: null,
     breakpoints: null,
+    blueprints: null,
     directions: null,
     dives: null,
-    groups: null,
     increments: null,
     multiples: null,
+    namespace: null,
     negatives: null,
     pseudos: null,
+    styles: null,
+    format: null,
 );
 
 $globals: (
@@ -25,10 +27,11 @@ $globals: (
                 negatives: null,
                 pseudos: null,
             ),
-            groups: null,
+            blueprints: null,
         ),
         utility: $defaultUtilityConfig,
     ),
+    currentUtility: null,
     utilities: null,
 );
 
@@ -40,7 +43,7 @@ $globals: (
     $globals: map.merge($globals, $keys...) !global;
 }
 
-@mixin resetUtilityConfig() {
+@mixin reset-utility-config() {
     @include set(config, utility, $defaultUtilityConfig);
 }
 

@@ -1,24 +1,19 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:selector';
 @use '_globals.scss';
-@use 'factory/_factory.scss';
+@use 'factory/_factory.scss' as *;
 
 @mixin builder() {
-    // Generates basic utilities
-    @include factory.basic();/*
- 
-    // Modifier Utilities
-    @if $increments {
-        @include incrementify($label, $property, $value, $negatives, $increments, $pseudos, $dives);
-    }
+    @each $selector, $settings in globals.get(utilities) {
+        @include globals.set(currentUtility, (selector: $selector, settings: $settings));
 
-    @if $directions {
-        @include directionify($label, $property, $value, $negatives, $increments, $pseudos, $dives);
-    }
+        $format: map.get($settings, format);
 
-    @if $dives {
-        @include diver($label, $property, $value);
+        @if $format == collection {
+            @include factory-collection();
+        } @else {
+            @include factory-standard();
+        }
     }
-
-    @if $pseudos {
-        @include pseudify($label, $property, $value, $pseudos);
-    } */
 }

@@ -1,0 +1,67 @@
+@use '../../../_globals.scss';
+@use 'sass:map';
+@use 'sass:math';
+@use 'sass:meta';
+@use 'sass:list';
+@use 'sass:string';
+
+@mixin increment-map() {
+    $utility: globals.get(currentUtility);
+    $selector: map.get($utility, selector);
+    $styles: map.get($utility, settings, styles);
+    $increment: map.get($utility, settings, increments);
+    $properties: map.get($increment, properties);
+
+    $factor: map.get($increment, factor);
+    $max: map.get($increment, max);
+    $min: map.get($increment, min);
+
+    // Check required settings are valid
+    @each $key, $value in (factor: $factor, max: $max, min: $min) {
+        @if $value == null {
+            @error 'Sass Utilizer: Error in increment worker for \'#{$selector}\' utility: \'#{$key}\' is undefined';
+        }
+    }
+
+    // Check if properties to be incremented were passed in, otherwise increment every incrementable value
+    @if $properties == null {
+        $incrementables: ();
+
+        @each $key, $value in $styles {
+            @if meta.type-of($value) == number {
+                $incrementables: list.join($incrementables, ($key: $value));
+            }
+        }
+
+        @each $incrementable in $incrementables {
+            @each $key, $value in $incrementable {
+                @each $property, $value in $incrementables {
+                    $iterableFactor: $min;
+            
+                    @while $iterableFactor <= $max {
+                        $tempValue: $value * $iterableFactor;
+                        $tempSelector: $selector;
+            
+                        @if $iterableFactor != 1 and $iterableFactor != 0 and $iterableFactor != -1 {
+                            @if $iterableFactor < 0 {
+                                $tempSelector: '-#{string.slice('#{$tempValue}', 1, string.index('#{$tempValue}', math.unit($tempValue)) - 1)}';
+                            }/*  @else if $iterableFactor > 0 {
+
+                            }
+                            
+                            @if $selector {
+                                #{$selector} {
+                                    #{$property}: $tempValue !important;
+                                }
+                            } */
+                        }
+            
+                        $iterableFactor: $iterableFactor + $factor;
+                    }
+                }
+            }
+        }
+    }/*  @else {
+        
+    } */
+}

@@ -1,19 +1,9 @@
 @use './_utilizer' as *;
 
 $utilities: (
-    m: (
-        aliases: (marg),
-        increments: (
-            min: -2,
-            max: 4,
-            factor: 0.5
-        ),
-        styles: (
-            margin: 1rem
-        ),
-    ),
     p: (
-        groups: (flex),
+        aliases: (pad),
+        blueprints: (flex),
         increments: (
             min: -2,
             max: 4,
@@ -21,6 +11,17 @@ $utilities: (
         ),
         styles: (
             padding: 1rem,
+            margin: 1rem,
+        ),
+    ),
+    colors: (
+        format: collection,
+        namespace: (
+            label: color,
+            property: color,
+            separator: '-',
+            values: (blue, red, yellow, green, cyan),
+            suffixType: increment,
         ),
     ),
 );
@@ -37,7 +38,7 @@ $config: (
         ),
         paradigm: min-width,
     ),
-    groups: (
+    blueprints: (
         flex: (
             styles: (display: flex)
         ),

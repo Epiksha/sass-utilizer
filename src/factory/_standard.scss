@@ -1,0 +1,22 @@
+@use 'sass:map';
+@use '../_globals.scss';
+@use 'workers/standard/_workers.scss' as *;
+
+@mixin standard() {
+    $utility: globals.get(currentUtility);
+    $selector: map.get($utility, selector);
+    $settings: map.get($utility, settings);
+    $styles: map.get($settings, styles);
+
+    #{$selector} {
+        @each $property, $value in $styles {
+            #{$property}: $value;
+        }
+    }
+
+    @each $settingName, $setting in $settings {
+        @if $settingName == increments {
+            @include worker-increment();
+        }
+    }
+}

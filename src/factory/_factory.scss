@@ -1,1 +1,2 @@
-@forward '_basic.scss';
+@forward '_collection.scss' as factory-*;
+@forward '_standard.scss' as factory-*;

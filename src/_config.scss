@@ -1,5 +1,7 @@
 @use 'sass:map';
 @use 'sass:list';
+@use 'sass:string';
+@use 'sass:selector';
 @use '_globals.scss';
 
 @function get($keys...) {
@@ -10,8 +12,7 @@
     }
 }
 
-// Set config (located in globals file)
-@mixin _set($setting, $value, $isGlobal: false) {
+@mixin set($setting, $value, $isGlobal: false) {
     $mapKeys: config, utility;
     $type: utility;
 
@@ -22,7 +23,7 @@
 
     $keys: list.join($mapKeys, ($setting, $value));
 
-    // Check if config property is valid and if so, set it to current setting
+    // Check if config label is valid and if so, set it to current setting
     @if map.has-key(globals.get($mapKeys...), $setting) {
         $configProperty: globals.get(list.join($mapKeys, $setting)...);
 
@@ -45,7 +46,7 @@
             @include globals.set($keys...);
         }
     } @else {
-        @error 'Sass Utilizer: Invalid setting in #{$type} config SET method: #{$setting}';
+        @error 'Sass Utilizer: Invalid setting \'#{$setting}\' in \'#{$type}\' config SET method';
     }
 
     // Use defaults from global if utility's config property equals null
@@ -56,48 +57,55 @@
     }
 }
 
+// Set config (located in globals file)
 @mixin setup($utilities, $config) {
     // Setup global config
     @each $setting, $value in $config {
-        @include _set($setting, $value, true);
+        @include set($setting, $value, true);
     }
     
     // Setup utility-specific config
     @if $utilities {
         @each $utilityLabel, $utility in $utilities {
-            $labels: ($utilityLabel,);
+            $selector: '.#{$utilityLabel}';
 
             // Build out config
             @each $setting, $value in $utility {
                 @if $setting == aliases {
                     @each $alias in $value {
-                        $labels: list.append($labels, $alias);
+                        $selector: string.insert($selector, ', .#{$alias}', string.length($selector) + 1);
                     }
                 } @else {
-                    @include _set($setting, $value);
+                    @include set($setting, $value);
                 }
             }
 
-            // Setup groups
-            @if globals.get(config, utility, groups) {
-                @each $group in globals.get(config, utility, groups) {
-                    @if globals.get(config, global, groups, $group) {
-                        @each $setting, $value in globals.get(config, global, groups, $group) {
-                            @include _set($setting, $value);
+            // Setup blueprints
+            @if globals.get(config, utility, blueprints) {
+                @each $blueprint in globals.get(config, utility, blueprints) {
+                    @if globals.get(config, global, blueprints, $blueprint) {
+                        @each $setting, $value in globals.get(config, global, blueprints, $blueprint) {
+                            @include set($setting, $value);
                         } 
                     } @else {
-                        @warn 'Sass Utilizer: Group \'#{$group}\' in utility \'#{$utilityLabel}\' is not defined';
+                        @warn 'Sass Utilizer: Blueprint \'#{$blueprint}\' in utility \'#{$utilityLabel}\' is not defined';
                     }
                 }
             }
 
             // Add formatted utility to global utilities (will generate identical utilities for every alias)
-            @each $label in $labels {
-                @include globals.set(utilities, $label, globals.get(config, utility));
+            $formattedSettings: ();
+
+            @each $setting, $value in get(utility) {
+                @if $value != null {
+                    $formattedSettings: map.merge($formattedSettings, ($setting: $value));
+                }
             }
 
+            @include globals.merge(utilities, $selector, $formattedSettings);
+
             // Reset global utility-specific config for next utility
-            @include globals.resetUtilityConfig();
+            @include globals.reset-utility-config();
         }
     } @else {
         @error 'Sass Utilizer: No utilities passed into utilizer';

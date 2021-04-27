@@ -5,7 +5,5 @@ const glob = require('glob')
 describe('Sass', () => {
     const sassTestFiles = glob.sync(path.resolve(process.cwd(), 'tests/**/*.spec.scss'));
 
-    sassTestFiles.forEach(file =>
-        sassTrue.runSass({ file }, { describe, it })
-    );
+    sassTestFiles.forEach(file =>  sassTrue.runSass({ file }, { describe, it }));
 });

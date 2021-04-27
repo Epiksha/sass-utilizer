@@ -8,6 +8,4 @@
 
     // Generate Utilities
     @include builder();
-    
-    @debug globals.get(utilities, p,);
 }
