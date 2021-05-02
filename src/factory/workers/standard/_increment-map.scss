@@ -1,9 +1,9 @@
-@use '../../../_globals.scss';
 @use 'sass:map';
-@use 'sass:math';
 @use 'sass:meta';
 @use 'sass:list';
 @use 'sass:string';
+@use '../../../_globals.scss';
+@use '../../../helpers/_helpers.scss' as *;
 
 @mixin increment-map() {
     $utility: globals.get(currentUtility);
@@ -16,6 +16,10 @@
     $max: map.get($increment, max);
     $min: map.get($increment, min);
 
+    $newSelectors: ();
+    $newValues: ();
+    $incrementables: ();
+
     // Check required settings are valid
     @each $key, $value in (factor: $factor, max: $max, min: $min) {
         @if $value == null {
@@ -23,45 +27,87 @@
         }
     }
 
-    // Check if properties to be incremented were passed in, otherwise increment every incrementable value
+    // Set properties that are incremented (all properties with unit types if $properties isn't passed in)
     @if $properties == null {
-        $incrementables: ();
-
         @each $key, $value in $styles {
             @if meta.type-of($value) == number {
                 $incrementables: list.join($incrementables, ($key: $value));
+                $newValues: map.set($newValues, $key, ());
             }
         }
-
-        @each $incrementable in $incrementables {
-            @each $key, $value in $incrementable {
-                @each $property, $value in $incrementables {
-                    $iterableFactor: $min;
-            
-                    @while $iterableFactor <= $max {
-                        $tempValue: $value * $iterableFactor;
-                        $tempSelector: $selector;
-            
-                        @if $iterableFactor != 1 and $iterableFactor != 0 and $iterableFactor != -1 {
-                            @if $iterableFactor < 0 {
-                                $tempSelector: '-#{string.slice('#{$tempValue}', 1, string.index('#{$tempValue}', math.unit($tempValue)) - 1)}';
-                            }/*  @else if $iterableFactor > 0 {
-
-                            }
-                            
-                            @if $selector {
-                                #{$selector} {
-                                    #{$property}: $tempValue !important;
-                                }
-                            } */
-                        }
-            
-                        $iterableFactor: $iterableFactor + $factor;
-                    }
+    } @else {
+        @each $propertyKey, $propertyValue in $properties {
+            @each $key, $value in $styles {
+                @if $propertyKey == $key and meta.type-of($value) == number {
+                    $incrementables: list.join($incrementables, ($key: $value));
+                    $newValues: map.set($newValues, $key, ());
                 }
             }
         }
-    }/*  @else {
+    }
+
+    @each $property, $incrementable in $incrementables {
+        @each $key, $value in $incrementable {
+            @each $property, $value in $incrementables {
+                $iterableFactor: $min;
         
-    } */
+                @while $iterableFactor <= $max {
+                    $prefix: '';
+                    $suffix: '';
+                    $tempValue: $value * $iterableFactor;
+                    $tempSuffix: '#{su-string-remove-unit($iterableFactor)}';
+        
+                    // Generate selector string format
+                    @if $iterableFactor != 1 and $iterableFactor != 0 {
+                        @if $iterableFactor < 0 {
+                            $prefix: '-';
+
+                            @if string.index($tempSuffix, '.') != null {
+                                $suffixStart: string.slice($tempSuffix, 1, string.index($tempSuffix, '.') - 1);
+                                $suffixEnd: string.slice($tempSuffix, string.index($tempSuffix, '.') + 1, string.length($tempSuffix));
+
+                                $suffix: $suffixStart + \. + $suffixEnd;
+                            } @else {
+                                $suffix: $tempSuffix;
+                            }
+                        } @else {
+                            @if string.index($tempSuffix, '.') != null {
+                                $suffixStart: string.slice($tempSuffix, 1, string.index($tempSuffix, '.') - 1);
+                                $suffixEnd: string.slice($tempSuffix, string.index($tempSuffix, '.') + 1, string.length($tempSuffix));
+
+                                $suffix: '-' + $suffixStart + \. + $suffixEnd;
+                            } @else {
+                                $suffix: '-#{$tempSuffix}';
+                            }
+                        }
+
+                        // Append to tempSelector to new selectors
+                        @if list.index($newSelectors, su-selector-combine($prefix, $suffix, $selector)) == null {
+                            $newSelectors: list.append($newSelectors, su-selector-combine($prefix, $suffix, $selector));
+                        }
+
+                        @if list.index(map.get($newValues, $property), $tempValue) == null {
+                            $newValues: map.set($newValues, $property, list.append(map.get($newValues, $property), $tempValue, $separator: comma));
+                        }
+                    }
+
+                    $iterableFactor: $iterableFactor + $factor;
+                }
+            }
+        }
+    }
+
+    @for $i from 1 through list.length($newSelectors) {
+        #{list.nth($newSelectors, $i)} {
+            @each $key, $values in $newValues {
+                #{$key}: list.nth($values, $i);
+            }
+            
+            @each $property, $value in $styles {
+                @if not map.has-key($newValues, $property) {
+                    #{$property}: $value;
+                }
+            }
+        }
+    }
 }

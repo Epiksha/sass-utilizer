@@ -1,0 +1,54 @@
+@use 'sass:list';
+@use 'sass:math';
+@use 'sass:meta';
+@use 'sass:string';
+
+@function remove-unit($value) {
+    $newUnit: $value;
+
+    @if not math.is-unitless($value) {
+        $valueString: #{$value};
+        $newUnit: string.slice($valueString, 1, string.index($valueString, math.unit($value)) - 1);
+    }
+
+    @return $newUnit;
+}
+
+@function remove-whitespace($string) {
+    @while (string.index($string, ' ') != null) {
+        $index: string.index($string, ' ');
+        $string: string.slice($string, 0, $index - 1) + string.slice($string, $index + 1);
+    }
+
+    @return $string;
+}
+
+// Splits a $string by a given $character and returns a list of substrings
+@function split($string, $character) {
+    $strings: ();
+
+    @if string.index($string, $character) {
+        $startIndex: string.index($string, $character) + 1;
+
+        @if string.index($string, ', ') {
+            $startIndex: string.index($string, $character) + 2;
+        }
+
+        $strings: list.append($strings, string.slice($string, 1, string.index($string, $character) - 1));
+        $strings: list.append($strings, string.slice($string, $startIndex, string.length($string)));
+    
+        @each $tempString in $strings {
+            @if meta.type-of($tempString) == string and string.index($tempString, ',') {
+                $startIndex: list.index(string.slice($tempString, string.index($tempString, $character) + 1));
+
+                @if list.index($tempString, ', ') {
+                    $startIndex: string.slice($tempString, string.index($tempString, $character) + 2);
+                }
+
+                $strings: list.set-nth($strings, $startIndex, string.length($string)), list.length($strings + 1);
+            }
+        }
+    }
+
+    @return $strings;
+}

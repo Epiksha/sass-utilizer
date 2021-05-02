@@ -1,10 +1,12 @@
 @use 'sass:map';
+@use 'sass:string';
 @use '../_globals.scss';
+@use '../helpers/_helpers.scss' as *;
 @use 'workers/standard/_workers.scss' as *;
 
 @mixin standard() {
     $utility: globals.get(currentUtility);
-    $selector: map.get($utility, selector);
+    $selector: su-selector-combine('', '', map.get($utility, selector));
     $settings: map.get($utility, settings);
     $styles: map.get($settings, styles);
 

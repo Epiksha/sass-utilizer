@@ -1,0 +1,33 @@
+@use 'sass:list';
+@use 'sass:string';
+@use './_string.scss' as su-string;
+
+@function combine($prefix: '', $suffix: '', $selectors...) {
+    $newSelector: '';
+
+    @if list.length($selectors) > 0 {
+        @each $selector in $selectors {
+            @if (string.index($selector, ',')) {
+                $partialSelectors: su-string.split($selector, ',');
+                
+                @each $partialSelector in $partialSelectors {
+                    @if string.length($newSelector) == 0 {
+                        $newSelector: '.#{$prefix + $partialSelector + $suffix}';
+                    } @else {
+                        $newSelector: string.insert($newSelector, ', .#{$prefix + $partialSelector + $suffix}', string.length($newSelector) + 1);
+                    }
+                }
+            } @else {
+                @if string.length($newSelector) == 0 {
+                    $newSelector: '.#{$prefix + $selector + $suffix}';
+                } @else {
+                    $newSelector: string.insert($selector, ', .#{$prefix + $selector}-#{$suffix}', string.length($newSelector) + 1);
+                }
+            }
+        }
+    } @else {
+        @error 'Sass Utilizer: No new selectors passed into selector combine function';
+    }
+
+    @return $newSelector;
+}
