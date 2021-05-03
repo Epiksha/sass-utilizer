@@ -6,55 +6,53 @@
 @use '../../../helpers/_helpers.scss' as *;
 
 @mixin increment-map() {
-    $utility: globals.get(currentUtility);
-    $selector: map.get($utility, selector);
-    $styles: map.get($utility, settings, styles);
-    $increment: map.get($utility, settings, increments);
-    $properties: map.get($increment, properties);
-
-    $factor: map.get($increment, factor);
-    $max: map.get($increment, max);
-    $min: map.get($increment, min);
-
-    $newSelectors: ();
-    $newValues: ();
-    $incrementables: ();
-
-    // Check required settings are valid
-    @each $key, $value in (factor: $factor, max: $max, min: $min) {
-        @if $value == null {
-            @error 'Sass Utilizer: Error in increment worker for \'#{$selector}\' utility: \'#{$key}\' is undefined';
-        }
-    }
-
-    // Set properties that are incremented (all properties with unit types if $properties isn't passed in)
-    @if $properties == null {
-        @each $key, $value in $styles {
-            @if meta.type-of($value) == number {
-                $incrementables: list.join($incrementables, ($key: $value));
-                $newValues: map.set($newValues, $key, ());
+    @each $selector, $settings in globals.get(currentUtilities) {
+        $styles: map.get($settings, styles);
+        $increment: map.get($settings, increments);
+        $properties: map.get($increment, properties);
+    
+        $factor: map.get($increment, factor);
+        $max: map.get($increment, max);
+        $min: map.get($increment, min);
+    
+        $newSelectors: ();
+        $newValues: ();
+        $incrementables: ();
+    
+        // Check required settings are valid
+        @each $key, $value in (factor: $factor, max: $max, min: $min) {
+            @if $value == null {
+                @error 'Sass Utilizer: Error in increment worker for \'#{$selector}\' utility: \'#{$key}\' is undefined';
             }
         }
-    } @else {
-        @each $propertyKey, $propertyValue in $properties {
+    
+        // Set properties that are incremented (all properties with unit types if $properties isn't passed in)
+        @if $properties == null {
             @each $key, $value in $styles {
-                @if $propertyKey == $key and meta.type-of($value) == number {
+                @if meta.type-of($value) == number {
                     $incrementables: list.join($incrementables, ($key: $value));
                     $newValues: map.set($newValues, $key, ());
                 }
             }
+        } @else {
+            @each $propertyKey, $propertyValue in $properties {
+                @each $key, $value in $styles {
+                    @if $propertyKey == $key and meta.type-of($value) == number {
+                        $incrementables: list.join($incrementables, ($key: $value));
+                        $newValues: map.set($newValues, $key, ());
+                    }
+                }
+            }
         }
-    }
-
-    @each $property, $incrementable in $incrementables {
-        @each $key, $value in $incrementable {
-            @each $property, $value in $incrementables {
+    
+        @each $property, $incrementable in $incrementables {
+            @each $key, $value in $incrementable {
                 $iterableFactor: $min;
         
                 @while $iterableFactor <= $max {
                     $prefix: '';
                     $suffix: '';
-                    $tempValue: $value * $iterableFactor;
+                    $tempValue: $incrementable * $iterableFactor;
                     $tempSuffix: '#{su-string-remove-unit($iterableFactor)}';
         
                     // Generate selector string format
@@ -95,19 +93,26 @@
                 }
             }
         }
-    }
-
-    @for $i from 1 through list.length($newSelectors) {
-        #{list.nth($newSelectors, $i)} {
-            @each $key, $values in $newValues {
-                #{$key}: list.nth($values, $i);
-            }
+    
+        @for $i from 1 through list.length($newSelectors) {
+            $tempLabel: list.nth($newSelectors, $i);
+            $tempSettings: $settings;
             
-            @each $property, $value in $styles {
-                @if not map.has-key($newValues, $property) {
-                    #{$property}: $value;
+            #{list.nth($newSelectors, $i)} {
+                @each $property, $values in $newValues {
+                    #{$property}: list.nth($values, $i) !important;
+                    
+                    $tempSettings: map.set($tempSettings, styles, $property, list.nth($values, $i));
+                }
+    
+                @each $property, $value in $styles {
+                    @if not map.has-key($newValues, $property) {
+                        #{$property}: $value !important;
+                    }
                 }
             }
+    
+            @include globals.add-utility($tempLabel, $tempSettings);
         }
     }
 }

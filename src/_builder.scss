@@ -5,8 +5,8 @@
 @use 'factory/_factory.scss' as *;
 
 @mixin builder() {
-    @each $selector, $settings in globals.get(utilities) {
-        @include globals.set(currentUtility, (selector: $selector, settings: $settings));
+    @each $utility, $settings in globals.get(utilities) {
+        @include globals.set(currentUtilities, ($utility: $settings));
 
         $format: map.get($settings, format);
 

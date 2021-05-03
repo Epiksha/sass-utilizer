@@ -1,3 +1,4 @@
+@use 'sass:list';
 @use 'sass:map';
 
 $defaultUtilityConfig: (
@@ -31,9 +32,17 @@ $globals: (
         ),
         utility: $defaultUtilityConfig,
     ),
-    currentUtility: null,
+    currentUtilities: null,
     utilities: null,
 );
+
+@mixin add-utility ($label, $utilities) {
+    @if get(utilities) == null {
+        @include set(utilities, ($label: $utilities));
+    } @else {
+        @include merge(utilities, ($label: $utilities));
+    }
+}
 
 @function get($keys...) {
     @return map.get($globals, $keys...);

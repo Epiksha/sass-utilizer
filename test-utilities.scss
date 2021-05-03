@@ -4,9 +4,11 @@ $utilities: (
     p: (
         aliases: (pad),
         blueprints: (flex),
+        increments: true,
+        directions: true,
         styles: (
             padding: 1rem,
-            margin: 3rem,
+            margin: 1rem,
         ),
     ),
     colors: (
@@ -24,7 +26,6 @@ $utilities: (
 $config: (
     defaults: (
         breakpoints: true,
-        increments: true,
     ),
     breakpoints: (
         sizes: (
@@ -36,7 +37,11 @@ $config: (
     ),
     blueprints: (
         flex: (
-            styles: (display: flex)
+            styles: (
+                display: flex,
+                justify-content: center,
+                align-items: center,
+            ),
         ),
     ),
 );

@@ -5,20 +5,35 @@
 @use 'workers/standard/_workers.scss' as *;
 
 @mixin standard() {
-    $utility: globals.get(currentUtility);
-    $selector: su-selector-combine('', '', map.get($utility, selector));
-    $settings: map.get($utility, settings);
-    $styles: map.get($settings, styles);
-
-    #{$selector} {
-        @each $property, $value in $styles {
-            #{$property}: $value;
+    @each $label, $settings in globals.get(currentUtilities) {
+        $selector: su-selector-combine('', '', $label);
+        $styles: map.get($settings, styles);
+    
+        // Add basic selector
+        #{$selector} {
+            @each $property, $value in $styles {
+                #{$property}: $value !important;
+            }
         }
-    }
-
-    @each $settingName, $setting in $settings {
-        @if $settingName == increments {
-            @include worker-increment();
+    
+        // Setup Increment Utilities
+        @if map.has-key($settings, increments) {
+            @include worker-increments();
+        }
+        
+        // Setup Direction Utilities
+        @if map.has-key($settings, directions) {
+            @include worker-directions();
+        }
+        
+        // Setup Dive Utilities
+        @if map.has-key($settings, dives) {
+            @include worker-dives();
+        }
+        
+        // Setup Pseudo Utilities
+        @if map.has-key($settings, pseudos) {
+            @include worker-pseudos();
         }
     }
 }

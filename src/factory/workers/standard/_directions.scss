@@ -1,0 +1,27 @@
+@use 'sass:map';
+@use 'sass:meta';
+@use '../../../_globals.scss';
+
+@mixin directions {
+    $globalUtilities: globals.get(utilities);
+    $directions: top, right, bottom, left;
+    $directionables: (margin, padding, border, border-radius, border-color, border-width, border-style);
+    $sliceRequired: (border-radius, border-color, border-width, border-style);
+
+    @each $selector, $settings in $globalUtilities {
+        $directionSettings: map.get($settings, directions);
+
+        @if $directionSettings != null {
+            @if meta.type-of($directionSettings) == map {
+                // @debug map;
+            } @else if '#{$directionSettings}' == 'true' {
+                // @debug true;
+            } @else {
+                @error 'Sass Utilizer: Invalid directions config passed into \'#{$selector}\' utility';
+            }
+        }
+
+        $newSelectors: ();
+        $newValues: ();
+    }
+}

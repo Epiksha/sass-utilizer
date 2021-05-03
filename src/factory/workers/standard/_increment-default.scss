@@ -2,6 +2,8 @@
 @use '_increment-map.scss' as *;
 
 @mixin increment-default() {
-    @include globals.set(currentUtility, settings, increments, (min: -2, max: 6, factor: 0.5));
-    @include increment-map();
+    @each $selector, $settings in globals.get(currentUtilities) {
+        @include globals.set(currentUtilities, $selector, increments, (min: -2, max: 6, factor: 0.5));
+        @include increment-map();
+    }
 }

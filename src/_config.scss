@@ -95,7 +95,7 @@
                 }
             }
 
-            @include globals.merge(utilities, $selector, $formattedSettings);
+            @include globals.merge(utilities, ($selector: $formattedSettings));
 
             // Reset global utility-specific config for next utility
             @include globals.reset-utility-config();

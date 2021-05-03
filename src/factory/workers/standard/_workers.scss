@@ -1,1 +1,4 @@
-@forward '_increment' as worker-*;
+@forward '_increments' as worker-*;
+@forward '_directions' as worker-*;
+@forward '_dives' as worker-*;
+@forward '_pseudos' as worker-*;
