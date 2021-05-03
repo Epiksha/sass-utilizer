@@ -16,9 +16,8 @@
         "dynamic"
     ],
     "scripts": {
-        "start": "npm run compile",
+        "start": "sass test-utilities.scss:test-utilities.css --watch --no-source-map",
         "compile": "sass test-utilities.scss:test-utilities.css --no-source-map",
-        "watch": "sass test-utilities.scss:test-utilities.css --watch --no-source-map",
         "lint": "stylelint **/*.scss",
         "test": "npm run lint && jest",
         "test:watch": "jest --watch",

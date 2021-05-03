@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use 'sass:meta';
 @use '../../../_globals.scss';
+@use '_increment-default.scss' as *;
 @use '_increment-list.scss' as *;
 @use '_increment-map.scss' as *;
 
@@ -15,7 +16,9 @@
         @include increment-map();
     } @else if meta.type-of($increment) == list {
         @include increment-list();
-    } @else if meta.type-of($increment) == true {
-        @include increment-standard();
+    } @else if '#{$increment}' == 'true' {
+        @include increment-default();
+    } @else {
+        @error 'Sass Utilizer: Invalid type passed into increment settings';
     }
 }

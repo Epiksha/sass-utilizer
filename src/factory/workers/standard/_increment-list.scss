@@ -1,3 +1,96 @@
+@use 'sass:map';
+@use 'sass:meta';
+@use 'sass:list';
+@use 'sass:string';
+@use '../../../_globals.scss';
+@use '../../../helpers/_helpers.scss' as *;
+
 @mixin increment-list() {
-    // @debug 'List';
+    $utility: globals.get(currentUtility);
+    $selector: map.get($utility, selector);
+    $styles: map.get($utility, settings, styles);
+    $increments: map.get($utility, settings, increments);
+    $properties: null;
+
+    @if list.index($increments, properties) != null {
+        $properties: list.nth($increments, list.index($increments, properties));
+    }
+
+    $newSelectors: ();
+    $newValues: ();
+    $incrementables: ();
+
+    // Set incrementable properties (all properties with unit types if $properties variable isn't passed in)
+    @if $properties == null {
+        @each $key, $value in $styles {
+            @if meta.type-of($value) == number {
+                $incrementables: list.join($incrementables, ($key: $value));
+                $newValues: map.set($newValues, $key, ());
+            }
+        }
+    } @else {
+        @each $propertyKey, $propertyValue in $properties {
+            @each $key, $value in $styles {
+                @if $propertyKey == $key and meta.type-of($value) == number {
+                    $incrementables: list.join($incrementables, ($key: $value));
+                    $newValues: map.set($newValues, $key, ());
+                }
+            }
+        }
+    }
+
+    @each $property, $incrementable in $incrementables {
+        @each $increment in $increments {
+            $prefix: '';
+            $suffix: '';
+            
+            $value: $incrementable * $increment;
+            $tempSuffix: '#{$increment}';
+
+            // Generate selector string format
+            @if $increment < 0 {
+                $prefix: '-';
+
+                @if string.index($tempSuffix, '.') != null {
+                    $suffixStart: string.slice($tempSuffix, 1, string.index($tempSuffix, '.') - 1);
+                    $suffixEnd: string.slice($tempSuffix, string.index($tempSuffix, '.') + 1, string.length($tempSuffix));
+
+                    $suffix: $suffixStart + \. + $suffixEnd;
+                } @else {
+                    $suffix: $tempSuffix;
+                }
+            } @else {
+                @if string.index($tempSuffix, '.') != null {
+                    $suffixStart: string.slice($tempSuffix, 1, string.index($tempSuffix, '.') - 1);
+                    $suffixEnd: string.slice($tempSuffix, string.index($tempSuffix, '.') + 1, string.length($tempSuffix));
+
+                    $suffix: '-' + $suffixStart + \. + $suffixEnd;
+                } @else {
+                    $suffix: '-#{$tempSuffix}';
+                }
+            }
+
+            @if list.index($newSelectors, su-selector-combine($prefix, $suffix, $selector)) == null {
+                $newSelectors: list.append($newSelectors, su-selector-combine($prefix, $suffix, $selector));
+            }
+
+            @if list.index(map.get($newValues, $property), $incrementable) == null {
+                $newValues: map.set($newValues, $property, list.append(map.get($newValues, $property), $value, $separator: comma));
+            }
+        }
+    }
+
+    @for $i from 1 through list.length($newSelectors) {
+        #{list.nth($newSelectors, $i)} {
+            @each $key, $values in $newValues {
+                #{$key}: list.nth($values, $i);
+            }
+            
+            @each $property, $value in $styles {
+                @if not map.has-key($newValues, $property) {
+                    #{$property}: $value;
+                }
+            }
+        }
+    }
 }

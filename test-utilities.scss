@@ -4,15 +4,9 @@ $utilities: (
     p: (
         aliases: (pad),
         blueprints: (flex),
-        increments: (
-            min: -2,
-            max: 4,
-            factor: 0.5,
-        ),
         styles: (
             padding: 1rem,
             margin: 3rem,
-            left: 1rem,
         ),
     ),
     colors: (
@@ -30,6 +24,7 @@ $utilities: (
 $config: (
     defaults: (
         breakpoints: true,
+        increments: true,
     ),
     breakpoints: (
         sizes: (

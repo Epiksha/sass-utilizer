@@ -1,3 +1,7 @@
+@use '../../../_globals.scss';
+@use '_increment-map.scss' as *;
+
 @mixin increment-default() {
-    // @debug 'Default';
+    @include globals.set(currentUtility, settings, increments, (min: -2, max: 6, factor: 0.5));
+    @include increment-map();
 }

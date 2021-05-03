@@ -12,16 +12,9 @@
     }
 }
 
-@mixin set($setting, $value, $isGlobal: false) {
+@mixin set($setting, $value) {
     $mapKeys: config, utility;
     $type: utility;
-
-    @if $isGlobal {
-        $mapKeys: config, global;
-        $type: global;
-    }
-
-    $keys: list.join($mapKeys, ($setting, $value));
 
     // Check if config label is valid and if so, set it to current setting
     @if map.has-key(globals.get($mapKeys...), $setting) {
@@ -43,16 +36,16 @@
                 }
             }
         } @else {
-            @include globals.set($keys...);
+            @include globals.set(list.join($mapKeys, ($setting, $value))...);
         }
     } @else {
         @error 'Sass Utilizer: Invalid setting \'#{$setting}\' in \'#{$type}\' config SET method';
     }
 
-    // Use defaults from global if utility's config property equals null
-    @each $configLabel, $configValue in globals.get(config, global, defaults) {
-        @if globals.get(config, utility, $configLabel) == null {
-            @include globals.set(config, utility, $configLabel, $configValue);
+    // Use defaults from global config if utility's config property equals null
+    @each $globalConfigLabel, $globalConfigValue in globals.get(config, global, defaults) {
+        @if globals.get(config, utility, $globalConfigLabel) == null {
+            @include globals.set(config, utility, $globalConfigLabel, $globalConfigValue);
         }
     }
 }
@@ -61,9 +54,9 @@
 @mixin setup($utilities, $config) {
     // Setup global config
     @each $setting, $value in $config {
-        @include set($setting, $value, true);
+        @include globals.set(config, global, $setting, $value);
     }
-    
+
     // Setup utility-specific config
     @if $utilities {
         @each $utilityLabel, $utility in $utilities {
