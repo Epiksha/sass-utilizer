@@ -2,6 +2,30 @@
 @use 'sass:string';
 @use './_string.scss' as su-string;
 
+@function declassify($selector) {
+    $newSelector: ();
+
+    @if list.length($selector) > 0 {
+        @if string.index($selector, ',') != null {
+            @each $partialSelector in su-string.split($selector, ',') {
+                @if string.index($partialSelector, '.') == 1 {
+                    @if list.length($newSelector) == 0 {
+                        $newSelector: list.append($newSelector, string.slice($partialSelector, 2, string.length($partialSelector)), $separator: comma);
+                    } @else {
+                        $newSelector: list.append($newSelector, string.slice($partialSelector, 2, string.length($partialSelector)), $separator: comma);
+                    }
+                }
+            }
+        } @else {
+            $newSelector: list.append($newSelector, string.slice($selector, 2, string.length($selector)), $separator: comma);
+        }
+    } @else {
+        @error 'Sass Utilizer: No selectors passed into selector declassify function';
+    }
+
+    @return $newSelector;
+}
+
 @function combine($prefix: '', $suffix: '', $selectors...) {
     $newSelector: '';
 

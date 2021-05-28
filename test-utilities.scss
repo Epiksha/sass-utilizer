@@ -4,8 +4,9 @@ $utilities: (
     p: (
         aliases: (pad),
         blueprints: (flex),
-        increments: true,
         directions: true,
+        dives: true,
+        increments: (-1, -2.5, 1.5, 3.5),
         styles: (
             padding: 1rem,
             margin: 1rem,

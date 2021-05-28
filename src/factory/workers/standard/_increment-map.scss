@@ -5,114 +5,98 @@
 @use '../../../_globals.scss';
 @use '../../../helpers/_helpers.scss' as *;
 
-@mixin increment-map() {
-    @each $selector, $settings in globals.get(currentUtilities) {
-        $styles: map.get($settings, styles);
-        $increment: map.get($settings, increments);
-        $properties: map.get($increment, properties);
-    
-        $factor: map.get($increment, factor);
-        $max: map.get($increment, max);
-        $min: map.get($increment, min);
-    
-        $newSelectors: ();
-        $newValues: ();
-        $incrementables: ();
-    
-        // Check required settings are valid
-        @each $key, $value in (factor: $factor, max: $max, min: $min) {
-            @if $value == null {
-                @error 'Sass Utilizer: Error in increment worker for \'#{$selector}\' utility: \'#{$key}\' is undefined';
+@mixin increment-map($selector, $settings) {
+    $styles: map.get($settings, styles);
+    $incrementConfig: map.get($settings, increments);
+    $properties: map.get($incrementConfig, properties);
+
+    $factor: map.get($incrementConfig, factor);
+    $max: map.get($incrementConfig, max);
+    $min: map.get($incrementConfig, min);
+
+    $incrementables: ();
+
+    // Check required settings are valid
+    @each $key, $value in (factor: $factor, max: $max, min: $min) {
+        @if $value == null {
+            @error 'Sass Utilizer: Error in increment worker for \'#{$selector}\' utility: \'#{$key}\' is undefined';
+        }
+    }
+
+    // If no specific properties to increment are defined, set all properties with unit types to be incremented
+    @if $properties == null {
+        @each $key, $value in $styles {
+            @if meta.type-of($value) == number {
+                $incrementables: list.join($incrementables, ($key: $value));
             }
         }
-    
-        // Set properties that are incremented (all properties with unit types if $properties isn't passed in)
-        @if $properties == null {
+    } @else {
+        @each $propertyKey, $propertyValue in $properties {
             @each $key, $value in $styles {
-                @if meta.type-of($value) == number {
+                @if $propertyKey == $key and meta.type-of($value) == number {
                     $incrementables: list.join($incrementables, ($key: $value));
-                    $newValues: map.set($newValues, $key, ());
-                }
-            }
-        } @else {
-            @each $propertyKey, $propertyValue in $properties {
-                @each $key, $value in $styles {
-                    @if $propertyKey == $key and meta.type-of($value) == number {
-                        $incrementables: list.join($incrementables, ($key: $value));
-                        $newValues: map.set($newValues, $key, ());
-                    }
                 }
             }
         }
+    }
     
+    $iterableFactor: $min;
+
+    @while $iterableFactor <= $max {
+        $prefix: '';
+        $suffix: '';
+        
+        $newStyles: ();
+        $subSuffix: '#{su-string-remove-unit($iterableFactor)}';
+
         @each $property, $incrementable in $incrementables {
             @each $key, $value in $incrementable {
-                $iterableFactor: $min;
-        
-                @while $iterableFactor <= $max {
-                    $prefix: '';
-                    $suffix: '';
-                    $tempValue: $incrementable * $iterableFactor;
-                    $tempSuffix: '#{su-string-remove-unit($iterableFactor)}';
-        
-                    // Generate selector string format
-                    @if $iterableFactor != 1 and $iterableFactor != 0 {
-                        @if $iterableFactor < 0 {
-                            $prefix: '-';
+                $tempValue: $incrementable * $iterableFactor;
+                $subSuffix: '#{su-string-remove-unit($iterableFactor)}';
 
-                            @if string.index($tempSuffix, '.') != null {
-                                $suffixStart: string.slice($tempSuffix, 1, string.index($tempSuffix, '.') - 1);
-                                $suffixEnd: string.slice($tempSuffix, string.index($tempSuffix, '.') + 1, string.length($tempSuffix));
+                // Generate selector string format
+                @if $iterableFactor != 1 {
+                    @if $iterableFactor < 0 {
+                        $prefix: '-';
 
-                                $suffix: $suffixStart + \. + $suffixEnd;
-                            } @else {
-                                $suffix: $tempSuffix;
-                            }
+                        @if string.index($subSuffix, '.') != null {
+                            $suffixStart: string.slice($subSuffix, 1, string.index($subSuffix, '.') - 1);
+                            $suffixEnd: string.slice($subSuffix, string.index($subSuffix, '.') + 1, string.length($subSuffix));
+
+                            $suffix: $suffixStart + \. + $suffixEnd;
                         } @else {
-                            @if string.index($tempSuffix, '.') != null {
-                                $suffixStart: string.slice($tempSuffix, 1, string.index($tempSuffix, '.') - 1);
-                                $suffixEnd: string.slice($tempSuffix, string.index($tempSuffix, '.') + 1, string.length($tempSuffix));
-
-                                $suffix: '-' + $suffixStart + \. + $suffixEnd;
-                            } @else {
-                                $suffix: '-#{$tempSuffix}';
-                            }
+                            $suffix: $subSuffix;
                         }
+                    } @else {
+                        @if string.index($subSuffix, '.') != null {
+                            $suffixStart: string.slice($subSuffix, 1, string.index($subSuffix, '.') - 1);
+                            $suffixEnd: string.slice($subSuffix, string.index($subSuffix, '.') + 1, string.length($subSuffix));
 
-                        // Append to tempSelector to new selectors
-                        @if list.index($newSelectors, su-selector-combine($prefix, $suffix, $selector)) == null {
-                            $newSelectors: list.append($newSelectors, su-selector-combine($prefix, $suffix, $selector));
-                        }
-
-                        @if list.index(map.get($newValues, $property), $tempValue) == null {
-                            $newValues: map.set($newValues, $property, list.append(map.get($newValues, $property), $tempValue, $separator: comma));
+                            $suffix: '-' + $suffixStart + \. + $suffixEnd;
+                        } @else {
+                            $suffix: '-#{$subSuffix}';
                         }
                     }
-
-                    $iterableFactor: $iterableFactor + $factor;
                 }
+                
+                $newStyles: map.set($newStyles, $property, $tempValue);
+            }
+        }
+
+        @each $property, $value in $styles {
+            @if map.get($newStyles, $property) == null {
+                $newStyles: map.set($newStyles, $property, $value);
+            }
+        }
+
+        #{su-selector-combine($prefix, $suffix, $selector)} {
+            @each $property, $value in $newStyles {
+                #{$property}: $value !important;
             }
         }
     
-        @for $i from 1 through list.length($newSelectors) {
-            $tempLabel: list.nth($newSelectors, $i);
-            $tempSettings: $settings;
-            
-            #{list.nth($newSelectors, $i)} {
-                @each $property, $values in $newValues {
-                    #{$property}: list.nth($values, $i) !important;
-                    
-                    $tempSettings: map.set($tempSettings, styles, $property, list.nth($values, $i));
-                }
-    
-                @each $property, $value in $styles {
-                    @if not map.has-key($newValues, $property) {
-                        #{$property}: $value !important;
-                    }
-                }
-            }
-    
-            @include globals.add-utility($tempLabel, $tempSettings);
-        }
+        $formattedSelector: su-selector-declassify(su-selector-combine($prefix, $suffix, $selector));
+
+        $iterableFactor: $iterableFactor + $factor;
     }
 }

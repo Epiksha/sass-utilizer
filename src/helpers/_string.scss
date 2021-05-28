@@ -3,15 +3,32 @@
 @use 'sass:meta';
 @use 'sass:string';
 
+@function last-index($string, $substring) {
+    $index: string.index($string, $substring);
+    $result: $index;
+  
+    @if $index {
+        @for $i from $index + string.length($substring) through string.length($string) {
+            @if string.slice($string, $i, $i + string.length($substring) - 1) == $substring {
+                $result: $i;
+            }
+        }
+
+        @return $result;
+    } @else {
+        @return null;
+    }
+}
+
 @function remove-unit($value) {
-    $newUnit: $value;
+    $unitlessString: $value;
 
     @if not math.is-unitless($value) {
         $valueString: #{$value};
-        $newUnit: string.slice($valueString, 1, string.index($valueString, math.unit($value)) - 1);
+        $unitlessString: string.slice($valueString, 1, string.index($valueString, math.unit($value)) - 1);
     }
 
-    @return $newUnit;
+    @return $unitlessString;
 }
 
 @function remove-whitespace($string) {

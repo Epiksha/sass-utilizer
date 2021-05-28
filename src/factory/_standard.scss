@@ -4,36 +4,34 @@
 @use '../helpers/_helpers.scss' as *;
 @use 'workers/standard/_workers.scss' as *;
 
-@mixin standard() {
-    @each $label, $settings in globals.get(currentUtilities) {
-        $selector: su-selector-combine('', '', $label);
-        $styles: map.get($settings, styles);
+@mixin standard($label, $settings) {
+    $selector: su-selector-combine('', '', $label);
+    $styles: map.get($settings, styles);
+
+    // Add basic selector
+    #{$selector} {
+        @each $property, $value in $styles {
+            #{$property}: $value !important;
+        }
+    }
     
-        // Add basic selector
-        #{$selector} {
-            @each $property, $value in $styles {
-                #{$property}: $value !important;
-            }
-        }
+    // Generate Increment Utilities
+    @if map.get($settings, increments) != null {
+        @include worker-increments($label, $settings);
+    }
     
-        // Setup Increment Utilities
-        @if map.has-key($settings, increments) {
-            @include worker-increments();
-        }
-        
-        // Setup Direction Utilities
-        @if map.has-key($settings, directions) {
-            @include worker-directions();
-        }
-        
-        // Setup Dive Utilities
-        @if map.has-key($settings, dives) {
-            @include worker-dives();
-        }
-        
-        // Setup Pseudo Utilities
-        @if map.has-key($settings, pseudos) {
-            @include worker-pseudos();
-        }
+    // Generate Direction Utilities
+    @if map.get($settings, directions) != null {
+        @include worker-directions($label, $settings);
+    }
+    
+    // Generate Dive Utilities
+    @if map.get($settings, dives) != null {
+        @include worker-dives();
+    }
+    
+    // Generate Pseudo Utilities
+    @if map.get($settings, pseudos) != null {
+        @include worker-pseudos();
     }
 }

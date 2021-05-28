@@ -2,18 +2,16 @@
 @use 'sass:map';
 @use 'sass:selector';
 @use '_globals.scss';
-@use 'factory/_factory.scss' as *;
+@use 'factory/_factory.scss';
 
 @mixin builder() {
-    @each $utility, $settings in globals.get(utilities) {
-        @include globals.set(currentUtilities, ($utility: $settings));
-
+    @each $selector, $settings in globals.get(utilities, basic) {
         $format: map.get($settings, format);
 
         @if $format == collection {
-            @include factory-collection();
+            @include factory.collection($selector, $settings);
         } @else {
-            @include factory-standard();
+            @include factory.standard($selector, $settings);
         }
     }
 }

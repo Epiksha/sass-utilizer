@@ -1,48 +1,27 @@
 @use 'sass:list';
 @use 'sass:map';
 
-$defaultUtilityConfig: (
-    breakpoints: null,
-    blueprints: null,
-    directions: null,
-    dives: null,
-    increments: null,
-    multiples: null,
-    namespace: null,
-    negatives: null,
-    pseudos: null,
-    styles: null,
-    format: null,
-);
-
 $globals: (
     config: (
-        global: (
+        breakpoints: null,
+        defaults: (
             breakpoints: null,
-            defaults: (
-                breakpoints: null,
-                directions: null,
-                dives: null,
-                increments: null,
-                multiples: null,
-                negatives: null,
-                pseudos: null,
-            ),
-            blueprints: null,
+            directions: null,
+            dives: null,
+            increments: null,
+            negatives: null,
+            pseudos: null,
         ),
-        utility: $defaultUtilityConfig,
+        blueprints: null,
     ),
-    currentUtilities: null,
-    utilities: null,
+    utilities: (
+        basic: null,
+        increments: null,
+        directions: null,
+        dives: null,
+        pseudos: null,
+    ),
 );
-
-@mixin add-utility ($label, $utilities) {
-    @if get(utilities) == null {
-        @include set(utilities, ($label: $utilities));
-    } @else {
-        @include merge(utilities, ($label: $utilities));
-    }
-}
 
 @function get($keys...) {
     @return map.get($globals, $keys...);
@@ -50,10 +29,6 @@ $globals: (
 
 @mixin merge($keys...) {
     $globals: map.merge($globals, $keys...) !global;
-}
-
-@mixin reset-utility-config() {
-    @include set(config, utility, $defaultUtilityConfig);
 }
 
 @mixin set($keys...) {

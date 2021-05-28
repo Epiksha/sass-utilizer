@@ -1,24 +1,21 @@
 @use 'sass:map';
 @use 'sass:meta';
 @use '../../../_globals.scss';
-@use '_increment-default.scss' as *;
 @use '_increment-list.scss' as *;
 @use '_increment-map.scss' as *;
 
-@mixin increments() {
-    @each $selector, $settings in globals.get(currentUtilities) {
-        $styles: map.get($settings, styles);
-        $increment: map.get($settings, increments);
-    
-        // Map
-        @if meta.type-of($increment) == map {
-            @include increment-map();
-        } @else if meta.type-of($increment) == list {
-            @include increment-list();
-        } @else if '#{$increment}' == 'true' {
-            @include increment-default();
-        } @else {
-            @error 'Sass Utilizer: Invalid type passed into increment settings';
-        }
+@mixin increments($selector, $settings) {
+    $styles: map.get($settings, styles);
+    $increment: map.get($settings, increments);
+
+    @if meta.type-of($increment) == map {
+        @include increment-map($selector, $settings);
+    } @else if meta.type-of($increment) == list {
+        @include increment-list($selector, $settings);
+    } @else if '#{$increment}' == 'true' {
+        $settings: map.set($settings, increments, (min: -2, max: 6, factor: 0.5));
+        @include increment-map($selector, $settings);
+    } @else {
+        @warn 'Sass Utilizer: Invalid type passed into increment settings for utility #{$selector}';
     }
 }

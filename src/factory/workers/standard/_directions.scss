@@ -1,27 +1,29 @@
+@use 'sass:list';
 @use 'sass:map';
 @use 'sass:meta';
+@use 'sass:string';
 @use '../../../_globals.scss';
+@use '../../../helpers/_helpers.scss';
 
-@mixin directions {
-    $globalUtilities: globals.get(utilities);
+@mixin directions($selector, $settings) {
     $directions: top, right, bottom, left;
-    $directionables: (margin, padding, border, border-radius, border-color, border-width, border-style);
-    $sliceRequired: (border-radius, border-color, border-width, border-style);
+    $types: (margin, padding, border, border-radius);
+    $cornered: (border-radius);
 
-    @each $selector, $settings in $globalUtilities {
-        $directionSettings: map.get($settings, directions);
+    $buildAxes: true;
+    $invertAxes: null;
 
-        @if $directionSettings != null {
-            @if meta.type-of($directionSettings) == map {
-                // @debug map;
-            } @else if '#{$directionSettings}' == 'true' {
-                // @debug true;
-            } @else {
-                @error 'Sass Utilizer: Invalid directions config passed into \'#{$selector}\' utility';
-            }
-        }
+    $newSelectors: ();
 
-        $newSelectors: ();
-        $newValues: ();
+    $directionSettings: map.get($settings, directions);
+
+    @if meta.type-of($directionSettings) == map {
+        // Code here
+    } @else if meta.type-of($directionSettings) == list {
+        // Code here
+    } @else if $directionSettings == true {
+        // Code here
+    } @else {
+        @warn 'Invalid \'directions\' setting in \'#{$selector}\' utility';
     }
 }
